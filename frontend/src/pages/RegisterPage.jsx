@@ -19,22 +19,23 @@ export const RegisterPage = () => {
 
             {existingUser ? (
                 <>
-                    <SignUp setUser={setUser} />
-                    <Button
-                        variant="warning"
-                        onClick={() => setExistingUser(!existingUser)}
-                    >
-                        Already have an account
-                    </Button>
-                </>
-            ) : (
-                <>
                     <LogIn setUser={setUser} />
                     <Button
                         variant="warning"
                         onClick={() => setExistingUser(!existingUser)}
                     >
                         Don't have an account
+                    </Button>
+                    
+                </>
+            ) : (
+                <>
+                    <SignUp setUser={setUser} />
+                    <Button
+                        variant="warning"
+                        onClick={() => setExistingUser(!existingUser)}
+                    >
+                        Already have an account
                     </Button>
                 </>
             )}

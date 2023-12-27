@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import requests
-from cragAlgorithm import ClimbingArea
+from .cragAlgorithm import ClimbingArea
 
 
 class OpenBetaView(APIView):
