@@ -15,18 +15,15 @@ const LogIn = () => {
     e.preventDefault();
     console.log("clicked Logged In")
     try {
-      let response = await api.post("users/login/", {
+      let response = await api.post("users/login", {
         email: email,
         password: password,
       });
-
       setUser(response.data.user);
       localStorage.setItem("token", response.data.token);
       api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
-
-      navigate("/home");
+      navigate("/");
     } catch (error) {
-      console.error("Login error:", error);
       setError("Invalid email or password. Please try again.");
     }
    

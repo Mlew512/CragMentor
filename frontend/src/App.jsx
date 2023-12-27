@@ -11,7 +11,7 @@ function App() {
 
   return (
     <>
-    <Header user={user}/>
+    <Header user={user} setUser={setUser}/>
     <Container>
       <Outlet context={{ user, setUser }}/>
     </Container>
@@ -19,4 +19,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

@@ -14,7 +14,7 @@ const SignUp = ({ setUser }) => {
     e.preventDefault();
     console.log("clicked SignUp")
     try {
-      let response = await api.post("users/signup/", {
+      const response = await api.post("users/signup", {
         email: email,
         password: password
       });
@@ -22,12 +22,12 @@ const SignUp = ({ setUser }) => {
         setUser(response.data.user);
         localStorage.setItem("token", response.data.token);
         api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
-        navigate("/home");
+        navigate("/");
       } else {
         alert("Something Went wrong");
       }
     } catch (error) {
-      console.error("Signup error:", error);
+      alert(error.response.data)
     }
     
   };
@@ -44,7 +44,7 @@ const SignUp = ({ setUser }) => {
           placeholder="name@example.com"
         />
       </Form.Group>
-      <Form.Group className="mb-3">
+      {/* <Form.Group className="mb-3">
         <Form.Label>Display Name</Form.Label>
         <Form.Control
           value={displayName}
@@ -52,7 +52,7 @@ const SignUp = ({ setUser }) => {
           type="text"
           placeholder="displayname"
         />
-      </Form.Group>
+      </Form.Group> */}
       <Form.Group className="mb-3">
         <Form.Label>Password</Form.Label>
         <Form.Control
