@@ -5,14 +5,15 @@ import Header from './component/Header'
 import { Outlet } from 'react-router-dom';
 import Container from "react-bootstrap/Container";
 
-function App() {
 
+function App() {
+  const [user, setUser] = useState("")
 
   return (
     <>
-    <Header/>
+    <Header user={user}/>
     <Container>
-      <Outlet/>
+      <Outlet context={{ user, setUser }}/>
     </Container>
     </>
   );
