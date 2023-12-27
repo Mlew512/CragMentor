@@ -1,8 +1,6 @@
 from math import radians, sin, cos, sqrt, atan2
 from sklearn.preprocessing import MinMaxScaler, RobustScaler
-import crags_data  # example crag data returned from api
-
-
+from . import crags_data
 
 class ClimbingArea:
     def __init__(self, crags_data, goal_grade):
@@ -12,7 +10,9 @@ class ClimbingArea:
             f"V{goal_grade-1}": 2,
             f"V{goal_grade-2}": 3,
         }
-        self.crags = self.crags_data["data"]["cragsNear"][0]["crags"]
+        # print(self.crags_data)
+        self.crags = self.crags_data["cragsNear"][0]["crags"]
+
 
     def haversine_distance(self, lat1, lon1, lat2, lon2):
         R = 6371.0  # Radius of the Earth in kilometers
@@ -77,22 +77,22 @@ class ClimbingArea:
         return crag_scores
 
 
-# Example usage in api view
-user_latitude = 34.65398
-user_longitude = -85.39029
-goal_grade= 3
-# crag data and goal grade
-climbing_area = ClimbingArea(crags_data.craggy, goal_grade)
-# user imputed location
-distance_results = climbing_area.calculate_crag_scores(user_latitude, user_longitude, goal_grade)
+# # Example usage in api view
+# user_latitude = 34.65398
+# user_longitude = -85.39029
+# goal_grade= 3
+# # crag data and goal grade
+# climbing_area = ClimbingArea(crags_data.craggy, goal_grade)
+# # user imputed location
+# distance_results = climbing_area.calculate_crag_scores(user_latitude, user_longitude, goal_grade)
 
-normalized_results = climbing_area.normalize_scores(distance_results)
+# normalized_results = climbing_area.normalize_scores(distance_results)
 
-for crag in normalized_results:
-    if "normalized_score" in crag and "normalized_distance" in crag:
-        if crag["overall_score"] > 0:
-            print(
-                f"{crag['areaName']}: uuid: {crag['uuid']}, distance_score = {crag['normalized_distance']}, crag_score = {crag['normalized_score']}, overall_score = {crag['overall_score']}"
-            )
-    else:
-        print(f"Missing normalization data for {crag['areaName']}")
+# for crag in normalized_results:
+#     if "normalized_score" in crag and "normalized_distance" in crag:
+#         if crag["overall_score"] > 0:
+#             print(
+#                 f"{crag['areaName']}: uuid: {crag['uuid']}, distance_score = {crag['normalized_distance']}, crag_score = {crag['normalized_score']}, overall_score = {crag['overall_score']}"
+#             )
+#     else:
+#         print(f"Missing normalization data for {crag['areaName']}")
