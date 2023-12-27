@@ -64,3 +64,4 @@ class Info(APIView):
         if user_serialized:
             return Response(user_serialized.data, HTTP_200_OK)
         return Response("User not found", HTTP_404_NOT_FOUND)
+
