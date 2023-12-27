@@ -22,7 +22,7 @@ class OpenBetaView(APIView):
         crag_scores = climbing_area.calculate_crag_scores(location["lat"], location["lng"])
         normalized_scores = climbing_area.normalize_scores(crag_scores)
 
-        # will need to map through crags to get boulders needed
+        # will need to map through crags to get boulders/routes needed
 
         return Response({"crag_scores": normalized_scores})
 
