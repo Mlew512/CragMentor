@@ -1,6 +1,6 @@
 from math import radians, sin, cos, sqrt, atan2
 from sklearn.preprocessing import MinMaxScaler, RobustScaler
-import crags_data  # example crag data returned from api
+from . import crags_data  # example crag data returned from api
 
 
 

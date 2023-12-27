@@ -2,10 +2,7 @@ asgiref==3.7.2
 certifi==2023.11.17
 charset-normalizer==3.3.2
 Django==5.0
-<<<<<<< HEAD
 djangorestframework==3.14.0
-=======
->>>>>>> 7bd8d60caea551423507fb6cadb6b5d26120506a
 idna==3.6
 joblib==1.3.2
 numpy==1.26.2
