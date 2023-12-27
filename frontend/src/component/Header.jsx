@@ -6,10 +6,9 @@ import Logo from "../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/esm/Button';
 import { api } from '../utilities';
-
-const Header = ({ user, setUser }) => {
-  const navigate = useNavigate() //added to go back to home page when log out
-
+import { useNavigate } from 'react-router-dom';
+const Header = ({ user, setUser}) => {
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       const response = await api.post("users/logout");
@@ -33,6 +32,7 @@ const Header = ({ user, setUser }) => {
           {user ? (
             <>
             <Nav.Link as={Link} to="/profile/">Profile</Nav.Link>
+            <Nav.Link as={Link} to="/map/">Map</Nav.Link>
             <Nav.Link as={Link} to="/about/">About</Nav.Link>
             <Nav.Link as={Link} to="/contact/">Contact Us</Nav.Link>
             <Button onClick={()=>handleLogout()}>Log Out</Button>
