@@ -4,6 +4,7 @@ import requests
 from api_app.cragAlgorithm import ClimbingArea
 
 
+
 class OpenBetaView(APIView):
     def post(self, request, *args, **kwargs):
         goal_grade = request.data.get("goal_grade", None)
