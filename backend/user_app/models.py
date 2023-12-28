@@ -39,6 +39,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     # Add any other required fields
+    
     current_level = models.IntegerField(null=True)
     goal = models.IntegerField(null=True)
     location = models.FloatField(null=True)

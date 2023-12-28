@@ -6,7 +6,7 @@ import Logo from "../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/esm/Button';
 import { api } from '../utilities';
-import { useNavigate } from 'react-router-dom';
+
 const Header = ({ user, setUser}) => {
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -26,7 +26,7 @@ const Header = ({ user, setUser}) => {
     <Navbar bg="light" data-bs-theme="light">
       <Container>
         <Navbar.Brand as={Link} to="/">
-          <img src={Logo} style={{ width: "70px", height: "70px" }} alt="Logo" />
+          <img src={Logo} style={{ width: "70px", height: "70px", borderRadius:"50px"}} alt="Logo" />
         </Navbar.Brand>
         <Nav className="me-auto">
           {user ? (
