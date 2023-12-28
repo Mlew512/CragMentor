@@ -3,6 +3,7 @@ import { Autocomplete, DrawingManager, GoogleMap, Polygon, useJsApiLoader, Marke
 import RouteBoxView from '../component/RouteBoxView'
 import {endpoints, api} from '../utilities/api'
 import { useNavigate,Link, useOutletContext,useParams } from 'react-router-dom'
+import SearchBox from '../component/SearchBox'
 
 const libraries = ['places', 'drawing'];
 const MapView = ({data}) => {
@@ -46,10 +47,20 @@ const MapView = ({data}) => {
     }
 
 
+    const [place, setPlace] = useState(null)
+    useEffect(()=>{
+      if(place){
+        console.log(place)
+        setCenter({"lat":place['lat'],"lng":place['lng']})
+        mapRef.current.fitBounds(place.bounds);
+      }
+    },[place])
+
     return (
         isLoaded
             ?
             <div className='map-container' style={{ position: 'relative' }}>
+                
                 <GoogleMap
                     zoom={zoom}
                     scrollwheel={true}
@@ -93,8 +104,9 @@ const MapView = ({data}) => {
                             <RouteBoxView route={selectedMarker['data']} />
                     </InfoWindow>
                     ) : null}
-
+                    <SearchBox address={"New York"} setPlace={setPlace} />
                 </GoogleMap>
+                
             </div>
             :
             null
