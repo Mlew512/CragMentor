@@ -29,7 +29,21 @@ Response: see climbdata.json
 
  }
 
+area by uuid\
+method - post
+endpoint:
+ http://127.0.0.1:8000/api/beta/area/
 
+ data to send 
+
+ {
+    {
+  "uuid":"89a929e2-d3d9-5219-baca-1f37855821b0"
+} 
+
+Response: see areadata.json 
+
+ }
 
  media url 
  mediaid=/u/4d748baa-b0f9-4308-88a9-d574232654c8/CqKnCRhDQg.jpeg

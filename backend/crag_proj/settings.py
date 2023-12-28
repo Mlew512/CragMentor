@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "pyramid_app",
+    "favorites_app",
     "routes_app",
     "user_app",
 ]

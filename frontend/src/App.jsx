@@ -8,7 +8,7 @@ import Container from "react-bootstrap/Container";
 
 function App() {
   const [user, setUser] = useState("")
-
+  
   return (
     <>
     <Header user={user} setUser={setUser}/>
