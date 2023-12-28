@@ -1,5 +1,5 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import halseyImg from '../images/halsey.jpg';
+import halseyImg from '../images/TeamPhotos/halsey.jpg';
 
 const ContactPage = () => {
   const teamMembers = [
@@ -38,7 +38,7 @@ const ContactPage = () => {
       linkedinUrl: 'https://www.linkedin.com/in/michael-termotto-2b6800277/',
       githubUrl: 'https://github.com/CustomDesignBuildStudios',
     },
-    // Add other team members similarly
+    
   ];
 
   return (
