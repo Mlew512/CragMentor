@@ -1,12 +1,19 @@
 import axios from 'axios'
 
 export const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/v1/"
+    baseURL: "http://127.0.0.1:8000/api/"
 })
 
 export const endpoints = {
     "auth_login":"user/login/",
-    "get_pyramid":"user/login/",
+    "app_pyramid":"beta/app_pyramid",
+    "user_pyramids":"beta/user_pyramids/",
+    "user_pyramid":"beta/user_pyramid/",
+    "favorites":"beta/favorites/",
+    "add_favorite":"beta/favorite/",
+    "remove_favorite":"beta/favorite/",
+    "route":"beta/route/",
+    "area":"beta/area",
     
 }
 export const postAPI = async (url, encodedParams = null, data=null) => {
