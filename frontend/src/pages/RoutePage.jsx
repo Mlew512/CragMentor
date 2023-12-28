@@ -63,7 +63,11 @@ const route = {
             "mediaUrl": "/u/4d748baa-b0f9-4308-88a9-d574232654c8/CqKnCRhDQg.jpeg",
             "id": "645797db588e85d8f894b742"
           }
-        ]
+        ],
+        "parent": {
+          "id": "6368a473e80bff5a9959f81c",
+          "areaName": "Stone Fort Bouldering"
+        }
       }
 
 
@@ -139,6 +143,7 @@ function RoutePage() {
                     <p>location - {data.content.location}</p>
                     <p>protection - {data.content.protection}</p>
                     <p>safety - {data.safety}</p>
+                    <a href={"/area/"+data.parent.id}>Go to parent area</a>
 
                 </section>
 
