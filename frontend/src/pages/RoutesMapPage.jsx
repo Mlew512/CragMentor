@@ -1,8 +1,50 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Autocomplete, DrawingManager, GoogleMap, Polygon, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
 import RouteBoxView from '../component/RouteBoxView'
+import {endpoints, api} from '../utilities/api'
+import { useNavigate,Link, useOutletContext,useParams } from 'react-router-dom'
+
 const libraries = ['places', 'drawing'];
 const RoutesMapPage = () => {
+  const [message, setMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+  const params = useParams();
+  const navigate = useNavigate();
+
+    useEffect(()=>{
+      setIsLoading(true)
+      getData()
+    },[params])
+
+
+  const getData = async () => {
+      if(params.pyramid){
+
+      }
+      if(params.area){
+
+      }
+      if(params.climb){
+
+      }
+      const response = await getAPI(endpoints.pyramid)
+      console.log(response)
+      if(response.status){
+          setData(response.data.results)
+          setIsLoading(false)
+          setMessage('')
+      }else{
+          setMessage('Something went wrong!')
+          setPosts([])
+          setIsLoading(false)
+      }
+    }
+
+
+
+
+
+
 
     const areas=[
       {
