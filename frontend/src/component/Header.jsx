@@ -6,7 +6,6 @@ import Logo from "../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/esm/Button';
 import { api } from '../utilities';
-import { useNavigate } from 'react-router-dom';
 const Header = ({ user, setUser}) => {
   const navigate = useNavigate();
   const handleLogout = async () => {

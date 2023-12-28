@@ -4,7 +4,32 @@ import RouteBoxView from '../component/RouteBoxView'
 const libraries = ['places', 'drawing'];
 const RoutesMapPage = () => {
 
-
+    const areas=[
+      {
+        "id": "63689fc7e80bff5a9951d7f6",
+        "areaName": "\"Big\" Wall Crag",
+        "area_name": "\"Big\" Wall Crag",
+        "density": 1.8,
+        "gradeContext": "US",
+        "totalClimbs": 9,
+        "metadata": {
+          "lng": -86.61699999999999,
+          "lat": 37.090109999999996
+        }
+      },
+      {
+        "id": "6368a60be80bff5a995c51a8",
+        "areaName": "(1) Cable Sign Zone",
+        "area_name": "(1) Cable Sign Zone",
+        "density": 4.2,
+        "gradeContext": "US",
+        "totalClimbs": 21,
+        "metadata": {
+          "lng": -121.61990125,
+          "lat": 47.429423750000005
+        }
+      },
+    ]
     const crags = [
                 {
                   "areaName": "Turtle, The",
@@ -229,7 +254,9 @@ const RoutesMapPage = () => {
         lat: 29.916874,
         lng: -95.569667
     }
+    const [data, setData] = useState(areas);
     const [center, setCenter] = useState(defaultCenter);
+    const [zoom, setZoom] = useState(8);
 
     const containerStyle = {
         width: '100%',
@@ -245,11 +272,13 @@ const RoutesMapPage = () => {
     }
 
     const onClickMarker = (marker, index) => {
-        setCenter({"lat":crags[index]['metadata']['lat'],"lng":crags[index]['metadata']['lng']})
-        setSelectedMarker({marker:marker, data:crags[index]})
+        setData(crags)
+        setZoom(zoom+2)
+        setCenter({"lat":data[index]['metadata']['lat'],"lng":data[index]['metadata']['lng']})
+        setSelectedMarker({marker:marker, data:data[index]})
     }
     const onLoadMarker = (marker, index) => {
-        console.log(crags[index])
+        console.log(data[index])
     }
 
 
@@ -258,7 +287,7 @@ const RoutesMapPage = () => {
             ?
             <div className='map-container' style={{ position: 'relative' }}>
                 <GoogleMap
-                    zoom={5}
+                    zoom={zoom}
                     scrollwheel={true}
                     draggable={true}
                     options= {
@@ -278,12 +307,12 @@ const RoutesMapPage = () => {
                     onTilesLoaded={() => setCenter(null)}
                 >
                     {
-                        crags.map((crag, index) =>(
+                        data.map((item, index) =>(
                             <Marker 
                                 key={index}
                                 onLoad={(event) => onLoadMarker(event, index)} 
                                 onClick={(event) => onClickMarker(event,index)} 
-                                position={{"lat":crag.metadata.lat,"lng":crag.metadata.lng}} 
+                                position={{"lat":item.metadata.lat,"lng":item.metadata.lng}} 
                             />
                         ))
                     }
