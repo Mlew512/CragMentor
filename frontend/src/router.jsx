@@ -42,11 +42,11 @@ const router = createBrowserRouter([
         element: <RoutesMapPage/>
       },
       {
-        path: "route/",
+        path: "route/:id",
         element: <RoutePage/>
       },
       {
-        path: "area/",
+        path: "area/:id",
         element: <AreaPage/>
       }
     ]

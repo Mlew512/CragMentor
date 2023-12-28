@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Autocomplete, DrawingManager, GoogleMap, Polygon, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
 import RouteBoxView from '../component/RouteBoxView'
-import {endpoints, api} from '../utilities/api'
+import {endpoints, getAPI} from '../utilities/api'
+import MapView from '../component/MapView'
 import { useNavigate,Link, useOutletContext,useParams } from 'react-router-dom'
 
 const libraries = ['places', 'drawing'];
@@ -18,24 +19,31 @@ const RoutesMapPage = () => {
 
 
   const getData = async () => {
+      paramString = ""
+      if(params.filter){
+        //add filter params
+      }
+      const response = null
       if(params.pyramid){
-
+        const response = await getAPI(endpoints.pyramid+params.pyramid)
       }
-      if(params.area){
-
+      else if(params.area){
+        response = await getAPI(endpoints.area+params.area)
       }
-      if(params.climb){
-
+      else if(params.route){
+        response = await getAPI(endpoints.route+params.climb)
+      }else{
+        response = await getAPI(endpoints.area)
       }
-      const response = await getAPI(endpoints.pyramid)
+      
       console.log(response)
       if(response.status){
-          setData(response.data.results)
+          // setData(response.data.results)
           setIsLoading(false)
           setMessage('')
       }else{
           setMessage('Something went wrong!')
-          setPosts([])
+          // setPosts([])
           setIsLoading(false)
       }
     }
@@ -285,97 +293,14 @@ const RoutesMapPage = () => {
 
 
 
-    const mapRef = useRef();
-    const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: 'AIzaSyBNqBkhvtTqAS74u3zDYgQ4NNq5aBZsrTs',
-        libraries
-    });
-    const [selectedMarker, setSelectedMarker] = useState(null)
-
-    const defaultCenter = {
-        lat: 29.916874,
-        lng: -95.569667
-    }
-    const [data, setData] = useState(areas);
-    const [center, setCenter] = useState(defaultCenter);
-    const [zoom, setZoom] = useState(8);
-
-    const containerStyle = {
-        width: '100%',
-        height: '80svh',
-    }
-
- 
+   
    
 
 
-    const onLoadMap = (map) => {
-        mapRef.current = map;
-    }
-
-    const onClickMarker = (marker, index) => {
-        setData(crags)
-        setZoom(zoom+2)
-        setCenter({"lat":data[index]['metadata']['lat'],"lng":data[index]['metadata']['lng']})
-        setSelectedMarker({marker:marker, data:data[index]})
-    }
-    const onLoadMarker = (marker, index) => {
-        console.log(data[index])
-    }
-
+   
 
     return (
-        isLoaded
-            ?
-            <div className='map-container' style={{ position: 'relative' }}>
-                <GoogleMap
-                    zoom={zoom}
-                    scrollwheel={true}
-                    draggable={true}
-                    options= {
-                        {
-                            gestureHandling: 'greedy',
-                            rotateControl:false,
-                            fullscreenControl:false,
-                            mapTypeControl:false,
-                            streetViewControl:false,
-                            center:center
-                        }   
-                    }
-
-                    center={center}
-                    onLoad={onLoadMap}
-                    mapContainerStyle={containerStyle}
-                    onTilesLoaded={() => setCenter(null)}
-                >
-                    {
-                        data.map((item, index) =>(
-                            <Marker 
-                                key={index}
-                                onLoad={(event) => onLoadMarker(event, index)} 
-                                onClick={(event) => onClickMarker(event,index)} 
-                                position={{"lat":item.metadata.lat,"lng":item.metadata.lng}} 
-                            />
-                        ))
-                    }
-
-                    {selectedMarker ? (
-                    <InfoWindow
-                        visible={true}
-                        position={{"lat":selectedMarker['data']['metadata']['lat'],"lng":selectedMarker['data']['metadata']['lng']}}
-                        marker={selectedMarker['marker']}
-                        onCloseClick={() => {
-                            setSelectedMarker(null)
-                        }}
-                        >
-                            <RouteBoxView route={selectedMarker['data']} />
-                    </InfoWindow>
-                    ) : null}
-
-                </GoogleMap>
-            </div>
-            :
-            null
+      <MapView data={crags} />
     );
 }
 
