@@ -6,7 +6,7 @@ import MapView from '../component/MapView'
 import { useNavigate,Link, useOutletContext,useParams } from 'react-router-dom'
 
 const libraries = ['places', 'drawing'];
-const RoutesMapPage = () => {
+const MapPage = () => {
   const [message, setMessage] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const params = useParams();
@@ -304,4 +304,4 @@ const RoutesMapPage = () => {
     );
 }
 
-export default RoutesMapPage; 
+export default MapPage; 
