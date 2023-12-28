@@ -7,8 +7,14 @@ class ClimbingArea:
         self.crags_data = crags_data
         self.grade_weights = {
             f"V{goal_grade}": 1,
+            f"V{goal_grade}-": 1,
+            f"V{goal_grade}+": 1,
             f"V{goal_grade-1}": 2,
+            f"V{goal_grade-1}-": 2,
+            f"V{goal_grade-1}+": 2,
             f"V{goal_grade-2}": 3,
+            f"V{goal_grade-2}+": 3,
+            f"V{goal_grade-2}-": 3,
         }
         # print(self.crags_data)
         self.crags = self.crags_data["cragsNear"][0]["crags"]
