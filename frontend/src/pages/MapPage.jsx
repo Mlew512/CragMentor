@@ -284,23 +284,10 @@ const MapPage = () => {
                 }
             ]
 
-
-
-
-
-
-
-
-
-
-   
-   
-
-
-   
-
     return (
+      <>
       <MapView data={crags} />
+      </>
     );
 }
 

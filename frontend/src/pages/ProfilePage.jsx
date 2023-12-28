@@ -1,3 +1,5 @@
+import SearchBox from '../component/SearchBox'
+import React, { useEffect, useRef, useState } from 'react';
 
 
 import { useEffect, useState } from "react";
@@ -10,6 +12,7 @@ import UserForm from "../component/UserForm";
 import "./ProfilePage.css"
 
 const ProfilePage = () => {
+
   const { user } = useOutletContext();
   const [userInfo, setUserInfo] = useState({})
   const navigate = useNavigate();
