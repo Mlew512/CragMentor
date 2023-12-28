@@ -6,7 +6,7 @@ import {RegisterPage} from "./pages/RegisterPage.jsx"
 import ProfilePage from "./pages/ProfilePage.jsx";
 import ContactPage from "./pages/ContactUs.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
-import RoutesMapPage from "./pages/RoutesMapPage.jsx";
+import MapPage from "./pages/MapPage.jsx";
 import RoutePage from "./pages/RoutePage.jsx";
 import AreaPage from "./pages/AreaPage.jsx";
 
@@ -39,14 +39,14 @@ const router = createBrowserRouter([
       },
       {
         path: "map/",
-        element: <RoutesMapPage/>
+        element: <MapPage/>
       },
       {
-        path: "route/",
+        path: "route/:id",
         element: <RoutePage/>
       },
       {
-        path: "area/",
+        path: "area/:id",
         element: <AreaPage/>
       }
     ]
