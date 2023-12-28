@@ -1,5 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.status import (
+    HTTP_200_OK,
+)
 import requests
 from api_app.cragAlgorithm import ClimbingArea
 
@@ -177,3 +180,59 @@ class OpenBetaView(APIView):
             "grade": target_grade,
             "uuid": None
         }
+
+
+class GetArea(APIView):
+    def post(self, request, *args, **kwargs):
+        # get uuid of area from request
+        uuid = request.data.get("uuid", None)
+
+        # GraphQL query to get children of requested area
+        query = """
+            query GetArea($uuid: ID!) {
+            area(uuid: $uuid) {
+                areaName
+                children {
+                areaName
+                metadata {
+                    lng
+                    lat
+                    areaId
+                }
+                climbs {
+                    name
+                    uuid
+                    grades {
+                    vscale
+                    yds
+                    }
+                    metadata {
+                    lat
+                    lng
+                    climbId
+                    }
+                }
+                }
+            }
+            }
+            """
+
+        variables = {
+            "uuid": uuid,
+        }
+
+        try:
+            response = requests.post(
+                "https://api.openbeta.io/", json={"query": query, "variables": variables}, timeout=5
+            )
+
+            response.raise_for_status()
+
+            data = response.json()
+            return Response(data.get("data"), status=HTTP_200_OK)
+        except requests.exceptions.RequestException as e:
+            # Handle request-related exceptions
+            return None
+        except ValueError as ve:
+            # Handle JSON decoding error
+            return None
