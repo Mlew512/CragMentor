@@ -4,7 +4,6 @@ import requests
 from api_app.cragAlgorithm import ClimbingArea
 
 
-
 class OpenBetaView(APIView):
     def post(self, request, *args, **kwargs):
         goal_grade = request.data.get("goal_grade", None)
@@ -36,7 +35,9 @@ class OpenBetaView(APIView):
         #     print(crag["uuid"])
         climb_data = self.get_climbs_from_crag(normalized_scores[0]["uuid"])
         # print(climb_data["area"]["climbs"])
-        pyramid_scheme= self.build_the_triangle(climb_data["area"]["climbs"], goal_grade )
+        pyramid_scheme = self.build_the_triangle(
+            climb_data["area"]["climbs"], goal_grade
+        )
         # some function to get 1 grade_goal climb, 2 grade_goal-1 routes, 4 grade_goal-2 routes
         # print(climb_data)
         # return Response({"my_pyramid": climb_data})
@@ -79,7 +80,7 @@ class OpenBetaView(APIView):
             response = requests.post(
                 "https://api.openbeta.io/",
                 json={"query": query, "variables": variables},
-                timeout=10, 
+                timeout=10,
             )
 
             response.raise_for_status()
@@ -120,7 +121,9 @@ class OpenBetaView(APIView):
 
         try:
             response = requests.post(
-                "https://api.openbeta.io/", json={"query": query, "variables": variables}, timeout=5
+                "https://api.openbeta.io/",
+                json={"query": query, "variables": variables},
+                timeout=5,
             )
 
             response.raise_for_status()
@@ -139,38 +142,119 @@ class OpenBetaView(APIView):
         response = {"pyramid": {}}
 
         # Add the goal climb to the top of the pyramid
-        goal_climb = self.find_unique_climb_by_grade(crag_list, goal_grade, used_climbs=response["pyramid"].values())
+        goal_climb = self.find_unique_climb_by_grade(
+            crag_list,
+            goal_grade,
+            [climb["uuid"] for climb in response["pyramid"].values()],
+        )
         response["pyramid"]["goal_climb"] = goal_climb
 
         # Add two runner-up climbs one grade lower
         for i in range(1, 3):
-            runner_up_grade = goal_grade - i
-            runner_up_climb = self.find_unique_climb_by_grade(crag_list, runner_up_grade, used_climbs=response["pyramid"].values())
+            runner_up_grade = goal_grade - 1
+            runner_up_climb = self.find_unique_climb_by_grade(
+                crag_list,
+                runner_up_grade,
+                [climb["uuid"] for climb in response["pyramid"].values()],
+            )
             response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
 
         # Add four runner-up climbs two grades lower
         for i in range(3, 7):
             runner_up_grade = goal_grade - 2
-            runner_up_climb = self.find_unique_climb_by_grade(crag_list, runner_up_grade, used_climbs=response["pyramid"].values())
+            runner_up_climb = self.find_unique_climb_by_grade(
+                crag_list,
+                runner_up_grade,
+                [climb["uuid"] for climb in response["pyramid"].values()],
+            )
             response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
 
         return response
 
+        used_ids = [climb["uuid"] for climb in response["pyramid"].values()]
+
     def find_unique_climb_by_grade(self, crag_list, target_grade, used_climbs):
+        print(used_climbs)
         # Find the first climb in the crag_list with the target grade and not in used_climbs
-        # print(crag_list)
         for climb in crag_list:
-            # print(climb)
-            if climb["grades"]["vscale"] == f'V{target_grade}' and climb not in used_climbs:
+            # duplicating climbs
+            if (
+                climb["grades"]["vscale"] == f"V{target_grade}"
+                and climb["uuid"] not in used_climbs
+            ):
+                print(climb)
                 return {
                     "name": climb["name"],
                     "grade": climb["grades"]["vscale"],
-                    "uuid": climb["uuid"]
+                    "uuid": climb["uuid"],
                 }
 
         # If no unique climb with the target grade is found, return a default climb
-        return {
-            "name": "No Unique Climb Found",
-            "grade": target_grade,
-            "uuid": None
+        return {"name": "No Unique Climb Found", "grade": target_grade, "uuid": None}
+
+
+class GetClimbView(APIView):
+    def post(self, request, *args, **kwargs):
+        uuid = request.data.get("uuid", None)
+
+        if uuid is None:
+            return Response({"error": "Missing required parameters"}, status=400)
+
+        # Make a GraphQL api request to get climb data
+        climb_data = self.get_climb_data(uuid)
+
+        if not climb_data:
+            return Response({"error": "Failed to fetch climb data"}, status=500)
+        return Response({"climb_data": climb_data})
+
+    def get_climb_data(self, uuid):
+        query = """
+        query getClimbById ( $uuid: ID! ) {
+            climb(uuid: $uuid) {
+                name
+                metadata {
+                    climb_id
+                    lat
+                    lng
+                    mp_id
+                }
+                grades {
+                    vscale
+                }
+                content {
+                    description
+                    location
+                }
+                media {
+                    mediaUrl
+                }
+                parent {
+                    area_name
+                    ancestors
+                id
+                }
+            }
+            }
+        """
+
+        variables = {
+            "uuid": uuid,
         }
+
+        try:
+            response = requests.post(
+                "https://api.openbeta.io/",
+                json={"query": query, "variables": variables},
+                timeout=10,
+            )
+
+            response.raise_for_status()
+
+            data = response.json()
+            return data.get("data")
+        except requests.exceptions.RequestException as e:
+            # Handle request-related exceptions
+            return f"Request error: {e}"
+        except ValueError as ve:
+            # Handle JSON decoding error
+            return f"JSON decoding error: {ve}"
