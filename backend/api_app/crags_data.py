@@ -22,7 +22,7 @@ craggy = {
                 },
                 {
                   "count": 1,
-                  "label": "V1-2"
+                  "label": "V7"                       
                 }
               ]
             },
