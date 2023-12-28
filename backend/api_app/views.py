@@ -139,34 +139,37 @@ class OpenBetaView(APIView):
         response = {"pyramid": {}}
 
         # Add the goal climb to the top of the pyramid
-        goal_climb = self.find_unique_climb_by_grade(crag_list, goal_grade, used_climbs=response["pyramid"].values())
+        goal_climb = self.find_unique_climb_by_grade(crag_list, goal_grade,[climb['uuid'] for climb in response['pyramid'].values()])
         response["pyramid"]["goal_climb"] = goal_climb
 
         # Add two runner-up climbs one grade lower
         for i in range(1, 3):
-            runner_up_grade = goal_grade - i
-            runner_up_climb = self.find_unique_climb_by_grade(crag_list, runner_up_grade, used_climbs=response["pyramid"].values())
+            runner_up_grade = goal_grade - 1
+            runner_up_climb = self.find_unique_climb_by_grade(crag_list, runner_up_grade, [climb['uuid'] for climb in response['pyramid'].values()])
             response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
 
         # Add four runner-up climbs two grades lower
         for i in range(3, 7):
             runner_up_grade = goal_grade - 2
-            runner_up_climb = self.find_unique_climb_by_grade(crag_list, runner_up_grade, used_climbs=response["pyramid"].values())
+            runner_up_climb = self.find_unique_climb_by_grade(crag_list, runner_up_grade, [climb['uuid'] for climb in response['pyramid'].values()])
             response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
 
         return response
 
+        used_ids = [climb['uuid'] for climb in response['pyramid'].values()]
+
     def find_unique_climb_by_grade(self, crag_list, target_grade, used_climbs):
+        print(used_climbs)
         # Find the first climb in the crag_list with the target grade and not in used_climbs
-        # print(crag_list)
         for climb in crag_list:
-            # print(climb)
-            if climb["grades"]["vscale"] == f'V{target_grade}' and climb not in used_climbs:
+            # duplicating climbs
+            if climb["grades"]["vscale"] == f'V{target_grade}' and climb["uuid"] not in used_climbs:
+                print(climb)
                 return {
                     "name": climb["name"],
                     "grade": climb["grades"]["vscale"],
                     "uuid": climb["uuid"]
-                }
+                } 
 
         # If no unique climb with the target grade is found, return a default climb
         return {
