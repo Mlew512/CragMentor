@@ -9,47 +9,50 @@ import AboutPage from "./pages/AboutPage.jsx";
 import MapPage from "./pages/MapPage.jsx";
 import RoutePage from "./pages/RoutePage.jsx";
 import AreaPage from "./pages/AreaPage.jsx";
+import PyramidPage from "./pages/PyramidPage.jsx";
 
 const router = createBrowserRouter([
-
   {
-    path:"/",
-    element:<App/>,
-    children:
-    [
+    path: "/",
+    element: <App />,
+    children: [
       {
         index: true,
-        element: <HomePage/>
+        element: <HomePage />,
       },
       {
         path: "register/",
-        element: <RegisterPage/>
+        element: <RegisterPage />,
       },
       {
         path: "profile/",
-        element: <ProfilePage/>
+        element: <ProfilePage />,
       },
       {
         path: "contact/",
-        element: <ContactPage/>
+        element: <ContactPage />,
       },
       {
         path: "about/",
-        element: <AboutPage/>
+        element: <AboutPage />,
       },
       {
         path: "map/",
-        element: <MapPage/>
+        element: <MapPage />,
       },
       {
         path: "route/:id",
-        element: <RoutePage/>
+        element: <RoutePage />,
       },
       {
         path: "area/:id",
-        element: <AreaPage/>
-      }
-    ]
-  }
-])
+        element: <AreaPage />,
+      },
+      {
+        path: "pyramid/",
+        element: <PyramidPage />,
+      },
+    ],
+  },
+]);
 export default router;

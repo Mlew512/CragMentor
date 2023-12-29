@@ -16,6 +16,7 @@ export const endpoints = {
     "area":"beta/area",
     
 }
+
 export const postAPI = async (url, encodedParams = null, data=null) => {
     try {
         let urlString = url

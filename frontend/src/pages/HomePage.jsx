@@ -1,9 +1,12 @@
 
+import { Row, Card } from "react-bootstrap";
+import photo3 from "../images/FrontPage/photo3.webp"
+import "./HomePage.css"
 const HomePage = () => {
 
     return (
         <>
-            <h1>Welcome to CragMentor</h1>
+        <img id="home-background-img" src={photo3} alt="Background Image"/>
         </>
     );
 }
