@@ -5,6 +5,7 @@ from rest_framework.status import (
 )
 import requests
 from api_app.cragAlgorithm import ClimbingArea
+from routes_app.utilities import create_route
 
 
 class OpenBetaView(APIView):
@@ -256,12 +257,16 @@ class GetArea(APIView):
 class GetClimbView(APIView):
     def post(self, request, *args, **kwargs):
         uuid = request.data.get("uuid", None)
+        pyramid_id = request.data.get("pyramid_id", None)
 
         if uuid is None:
             return Response({"error": "Missing required parameters"}, status=400)
 
         # Make a GraphQL api request to get climb data
         climb_data = self.get_climb_data(uuid)
+
+        if pyramid_id:
+            create_route(climb_data, pyramid_id)
 
         if not climb_data:
             return Response({"error": "Failed to fetch climb data"}, status=500)
