@@ -5,6 +5,7 @@ from rest_framework.status import (
 )
 import requests
 from api_app.cragAlgorithm import ClimbingArea
+from .utilities.cragservice import CragService
 
 
 class OpenBetaView(APIView):
@@ -327,60 +328,10 @@ class CragsNear(APIView):
         if maxDistance is None or location is None:
             return Response({"error": "Missing required parameters"}, status=400)
 
-        # Make a GraphQL api request to get crag data
-        crag_data = self.get_crag_data(location, maxDistance)
+        crag_service = CragService()
+        crag_data = crag_service.get_crag_data(location, maxDistance)
 
         if not crag_data:
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
         return Response({"crags": crag_data})
-
-    def get_crag_data(self, location, maxDistance):
-        query = """
-        query getCragsInArea ($location: Point!, $maxDistance: Int!) {
-            cragsNear(
-                includeCrags: true
-                lnglat: $location
-                maxDistance: $maxDistance
-            ) {
-                crags {
-                    areaName
-                    totalClimbs
-                    aggregate {
-                        byGrade {
-                            count
-                            label
-                        }
-                    }
-                    metadata {
-                        lat
-                        lng
-                        areaId
-                    }
-                }
-            }
-        }
-        """
-
-        variables = {
-            "location": location,
-            "maxDistance": maxDistance,#distance
-        }
-
-        try:
-            response = requests.post(
-                "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
-                timeout=10,
-            )
-
-            response.raise_for_status()
-
-            data = response.json()
-            return data.get("data")
-        except requests.exceptions.RequestException as e:
-            # Handle request-related exceptions
-            return f"Request error: {e}"
-        except ValueError as ve:
-            # Handle JSON decoding error
-            return f"JSON decoding error: {ve}"
