@@ -210,8 +210,12 @@ class GetArea(APIView):
             query GetArea($uuid: ID!) {
             area(uuid: $uuid) {
                 areaName
+                uuid
+                ancestors
+                id
                 children {
                     areaName
+                    uuid
                     metadata {
                         lng
                         lat
@@ -231,6 +235,19 @@ class GetArea(APIView):
                         }
                     }
                 }
+                climbs {
+                        name
+                        uuid
+                        grades {
+                        vscale
+                        yds
+                        }
+                        metadata {
+                        lat
+                        lng
+                        climbId
+                        }
+                    }
             }
             }
             """
@@ -240,20 +257,24 @@ class GetArea(APIView):
         }
 
         try:
+            print("response")
             response = requests.post(
-                "https://api.openbeta.io/", json={"query": query, "variables": variables}, timeout=5
+                "https://api.openbeta.io/", json={"query": query, "variables": variables}, timeout=10
             )
-
+            print(response)
             response.raise_for_status()
+            print("gdd")
+            print("gdd")
 
             data = response.json()
             return Response(data.get("data"), status=HTTP_200_OK)
         except requests.exceptions.RequestException as e:
+            print(e)
             # Handle request-related exceptions
-            return None
+            return Response({"error": "Request error"}, status=500)
         except ValueError as ve:
             # Handle JSON decoding error
-            return None
+            return Response({"error": "JSON error"}, status=500)
 
          
 class GetClimbView(APIView):
@@ -292,6 +313,7 @@ class GetClimbView(APIView):
                     mediaUrl
                 }
                 parent {
+                    uuid
                     area_name
                     ancestors
                 id
@@ -303,6 +325,105 @@ class GetClimbView(APIView):
 
         variables = {
             "uuid": uuid,
+        }
+
+        try:
+            response = requests.post(
+                "https://api.openbeta.io/",
+                json={"query": query, "variables": variables},
+                timeout=10,
+            )
+
+            response.raise_for_status()
+
+            data = response.json()
+            return data.get("data")
+        except requests.exceptions.RequestException as e:
+            # Handle request-related exceptions
+            return f"Request error: {e}"
+        except ValueError as ve:
+            # Handle JSON decoding error
+            return f"JSON decoding error: {ve}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+class CragsBounds(APIView):
+    def post(self, request, *args, **kwargs):
+        topLeftLat = request.data.get("topLeftLat", None)
+        topLeftLng = request.data.get("topLeftLng", None)
+        bottomRightLat = request.data.get("bottomRightLat", None)
+        bottomRightLng = request.data.get("bottomRightLng", None)
+        zoom = request.data.get("zoom", 1)
+
+        if topLeftLat is None or topLeftLng is None or bottomRightLat is None or bottomRightLng is None:
+            return Response({"error": "Missing required parameters"}, status=400)
+
+        # Make a GraphQL api request to get crag data
+        crag_data = self.get_crag_data(topLeftLat,topLeftLng,bottomRightLat,bottomRightLng,zoom)
+
+        if not crag_data:
+            return Response({"error": "Failed to fetch crags data"}, status=500)
+
+        return Response({"crags": crag_data})
+
+    def get_crag_data(self, topLeftLat,topLeftLng,bottomRightLat,bottomRightLng,zoom):
+        query = """
+query getArea($bbox: [Float], $zoom: Float) {
+  cragsWithin(filter: {bbox: $bbox, zoom:$zoom}) {
+    areaName
+    totalClimbs
+    uuid
+    density
+    gradeContext
+    content {
+      description
+    }
+     metadata {
+      lat
+      lng
+    }
+    """
+        if zoom < 8:
+            query +="""
+  }
+}
+        """
+        else:
+            query +="""
+            climbs {
+      uuid
+      name
+      metadata {
+        lat
+        lng
+      }
+    }
+    children {
+      areaName
+      uuid
+      metadata {
+        lat
+        lng
+      }
+    }
+  }
+}
+"""
+        print(query)
+
+        variables = {
+            "bbox": [topLeftLng,topLeftLat,bottomRightLng,bottomRightLat],
+            "zoom":-10
         }
 
         try:

@@ -3,7 +3,7 @@ import { Link, useOutletContext,useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { getAPI, endpoints, postAPI } from '../utilities/api';
 
-
+import MapView from '../component/MapView';
 
 
 
@@ -31,7 +31,7 @@ function AreaPage() {
 
 
     const getData = async () => {
-        const response = await postAPI(`${endpoints.area}`,null,{uuid:dataID})
+        const response = await postAPI(endpoints.area,null,{uuid:dataID})
         console.log(response)
         if(response.status){
             setData(response.data.area)
@@ -71,7 +71,7 @@ function AreaPage() {
                     {data.isDestination}
                     {data.isBoulder}
                     {data.totalClimbs}
-                    {/* <a href={"/area/"+data.parent.uuid}>Go to {data.parent.areaName}</a> */}
+                    <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to parent</a>
 
                     {/* <p>description - {data.content.description}</p> */}
     
@@ -100,6 +100,9 @@ function AreaPage() {
                             </ul>
                             </>
                         }
+
+
+                    <MapView data={[...data.climbs,...data.children]} centerOnAll={true} showSearch={false} />
                 </section>
 
 
