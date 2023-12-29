@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Autocomplete, DrawingManager, GoogleMap, Polygon, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
 import RouteBoxView from '../component/RouteBoxView'
-import {endpoints, api} from '../utilities/api'
 import { useNavigate,Link, useOutletContext,useParams } from 'react-router-dom'
 import SearchBox from '../component/SearchBox'
-
+import { endpoints, getAPI, postAPI } from '../utilities/api';
 const libraries = ['places', 'drawing'];
-const MapView = ({data}) => {
+const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false, setMapBounds=null}) => {
 
 
 
@@ -22,6 +21,7 @@ const MapView = ({data}) => {
         lat: 29.916874,
         lng: -95.569667
     }
+    const [markers, setMarkers] = useState([]);
     const [center, setCenter] = useState(defaultCenter);
     const [zoom, setZoom] = useState(8);
 
@@ -30,9 +30,18 @@ const MapView = ({data}) => {
         height: '80svh',
     }
 
- 
-   
-
+  
+  
+    const onZoomChanged = () => {
+        if(setMapBounds && mapRef.current){
+            setMapBounds(mapRef.current.getBounds());
+        }
+    }
+    const onDragEnd = () => {
+        if(setMapBounds && mapRef.current){
+            setMapBounds(mapRef.current.getBounds());
+        }
+    }
 
     const onLoadMap = (map) => {
         mapRef.current = map;
@@ -43,7 +52,8 @@ const MapView = ({data}) => {
         setSelectedMarker({marker:marker, data:data[index]})
     }
     const onLoadMarker = (marker, index) => {
-        console.log(data[index])
+        console.log(markers)
+        setMarkers(markers=>[...markers, marker])
     }
 
 
@@ -55,6 +65,32 @@ const MapView = ({data}) => {
         mapRef.current.fitBounds(place.bounds);
       }
     },[place])
+    // useEffect(()=>{
+    //     if(mapRef.current){
+    //         if(centerOnFirst && data){
+    //             var bounds = new google.maps.LatLngBounds();
+    //             bounds.extend(data[0]['metadata']);
+                
+    //             mapRef.current.fitBounds(bounds);
+    //         }
+    //         else if(centerOnAll && data && markers.length == data.length){
+    //             console.log(markers)
+    //             console.log(mapRef.current)
+    //             console.log(data)
+    //             var bounds = new google.maps.LatLngBounds();
+    //             for (var i = 0; i < markers.length; i++) {
+    //                 bounds.extend(markers[i].position);
+    //             }
+                
+    //             mapRef.current.fitBounds(bounds);
+    //         }
+    //         else{
+    //             setCenter(defaultCenter)
+    //         }
+    //     }
+    //   },[mapRef.current, centerOnFirst,data, centerOnAll, markers])
+
+    
 
     return (
         isLoaded
@@ -80,8 +116,11 @@ const MapView = ({data}) => {
                     onLoad={onLoadMap}
                     mapContainerStyle={containerStyle}
                     onTilesLoaded={() => setCenter(null)}
+                    onDragEnd={onDragEnd}
+                    onZoomChanged={onZoomChanged}
                 >
                     {
+                        data &&
                         data.map((item, index) =>(
                             <Marker 
                                 key={index}
@@ -104,7 +143,11 @@ const MapView = ({data}) => {
                             <RouteBoxView route={selectedMarker['data']} />
                     </InfoWindow>
                     ) : null}
-                    <SearchBox address={"New York"} setPlace={setPlace} />
+                    {
+                        showSearch && 
+                        <SearchBox address={"New York"} setPlace={setPlace} />
+                    }
+                    
                 </GoogleMap>
                 
             </div>

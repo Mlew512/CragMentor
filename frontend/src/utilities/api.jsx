@@ -12,8 +12,9 @@ export const endpoints = {
     "favorites":"beta/favorites/",
     "add_favorite":"beta/favorite/",
     "remove_favorite":"beta/favorite/",
-    "route":"beta/route/",
-    "area":"beta/area",
+    "route":"beta/climb/",
+    "area":"beta/area/",
+    "climb_bounds":"beta/climb-bounds/",
     
 }
 
