@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import OpenBetaView, GetArea, GetClimbView, CragsNear, CragsBounds
+from .views import OpenBetaView, GetArea, GetClimbView, CragsBounds,CragsNear
 
 urlpatterns = [
     path('', OpenBetaView.as_view(), name="beta"),
