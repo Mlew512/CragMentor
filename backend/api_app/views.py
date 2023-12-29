@@ -265,11 +265,12 @@ class GetClimbView(APIView):
         # Make a GraphQL api request to get climb data
         climb_data = self.get_climb_data(uuid)
 
-        if pyramid_id:
-            create_route(climb_data, pyramid_id)
-
         if not climb_data:
             return Response({"error": "Failed to fetch climb data"}, status=500)
+        
+        if pyramid_id:
+            create_route(climb_data, pyramid_id)
+        
         return Response({"climb_data": climb_data})
 
     def get_climb_data(self, uuid):
