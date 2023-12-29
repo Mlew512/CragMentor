@@ -48,3 +48,18 @@ Response: see areadata.json
  media url 
  mediaid=/u/4d748baa-b0f9-4308-88a9-d574232654c8/CqKnCRhDQg.jpeg
  https://media.openbeta.io/${mediaid}
+
+
+ cragsnear api 
+  endpoint- http://127.0.0.1:8000/api/beta/cragsnear/
+ data to pass-
+
+ {
+  "location": {
+    "lat": 35.15153,
+    "lng": -85.35017
+  },
+  "maxDistance": 200000
+} 
+
+response data see cragsnear.json in pyramidplan folder
