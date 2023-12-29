@@ -6,4 +6,5 @@ urlpatterns = [
     path('area/', GetArea.as_view(), name="area"),
     path('climb/', GetClimbView.as_view(), name="climb"),
     path('climb-bounds/', CragsBounds.as_view(), name="climb_bounds"),
+    path('cragsnear/', CragsNear.as_view(), name="cragsnear"),
 ]

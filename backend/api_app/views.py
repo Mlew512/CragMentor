@@ -19,9 +19,6 @@ class OpenBetaView(APIView):
         # Make a GraphQL api request to get crag data
         crag_data = self.get_crag_data(location, maxDistance)
 
-        # print(crag_data)
-        # return Response(crag_data)
-
         if not crag_data:
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
@@ -257,14 +254,11 @@ class GetArea(APIView):
         }
 
         try:
-            print("response")
             response = requests.post(
                 "https://api.openbeta.io/", json={"query": query, "variables": variables}, timeout=10
             )
-            print(response)
             response.raise_for_status()
-            print("gdd")
-            print("gdd")
+   
 
             data = response.json()
             return Response(data.get("data"), status=HTTP_200_OK)
@@ -325,6 +319,72 @@ class GetClimbView(APIView):
 
         variables = {
             "uuid": uuid,
+        }
+
+        try:
+            response = requests.post(
+                "https://api.openbeta.io/",
+                json={"query": query, "variables": variables},
+                timeout=10,
+            )
+
+            response.raise_for_status()
+
+            data = response.json()
+            return data.get("data")
+        except requests.exceptions.RequestException as e:
+            # Handle request-related exceptions
+            return f"Request error: {e}"
+        except ValueError as ve:
+            # Handle JSON decoding error
+            return f"JSON decoding error: {ve}"
+
+class CragsNear(APIView):
+    def post(self, request, *args, **kwargs):
+        location = request.data.get("location", None)
+        maxDistance = request.data.get("maxDistance", None)
+
+        if maxDistance is None or location is None:
+            return Response({"error": "Missing required parameters"}, status=400)
+
+        # Make a GraphQL api request to get crag data
+        crag_data = self.get_crag_data(location, maxDistance)
+
+        if not crag_data:
+            return Response({"error": "Failed to fetch crags data"}, status=500)
+
+        return Response({"crags": crag_data})
+
+    def get_crag_data(self, location, maxDistance):
+        query = """
+        query getCragsInArea ($location: Point!, $maxDistance: Int!) {
+            cragsNear(
+                includeCrags: true
+                lnglat: $location
+                maxDistance: $maxDistance
+            ) {
+                crags {
+                    areaName
+                    totalClimbs
+                    aggregate {
+                        byGrade {
+                            count
+                            label
+                        }
+                    }
+                    metadata {
+                        lat
+                        lng
+                        areaId
+                    }
+                }
+            }
+        }
+        """
+
+        variables = {
+            "location": location,
+            "maxDistance": maxDistance,#distance
         }
 
         try:
