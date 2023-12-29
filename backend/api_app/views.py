@@ -211,25 +211,25 @@ class GetArea(APIView):
             area(uuid: $uuid) {
                 areaName
                 children {
-                areaName
-                metadata {
-                    lng
-                    lat
-                    areaId
-                }
-                climbs {
-                    name
-                    uuid
-                    grades {
-                    vscale
-                    yds
-                    }
+                    areaName
                     metadata {
-                    lat
-                    lng
-                    climbId
+                        lng
+                        lat
+                        areaId
                     }
-                }
+                    climbs {
+                        name
+                        uuid
+                        grades {
+                        vscale
+                        yds
+                        }
+                        metadata {
+                        lat
+                        lng
+                        climbId
+                        }
+                    }
                 }
             }
             }
@@ -295,6 +295,7 @@ class GetClimbView(APIView):
                     area_name
                     ancestors
                 id
+                uuid
                 }
             }
             }

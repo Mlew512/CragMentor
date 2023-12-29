@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useOutletContext,useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
-import { getAPI, endpoints } from '../utilities/api';
+import { getAPI, endpoints, postAPI } from '../utilities/api';
 
 
 const route = {
@@ -98,10 +98,10 @@ function RoutePage() {
 
 
     const getData = async () => {
-        const response = await getAPI(`${endpoints.route}${dataID}`)
+        const response = await postAPI(`${endpoints.route}`,null,{uuid:dataID})
         console.log(response)
         if(response.status){
-            setData(response.data.result)
+            setData(response.data.climb_data.climb)
             setIsLoading(false)
             setMessage('')
         }else{
@@ -143,7 +143,7 @@ function RoutePage() {
                     <p>location - {data.content.location}</p>
                     <p>protection - {data.content.protection}</p>
                     <p>safety - {data.safety}</p>
-                    <a href={"/area/"+data.parent.id}>Go to parent area</a>
+                    <a href={"/area/"+data.parent.uuid}>Go to {data.parent.area_name}</a>
 
                 </section>
 
