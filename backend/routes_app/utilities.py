@@ -1,7 +1,6 @@
-from models import Route
-from pyramid_app.models import Pyramid
 
-def create_route(data, pyramid_id, *args, **kwargs):
+
+def create_route(data, *args, **kwargs):
     # Extracting values from JSON
     route_id = data["metadata"]["climb_id"]
     name = data["name"]
@@ -13,12 +12,12 @@ def create_route(data, pyramid_id, *args, **kwargs):
     media = data["media"]  # Assuming this is a list, update accordingly
 
     # Creating or updating Pyramid instance
-    pyramid, created = Pyramid.objects.get_or_create(id=pyramid_id)
+    # pyramid, created = Pyramid.objects.get_or_create(id=pyramid_id)
 
     # Creating Route instance
     route = Route.objects.create(
         route_id=route_id,
-        pyramid=pyramid,
+        # pyramid=pyramid,
         name=name,
         lat=lat,
         lng=lng,
