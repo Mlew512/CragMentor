@@ -6,6 +6,7 @@ from rest_framework.status import (
 import requests
 from api_app.cragAlgorithm import ClimbingArea
 from routes_app.utilities import create_route
+from .utilities.cragservice import CragService
 
 
 class OpenBetaView(APIView):
@@ -208,27 +209,44 @@ class GetArea(APIView):
             query GetArea($uuid: ID!) {
             area(uuid: $uuid) {
                 areaName
+                uuid
+                ancestors
+                id
                 children {
-                areaName
-                metadata {
-                    lng
-                    lat
-                    areaId
+                    areaName
+                    uuid
+                    metadata {
+                        lng
+                        lat
+                        areaId
+                    }
+                    climbs {
+                        name
+                        uuid
+                        grades {
+                        vscale
+                        yds
+                        }
+                        metadata {
+                        lat
+                        lng
+                        climbId
+                        }
+                    }
                 }
                 climbs {
-                    name
-                    uuid
-                    grades {
-                    vscale
-                    yds
+                        name
+                        uuid
+                        grades {
+                        vscale
+                        yds
+                        }
+                        metadata {
+                        lat
+                        lng
+                        climbId
+                        }
                     }
-                    metadata {
-                    lat
-                    lng
-                    climbId
-                    }
-                }
-                }
             }
             }
             """
@@ -239,19 +257,20 @@ class GetArea(APIView):
 
         try:
             response = requests.post(
-                "https://api.openbeta.io/", json={"query": query, "variables": variables}, timeout=5
+                "https://api.openbeta.io/", json={"query": query, "variables": variables}, timeout=10
             )
-
             response.raise_for_status()
+   
 
             data = response.json()
             return Response(data.get("data"), status=HTTP_200_OK)
         except requests.exceptions.RequestException as e:
+            print(e)
             # Handle request-related exceptions
-            return None
+            return Response({"error": "Request error"}, status=500)
         except ValueError as ve:
             # Handle JSON decoding error
-            return None
+            return Response({"error": "JSON error"}, status=500)
 
          
 class GetClimbView(APIView):
@@ -295,9 +314,11 @@ class GetClimbView(APIView):
                     mediaUrl
                 }
                 parent {
+                    uuid
                     area_name
                     ancestors
                 id
+                uuid
                 }
             }
             }
@@ -333,44 +354,82 @@ class CragsNear(APIView):
         if maxDistance is None or location is None:
             return Response({"error": "Missing required parameters"}, status=400)
 
-        # Make a GraphQL api request to get crag data
-        crag_data = self.get_crag_data(location, maxDistance)
+        crag_service = CragService()
+        crag_data = crag_service.get_crag_data(location, maxDistance)
 
         if not crag_data:
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
         return Response({"crags": crag_data})
 
-    def get_crag_data(self, location, maxDistance):
+      
+class CragsBounds(APIView):
+    def post(self, request, *args, **kwargs):
+        topLeftLat = request.data.get("topLeftLat", None)
+        topLeftLng = request.data.get("topLeftLng", None)
+        bottomRightLat = request.data.get("bottomRightLat", None)
+        bottomRightLng = request.data.get("bottomRightLng", None)
+        zoom = request.data.get("zoom", 1)
+
+        if topLeftLat is None or topLeftLng is None or bottomRightLat is None or bottomRightLng is None:
+            return Response({"error": "Missing required parameters"}, status=400)
+
+        # Make a GraphQL api request to get crag data
+        crag_data = self.get_crag_data(topLeftLat,topLeftLng,bottomRightLat,bottomRightLng,zoom)
+
+        if not crag_data:
+            return Response({"error": "Failed to fetch crags data"}, status=500)
+
+        return Response({"crags": crag_data})
+
+    def get_crag_data(self, topLeftLat,topLeftLng,bottomRightLat,bottomRightLng,zoom):
         query = """
-        query getCragsInArea ($location: Point!, $maxDistance: Int!) {
-            cragsNear(
-                includeCrags: true
-                lnglat: $location
-                maxDistance: $maxDistance
-            ) {
-                crags {
-                    areaName
-                    totalClimbs
-                    aggregate {
-                        byGrade {
-                            count
-                            label
-                        }
-                    }
-                    metadata {
-                        lat
-                        lng
-                        areaId
-                    }
-                }
-            }
-        }
+query getArea($bbox: [Float], $zoom: Float) {
+  cragsWithin(filter: {bbox: $bbox, zoom:$zoom}) {
+    areaName
+    totalClimbs
+    uuid
+    density
+    gradeContext
+    content {
+      description
+    }
+     metadata {
+      lat
+      lng
+    }
+    """
+        if zoom < 8:
+            query +="""
+  }
+}
         """
+        else:
+            query +="""
+            climbs {
+      uuid
+      name
+      metadata {
+        lat
+        lng
+      }
+    }
+    children {
+      areaName
+      uuid
+      metadata {
+        lat
+        lng
+      }
+    }
+  }
+}
+"""
+        print(query)
 
         variables = {
-            "location": location,
-            "maxDistance": maxDistance,#distance
+            "bbox": [topLeftLng,topLeftLat,bottomRightLng,bottomRightLat],
+            "zoom":-10
         }
 
         try:
@@ -390,3 +449,4 @@ class CragsNear(APIView):
         except ValueError as ve:
             # Handle JSON decoding error
             return f"JSON decoding error: {ve}"
+
