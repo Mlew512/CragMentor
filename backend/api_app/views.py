@@ -5,6 +5,7 @@ from rest_framework.status import (
 )
 import requests
 from api_app.cragAlgorithm import ClimbingArea
+from routes_app.utilities import create_route
 from .utilities.cragservice import CragService
 
 
@@ -275,6 +276,7 @@ class GetArea(APIView):
 class GetClimbView(APIView):
     def post(self, request, *args, **kwargs):
         uuid = request.data.get("uuid", None)
+        pyramid_id = request.data.get("pyramid_id", None)
 
         if uuid is None:
             return Response({"error": "Missing required parameters"}, status=400)
@@ -284,6 +286,10 @@ class GetClimbView(APIView):
 
         if not climb_data:
             return Response({"error": "Failed to fetch climb data"}, status=500)
+        
+        if pyramid_id:
+            create_route(climb_data, pyramid_id)
+        
         return Response({"climb_data": climb_data})
 
     def get_climb_data(self, uuid):
