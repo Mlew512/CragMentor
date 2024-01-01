@@ -1,4 +1,4 @@
-pyramid endpoint\
+***pyramid endpoint***
 data to send 
 -
 {
@@ -14,7 +14,7 @@ data to send
  see pyramiddata.json for response
 
 
- climb by uuid\
+***climb by uuid***
 method - post
 endpoint:
  http://127.0.0.1:8000/api/beta/climb/
@@ -29,7 +29,7 @@ Response: see climbdata.json
 
  }
 
-area by uuid\
+***area by uuid***
 method - post
 endpoint:
  http://127.0.0.1:8000/api/beta/area/
@@ -50,7 +50,7 @@ Response: see areadata.json
  https://media.openbeta.io/${mediaid}
 
 
- cragsnear api 
+ ***cragsnear api*** 
   endpoint- http://127.0.0.1:8000/api/beta/cragsnear/
  data to pass-
 
@@ -67,6 +67,7 @@ response data see cragsnear.json in pyramidplan folder
 
 ***best crag***
 api endpoint 
+post
 http://127.0.0.1:8000/api/beta/best-crag/
 
 
@@ -78,3 +79,5 @@ http://127.0.0.1:8000/api/beta/best-crag/
   },
   "maxDistance": 200000
 } 
+
+see best_crags.json for response
