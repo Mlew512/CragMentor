@@ -63,3 +63,18 @@ Response: see areadata.json
 } 
 
 response data see cragsnear.json in pyramidplan folder
+
+
+***best crag***
+api endpoint 
+http://127.0.0.1:8000/api/beta/best-crag/
+
+
+{
+  "goal_grade": 9,
+  "location": {
+    "lat": 35.15153,
+    "lng": -85.35017
+  },
+  "maxDistance": 200000
+} 
