@@ -178,3 +178,30 @@ class CragsBounds(APIView):
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
         return Response({"crags": crag_data})
+
+class BestCragView(APIView):
+    def post(self, request, *args, **kwargs):
+        goal_grade = request.data.get("goal_grade", None)
+        location = request.data.get("location", None)
+        maxDistance = request.data.get("maxDistance", None)
+
+        if goal_grade is None or location is None:
+            return Response({"error": "Missing required parameters"}, status=400)
+
+        # Make a GraphQL api request to get crag data
+        crag_data = CragService.get_crag_data(location, maxDistance)
+
+        if not crag_data:
+            return Response({"error": "Failed to fetch crags data"}, status=500)
+
+        # Use the ClimbingArea class to calculate and normalize crag scores
+        climbing_area = ClimbingArea(crag_data, goal_grade)
+
+        # calculate crag score
+        crag_scores = climbing_area.calculate_crag_scores(location["lat"], location["lng"], goal_grade)
+
+        #normalize crag score and location
+        normalized_scores = climbing_area.normalize_scores(crag_scores)
+    
+        return Response({"normalized scores": normalized_scores})
+
