@@ -81,3 +81,31 @@ http://127.0.0.1:8000/api/beta/best-crag/
 } 
 
 see best_crags.json for response
+
+***api endpoint for pyramid***
+post 
+http://127.0.0.1:8000/api/pyramid/
+
+{
+  "user": 1,
+  "routes": [1,2,3,4,5,6,7],
+  "latitude": 34.222255,
+  "longitude": 86.555555,
+  "goal_grade": 7
+}
+
+response =200 https for sucess
+
+***api endpoint for route***
+post
+http://127.0.0.1:8000/api/route/
+example data to pass
+{
+  "route_id": "89a929e2-d3d9-5219-baca-1f37855821b0",
+  "name": "Super Mario",
+  "lat": 35.249734999999994,
+  "lng": -85.21837,
+  "area": "58994c28-e56a-5a34-a931-ba2324ea4a91",
+  "grade": 4,
+  "media": "u/4d748baa-b0f9-4308-88a9-d574232654c8"
+}
