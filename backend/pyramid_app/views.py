@@ -23,7 +23,7 @@ class PyramidView(APIView):
         
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=HTTP_201_CREATED)
+            return Response({"pyramid_id":serializer.data["id"]}, status=HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 

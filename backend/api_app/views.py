@@ -5,7 +5,6 @@ from rest_framework.status import (
 )
 import requests
 from api_app.cragAlgorithm import ClimbingArea
-from routes_app.utilities import create_route
 from .utilities.cragservice import CragService
 
 
@@ -203,5 +202,5 @@ class BestCragView(APIView):
         #normalize crag score and location
         normalized_scores = climbing_area.normalize_scores(crag_scores)
     
-        return Response({"normalized scores": normalized_scores})
+        return Response({"normalized_scores": normalized_scores})
 

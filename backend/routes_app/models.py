@@ -7,6 +7,7 @@ class Route(models.Model):
     name = models.CharField(max_length=255)
     lat = models.FloatField()
     lng = models.FloatField()
+    # pyramid = models.(to=Pyramid, null=True, blank=True)
     # Parent area for the route
     area = models.CharField()
     completed = models.BooleanField(default=False)
