@@ -5,6 +5,7 @@ from rest_framework.status import (
 )
 import requests
 from api_app.cragAlgorithm import ClimbingArea
+from .utilities.cragservice import CragService
 
 
 class OpenBetaView(APIView):
@@ -17,184 +18,26 @@ class OpenBetaView(APIView):
             return Response({"error": "Missing required parameters"}, status=400)
 
         # Make a GraphQL api request to get crag data
-        crag_data = self.get_crag_data(location, maxDistance)
+        crag_data = CragService.get_crag_data(location, maxDistance)
 
         if not crag_data:
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
         # Use the ClimbingArea class to calculate and normalize crag scores
         climbing_area = ClimbingArea(crag_data, goal_grade)
-        crag_scores = climbing_area.calculate_crag_scores(
-            location["lat"], location["lng"], goal_grade
-        )
+
+        # calculate crag score
+        crag_scores = climbing_area.calculate_crag_scores(location["lat"], location["lng"], goal_grade)
+
+        #normalize crag score and location
         normalized_scores = climbing_area.normalize_scores(crag_scores)
 
-        # will need to map through crags to get boulders/routes needed
-        # loop through top 5 crags with get_climbs_by_crag
-        # for crag in normalized_scores:
-        #     print(crag["uuid"])
-        climb_data = self.get_climbs_from_crag(normalized_scores[0]["uuid"])
-        # print(climb_data["area"]["climbs"])
-        pyramid_scheme = self.build_the_triangle(
-            climb_data["area"]["climbs"], goal_grade
-        )
-        # some function to get 1 grade_goal climb, 2 grade_goal-1 routes, 4 grade_goal-2 routes
-        # print(climb_data)
-        # return Response({"my_pyramid": climb_data})
+        # get climbs from the best crag
+        climb_data = CragService.get_climbs_from_crag(normalized_scores[0]["uuid"])
+        # build triangle with that crag
+        pyramid_scheme = CragService.build_the_triangle(climb_data["area"]["climbs"], goal_grade)
+    
         return Response({"my_pyramid": pyramid_scheme})
-        # return Response({"crag_scores": normalized_scores})
-
-    def get_crag_data(self, location, maxDistance):
-        query = """
-        query getCragsInArea ($location: Point!, $maxDistance: Int!) {
-            cragsNear(
-                includeCrags: true
-                lnglat: $location
-                maxDistance: $maxDistance
-            ) {
-                crags {
-                    areaName
-                    totalClimbs
-                    aggregate {
-                        byGrade {
-                            count
-                            label
-                        }
-                    }
-                    metadata {
-                        lat
-                        lng
-                        areaId
-                    }
-                }
-            }
-        }
-        """
-
-        variables = {
-            "location": location,
-            "maxDistance": maxDistance,
-        }
-
-        try:
-            response = requests.post(
-                "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
-                timeout=10,
-            )
-
-            response.raise_for_status()
-
-            data = response.json()
-            # print(data.get("data"))
-            return data.get("data")
-        except requests.exceptions.RequestException as e:
-            # Handle request-related exceptions
-            return f"Request error: {e}"
-        except ValueError as ve:
-            # Handle JSON decoding error
-            return f"JSON decoding error: {ve}"
-
-    def get_climbs_from_crag(self, uuid):
-        # GraphQL query to get boulder information based on area_id
-
-        query = """
-            query getClimbsInCrag ($uuid: ID!){
-            area(uuid: $uuid) {
-                areaName
-                climbs {
-                name
-                uuid
-                grades {
-                    vscale
-                }
-                }
-                uuid
-                totalClimbs
-            }
-            }
-            """
-
-        variables = {
-            "uuid": uuid,
-        }
-
-        try:
-            response = requests.post(
-                "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
-                timeout=5,
-            )
-
-            response.raise_for_status()
-
-            data = response.json()
-            return data.get("data")
-        except requests.exceptions.RequestException as e:
-            # Handle request-related exceptions
-            return None
-        except ValueError as ve:
-            # Handle JSON decoding error
-            return None
-
-    def build_the_triangle(self, crag_list, goal_grade):
-        # Initialize the response dictionary
-        response = {"pyramid": {}}
-
-        # Add the goal climb to the top of the pyramid
-        goal_climb = self.find_unique_climb_by_grade(
-            crag_list,
-            goal_grade,
-            [climb["uuid"] for climb in response["pyramid"].values()],
-        )
-        response["pyramid"]["goal_climb"] = goal_climb
-
-        # Add two runner-up climbs one grade lower
-        for i in range(1, 3):
-            runner_up_grade = goal_grade - 1
-            runner_up_climb = self.find_unique_climb_by_grade(
-                crag_list,
-                runner_up_grade,
-                [climb["uuid"] for climb in response["pyramid"].values()],
-            )
-            response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
-
-        # Add four runner-up climbs two grades lower
-        for i in range(3, 7):
-            runner_up_grade = goal_grade - 2
-            runner_up_climb = self.find_unique_climb_by_grade(
-                crag_list,
-                runner_up_grade,
-                [climb["uuid"] for climb in response["pyramid"].values()],
-            )
-            response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
-
-        return response
-
-        used_ids = [climb["uuid"] for climb in response["pyramid"].values()]
-
-    def find_unique_climb_by_grade(self, crag_list, target_grade, used_climbs):
-        print(used_climbs)
-        # Find the first climb in the crag_list with the target grade and not in used_climbs
-        for climb in crag_list:
-            # duplicating climbs
-            if (
-                climb["grades"]["vscale"] == f"V{target_grade}"
-                and climb["uuid"] not in used_climbs
-            ):
-                print(climb)
-                return {
-                    "name": climb["name"],
-                    "grade": climb["grades"]["vscale"],
-                    "uuid": climb["uuid"],
-                }
-
-        # If no unique climb with the target grade is found, return a default climb
-        return {
-            "name": "No Unique Climb Found",
-            "grade": target_grade,
-            "uuid": None
-        }
 
 
 class GetArea(APIView):
@@ -255,10 +98,11 @@ class GetArea(APIView):
 
         try:
             response = requests.post(
-                "https://api.openbeta.io/", json={"query": query, "variables": variables}, timeout=10
+                "https://api.openbeta.io/",
+                json={"query": query, "variables": variables},
+                timeout=10,
             )
             response.raise_for_status()
-   
 
             data = response.json()
             return Response(data.get("data"), status=HTTP_200_OK)
@@ -270,74 +114,27 @@ class GetArea(APIView):
             # Handle JSON decoding error
             return Response({"error": "JSON error"}, status=500)
 
-         
+
 class GetClimbView(APIView):
     def post(self, request, *args, **kwargs):
         uuid = request.data.get("uuid", None)
+        # pyramid_id = request.data.get("pyramid_id", None)
 
         if uuid is None:
             return Response({"error": "Missing required parameters"}, status=400)
 
         # Make a GraphQL api request to get climb data
-        climb_data = self.get_climb_data(uuid)
+        climb_data = CragService.get_climb_data(uuid)
 
         if not climb_data:
             return Response({"error": "Failed to fetch climb data"}, status=500)
+
+        # if pyramid_id:
+        #     create_route(climb_data, pyramid_id)
+
         return Response({"climb_data": climb_data})
 
-    def get_climb_data(self, uuid):
-        query = """
-        query getClimbById ( $uuid: ID! ) {
-            climb(uuid: $uuid) {
-                name
-                metadata {
-                    climb_id
-                    lat
-                    lng
-                    mp_id
-                }
-                grades {
-                    vscale
-                }
-                content {
-                    description
-                    location
-                }
-                media {
-                    mediaUrl
-                }
-                parent {
-                    uuid
-                    area_name
-                    ancestors
-                id
-                uuid
-                }
-            }
-            }
-        """
 
-        variables = {
-            "uuid": uuid,
-        }
-
-        try:
-            response = requests.post(
-                "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
-                timeout=10,
-            )
-
-            response.raise_for_status()
-
-            data = response.json()
-            return data.get("data")
-        except requests.exceptions.RequestException as e:
-            # Handle request-related exceptions
-            return f"Request error: {e}"
-        except ValueError as ve:
-            # Handle JSON decoding error
-            return f"JSON decoding error: {ve}"
 
 class CragsNear(APIView):
     def post(self, request, *args, **kwargs):
@@ -347,74 +144,12 @@ class CragsNear(APIView):
         if maxDistance is None or location is None:
             return Response({"error": "Missing required parameters"}, status=400)
 
-        # Make a GraphQL api request to get crag data
-        crag_data = self.get_crag_data(location, maxDistance)
+        crag_data = CragService.get_crag_data(location, maxDistance)
 
         if not crag_data:
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
         return Response({"crags": crag_data})
-
-    def get_crag_data(self, location, maxDistance):
-        query = """
-        query getCragsInArea ($location: Point!, $maxDistance: Int!) {
-            cragsNear(
-                includeCrags: true
-                lnglat: $location
-                maxDistance: $maxDistance
-            ) {
-                crags {
-                    areaName
-                    totalClimbs
-                    aggregate {
-                        byGrade {
-                            count
-                            label
-                        }
-                    }
-                    metadata {
-                        lat
-                        lng
-                        areaId
-                    }
-                }
-            }
-        }
-        """
-
-        variables = {
-            "location": location,
-            "maxDistance": maxDistance,#distance
-        }
-
-        try:
-            response = requests.post(
-                "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
-                timeout=10,
-            )
-
-            response.raise_for_status()
-
-            data = response.json()
-            return data.get("data")
-        except requests.exceptions.RequestException as e:
-            # Handle request-related exceptions
-            return f"Request error: {e}"
-        except ValueError as ve:
-            # Handle JSON decoding error
-            return f"JSON decoding error: {ve}"
-
-
-
-
-
-
-
-
-
-
-
 
 
 class CragsBounds(APIView):
@@ -425,101 +160,49 @@ class CragsBounds(APIView):
         bottomRightLng = request.data.get("bottomRightLng", None)
         zoom = request.data.get("zoom", 1)
 
-        if topLeftLat is None or topLeftLng is None or bottomRightLat is None or bottomRightLng is None:
+        if (
+            topLeftLat is None
+            or topLeftLng is None
+            or bottomRightLat is None
+            or bottomRightLng is None
+        ):
             return Response({"error": "Missing required parameters"}, status=400)
 
         # Make a GraphQL api request to get crag data
-        crag_data = self.get_crag_data(topLeftLat,topLeftLng,bottomRightLat,bottomRightLng,zoom)
+        crag_data = CragService.get_crag_box(
+            topLeftLat, topLeftLng, bottomRightLat, bottomRightLng, zoom
+        )
 
         if not crag_data:
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
         return Response({"crags": crag_data})
 
-    def get_crag_data(self, topLeftLat,topLeftLng,bottomRightLat,bottomRightLng,zoom):
-        query = """
-query getArea($bbox: [Float], $zoom: Float) {
-  cragsWithin(filter: {bbox: $bbox, zoom:$zoom}) {
-    areaName
-    totalClimbs
-    uuid
-    density
-    gradeContext
-    content {
-      description
-    }
-     metadata {
-      lat
-      lng
-    }
-    """
-        if zoom < 8:
-            query +="""
-  }
-}
-        """
-        else:
-            query +="""
-            climbs {
-      uuid
-      name
-      metadata {
-        lat
-        lng
-      }
-    }
-    children {
-      areaName
-      uuid
-      totalClimbs
-      metadata {
-        lat
-        lng
-      }
-                  climbs {
-        uuid
-        name
-        metadata {
-            lat
-            lng
-        }
-        }
-    }
-  }
-}
-"""
-        print(query)
+class BestCragView(APIView):
+    def post(self, request, *args, **kwargs):
+        goal_grade = request.data.get("goal_grade", None)
+        location = request.data.get("location", None)
+        maxDistance = request.data.get("maxDistance", None)
 
-        variables = {
-            "bbox": [topLeftLng,topLeftLat,bottomRightLng,bottomRightLat],
-            "zoom":-10
-        }
+        if goal_grade is None or location is None:
+            return Response({"error": "Missing required parameters"}, status=400)
 
-        try:
-            response = requests.post(
-                "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
-                timeout=10,
-            )
+        # Make a GraphQL api request to get crag data
+        crag_data = CragService.get_crag_data(location, maxDistance)
 
-            response.raise_for_status()
+        if not crag_data:
+            return Response({"error": "Failed to fetch crags data"}, status=500)
 
-            data = response.json()
-            return data.get("data")
-        except requests.exceptions.RequestException as e:
-            # Handle request-related exceptions
-            return f"Request error: {e}"
-        except ValueError as ve:
-            # Handle JSON decoding error
-            return f"JSON decoding error: {ve}"
-        
+        # Use the ClimbingArea class to calculate and normalize crag scores
+        climbing_area = ClimbingArea(crag_data, goal_grade)
 
+        # calculate crag score
+        crag_scores = climbing_area.calculate_crag_scores(location["lat"], location["lng"], goal_grade)
 
-
-
-
-
-
+        #normalize crag score and location
+        normalized_scores = climbing_area.normalize_scores(crag_scores)
+    
+        return Response({"normalized_scores": normalized_scores})
 
 
 
