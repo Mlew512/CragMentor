@@ -19,6 +19,7 @@ const LogIn = ({setExistingUser, existingUser}) => {
         email: email,
         password: password,
       });
+      
       setUser(response.data.user);
       localStorage.setItem("token", response.data.token);
       api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
