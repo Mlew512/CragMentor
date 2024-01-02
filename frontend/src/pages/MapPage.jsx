@@ -11,7 +11,7 @@ const MapPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const params = useParams();
   const navigate = useNavigate();
-
+  
     useEffect(()=>{
       setIsLoading(true)
       getData()

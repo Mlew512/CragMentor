@@ -59,8 +59,6 @@ const PyramidPage = () => {
           <Card.Footer>{myPyramid?.runner_up_5.grade}</Card.Footer>
         </Card>
         </Col>
-      </Row>
-      <Row className="justify-content-center">
         <Col lg={3}>
         <Card className="text-center">
           <h5>{myPyramid?.runner_up_6.name}</h5>

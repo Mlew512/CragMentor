@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { api } from '../utilities';
+import SearchBox from "./SearchBox";
 
 const UserForm = () => {
   const navigate = useNavigate();
@@ -11,21 +12,24 @@ const UserForm = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const {setMyPyramid} = useOutletContext();
+  const [location, setLocation] = useState("");
+  
   const handleCreate = async () => {
+    console.log(location)
     try {
       const currentGrade = document.getElementById('currentGrade').value
       const goalGrade = document.getElementById('goalGrade').value
-      const location = document.getElementById('location').value
+      // const location = document.getElementById('location').value
       const travelDistanceMiles = document.getElementById('travelDistance').value
       const travelDistanceMeters = travelDistanceMiles * 1609.34;
         
       const response = await api.post("beta/", {
-        goal_grade: 9,
+        goal_grade: 7,
         location: {
-          lat: 35.15153,
-          lng: -85.35017
+          lat: location.lat,
+          lng: location.lng
         },
-        maxDistance: 20000
+        maxDistance: 200000
         // // current_grade: `v${currentGrade}`, // Do these values need to be sent as "v'number'"
         // // goal_grade: `v${goalGrade}`, // Do these values need to be sent as "v'number'"
         // location: location,
@@ -75,14 +79,11 @@ const UserForm = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="location">
+            {/* <Form.Group className="mb-3" controlId="location">
               <Form.Label>Location</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter area where you want to climb"
-                autoFocus
-              />
-            </Form.Group>
+              
+            </Form.Group> */}
+            <SearchBox setPlace={setLocation} address={location}/>
 
             {/* <Search location={location}/> */}
             <Form.Group className="mb-3" controlId="travelDistance">
