@@ -1,0 +1,96 @@
+
+import { useEffect, useState } from "react";
+import { api } from "../utilities";
+import { Container, Row, Col, Card, CardHeader, CardBody } from "react-bootstrap";
+import { useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { BestCrags } from "../component/BestCrags";
+import SearchBox from "../component/SearchBox";
+
+
+const Dashboard =()=>{
+  const {user, userProfile, setUserProfile, location} = useOutletContext();
+  const navigate = useNavigate();
+  
+  // const [place, setPlace] = useState(null)
+
+  // useEffect(()=>{
+  //   if(place){
+  //     setUserProfile(userProfile => ({...userProfile, location: place["name"]}))
+  //   }
+  // },[place])
+
+
+  const getSavedRoutes = async()=>{
+    try{
+      const response = await api.get("/route/")
+      if(response.status ===200){
+        console.log(response.data)
+      }
+    }catch(error){
+      console.log("Couldn't get routes")
+      console.log("Something Bad happened")
+    }
+  }
+
+  useEffect(()=>{
+    if(!user){
+      navigate("/register/")
+    }
+    getSavedRoutes();
+  },[user])
+
+  return (
+    <>
+      <Container className="d-flex flex-column">
+        <Row className="text-center">
+            <h3>Dashboard</h3>
+        </Row>
+        <Row >
+          <Col lg={6}>
+            <Card>
+              <CardHeader className="text-center">Preferences</CardHeader>
+              <CardBody>
+                  <ul style={{textDecoration:"none"}}>
+                    <li>My Goal: {userProfile?.goal}</li>
+                    <li>Grade: {userProfile?.current_level}</li>
+                    <li>Current Location: {location.name} </li>
+                    {/* <SearchBox address={userProfile?.location} setPlace={setPlace} /> */}
+                    <li>Preference Area Distance: {userProfile?.dwtt}</li>
+                  </ul>
+              </CardBody>
+            </Card>
+          </Col>
+    
+          <Col lg={6}>
+            <Card>
+              <CardHeader className="text-center">Progress</CardHeader>
+              <CardBody>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={3}>
+            <Card>
+              <CardHeader className="text-center">Saved Routes</CardHeader>
+              <CardBody>
+                
+              </CardBody>
+            </Card>
+          </Col>
+          <Col lg={9}>
+            <Card>
+              <CardHeader className="text-center">Best Reccomended Crags</CardHeader>
+              <CardBody>
+                  <BestCrags userProfile={userProfile} location={location}/>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
+}
+
+export default Dashboard;

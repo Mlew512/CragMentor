@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { getAPI, endpoints, postAPI } from '../utilities/api';
 import MapView from '../component/MapView';
 
-
-
-
 function RoutePage() {
     const [dataID, setDataID] = useState(null)
     const [data, setData] = useState(null)

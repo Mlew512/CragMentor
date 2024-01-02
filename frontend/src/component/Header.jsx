@@ -31,7 +31,7 @@ const Header = ({ user, setUser }) => {
       <Container>
         {user ? (
           <>
-            <Navbar.Brand as={Link} to="/" className='d-flex align-items-center'>
+            <Navbar.Brand as={Link} to="/dashboard/" className='d-flex align-items-center'>
               <img src={Logo} style={{ width: "50px", height: "50px", borderRadius: "50px" }} alt="Logo" />
               <h3>CragMentor</h3>
             </Navbar.Brand>

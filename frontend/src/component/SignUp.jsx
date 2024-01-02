@@ -5,15 +5,13 @@ import { api } from "../utilities";
 import { useNavigate } from "react-router-dom";
 import photo3 from "../images/FrontPage/photo3.webp";
 
-const SignUp = ({ setUser, setExistingUser, existingUser }) => {
+const SignUp = ({setUser, setExistingUser, existingUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [displayName, setDisplayName] = useState("");
   const navigate = useNavigate();
 
   const signUp = async (e) => {
     e.preventDefault();
-    console.log("clicked SignUp")
     try {
       const response = await api.post("users/signup", {
         email: email,
@@ -23,7 +21,7 @@ const SignUp = ({ setUser, setExistingUser, existingUser }) => {
         setUser(response.data.user);
         localStorage.setItem("token", response.data.token);
         api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
-        navigate("/");
+        navigate("/dashboard/");
       } else {
         alert("Something Went wrong");
       }

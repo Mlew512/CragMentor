@@ -2,18 +2,18 @@
 import {Button, Form, CardBody, Container, Card} from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { api } from "../utilities";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import photo3 from "../images/FrontPage/photo3.webp"
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import photo3 from "../images/FrontPage/photo3.webp";
+
 const LogIn = ({setExistingUser, existingUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const { user, setUser } = useOutletContext()
   const navigate = useNavigate();
-
+  
   const logIn = async (e) => {
     e.preventDefault();
-    console.log("clicked Logged In")
     try {
       let response = await api.post("users/login", {
         email: email,
@@ -22,7 +22,7 @@ const LogIn = ({setExistingUser, existingUser}) => {
       setUser(response.data.user);
       localStorage.setItem("token", response.data.token);
       api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
-      navigate("/");
+      navigate("/dashboard/");
     } catch (error) {
       setError("Invalid email or password. Please try again.");
     }

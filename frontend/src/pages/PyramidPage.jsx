@@ -3,10 +3,13 @@ import "./PyramidPage.css"
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
+
+
 const PyramidPage = () => {
   const navigate = useNavigate();
   const { user, myPyramid } = useOutletContext();
   const list = [0, 1, 2, 3, 4, 5, 6]
+  const {location, setLocation} = useOutletContext();
 
   useEffect(() => {
     if (!user) {
@@ -88,7 +91,7 @@ const PyramidPage = () => {
         <Row className="justify-content-center">
           <Col lg={4}>
             <Card>
-              <UserForm />
+              <UserForm location={location} setLocation={setLocation} />
             </Card>
           </Col>
         </Row>

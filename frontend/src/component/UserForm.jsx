@@ -6,7 +6,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { api } from '../utilities';
 import SearchBox from "./SearchBox";
 
-const UserForm = () => {
+const UserForm = ({location, setLocation}) => {
   const navigate = useNavigate();
   const { setMyPyramid } = useOutletContext();
   const [show, setShow] = useState(false);
@@ -14,7 +14,7 @@ const UserForm = () => {
   const handleShow = () => setShow(true);
   const [goalGrade, setGoalGrade] = useState("");
   const [travelDistance, setTravelDistance] = useState("");
-  const [location, setLocation] = useState({ lat: "", lng: "" });
+  // const [location, setLocation] = useState({"lat": null, "lng": null})
 
   const handleCreate = async () => {
     console.log(location)
@@ -66,7 +66,7 @@ const UserForm = () => {
                 onChange={(e) => setGoalGrade(e.target.value)}
               />
             </Form.Group>
-
+            {/* Search Box Component */}
             <SearchBox setPlace={setLocation} address={location} />
 
             <Form.Group className="mb-3" controlId="travelDistance">
