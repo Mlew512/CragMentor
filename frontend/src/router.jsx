@@ -10,6 +10,7 @@ import MapPage from "./pages/MapPage.jsx";
 import RoutePage from "./pages/RoutePage.jsx";
 import AreaPage from "./pages/AreaPage.jsx";
 import PyramidPage from "./pages/PyramidPage.jsx";
+import FavoritesPage from './pages/FavoritesPage.jsx'
 // import SavedPyramidsPage from "./pages/SavedPyramidsPage.jsx";
 
 const router = createBrowserRouter([
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       //   path: "saved-pyramids/",
       //   element: <PyramidPage />,
       // },
+      {
+        path: "favorites/",
+        element: <FavoritesPage />,
+      },
     ],
   },
 ]);

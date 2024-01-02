@@ -4,8 +4,9 @@ import RouteBoxView from '../component/RouteBoxView'
 import { useNavigate,Link, useOutletContext,useParams } from 'react-router-dom'
 import SearchBox from '../component/SearchBox'
 import { endpoints, getAPI, postAPI } from '../utilities/api';
+import LoadingSpinner from '../component/LoadingSpinner'
 const libraries = ['places', 'drawing'];
-const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false, setMapBounds=null}) => {
+const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false, isLoading=false, setMap=null,boundsChangedCallback=null}) => {
 
 
 
@@ -31,20 +32,27 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     }
 
   
+
+    const boundsChanged = () => {
+        boundsChangedCallback()
+    }
   
     const onZoomChanged = () => {
-        if(setMapBounds && mapRef.current){
-            setMapBounds(mapRef.current.getBounds());
-        }
+        boundsChanged()
     }
     const onDragEnd = () => {
-        if(setMapBounds && mapRef.current){
-            setMapBounds(mapRef.current.getBounds());
-        }
+        boundsChanged()
     }
 
     const onLoadMap = (map) => {
         mapRef.current = map;
+        if(setMap){
+            setMap(mapRef.current)
+        }
+    }
+    const onTilesLoaded =() =>{
+        setCenter(null)
+        boundsChanged()
     }
 
     const onClickMarker = (marker, index) => {
@@ -52,7 +60,6 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
         setSelectedMarker({marker:marker, data:data[index]})
     }
     const onLoadMarker = (marker, index) => {
-        console.log(markers)
         setMarkers(markers=>[...markers, marker])
     }
 
@@ -65,30 +72,30 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
         mapRef.current.fitBounds(place.bounds);
       }
     },[place])
-    // useEffect(()=>{
-    //     if(mapRef.current){
-    //         if(centerOnFirst && data){
-    //             var bounds = new google.maps.LatLngBounds();
-    //             bounds.extend(data[0]['metadata']);
+    useEffect(()=>{
+        if(mapRef.current && (centerOnAll || centerOnFirst)){
+            if(centerOnFirst && data){
+                var bounds = new google.maps.LatLngBounds();
+                bounds.extend(data[0]['metadata']);
                 
-    //             mapRef.current.fitBounds(bounds);
-    //         }
-    //         else if(centerOnAll && data && markers.length == data.length){
-    //             console.log(markers)
-    //             console.log(mapRef.current)
-    //             console.log(data)
-    //             var bounds = new google.maps.LatLngBounds();
-    //             for (var i = 0; i < markers.length; i++) {
-    //                 bounds.extend(markers[i].position);
-    //             }
+                mapRef.current.fitBounds(bounds);
+            }
+            else if(centerOnAll && data && markers.length == data.length){
+                console.log(markers)
+                console.log(mapRef.current)
+                console.log(data)
+                var bounds = new google.maps.LatLngBounds();
+                for (var i = 0; i < markers.length; i++) {
+                    bounds.extend(markers[i].position);
+                }
                 
-    //             mapRef.current.fitBounds(bounds);
-    //         }
-    //         else{
-    //             setCenter(defaultCenter)
-    //         }
-    //     }
-    //   },[mapRef.current, centerOnFirst,data, centerOnAll, markers])
+                mapRef.current.fitBounds(bounds);
+            }
+            else{
+                setCenter(defaultCenter)
+            }
+        }
+      },[mapRef.current, centerOnFirst,data, centerOnAll, markers])
 
     
 
@@ -115,7 +122,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                     center={center}
                     onLoad={onLoadMap}
                     mapContainerStyle={containerStyle}
-                    onTilesLoaded={() => setCenter(null)}
+                    onTilesLoaded={onTilesLoaded}
                     onDragEnd={onDragEnd}
                     onZoomChanged={onZoomChanged}
                 >
@@ -149,7 +156,9 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                     }
                     
                 </GoogleMap>
-                
+                {isLoading &&
+                <LoadingSpinner isLoading={isLoading} center={true}/>
+                }
             </div>
             :
             null

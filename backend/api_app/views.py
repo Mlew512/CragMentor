@@ -204,3 +204,55 @@ class BestCragView(APIView):
     
         return Response({"normalized_scores": normalized_scores})
 
+
+
+class Countries(APIView):
+    def post(self, request, *args, **kwargs):
+
+        # Make a GraphQL api request to get crag data
+        crag_data = self.get_crag_data()
+
+        if not crag_data:
+            return Response({"error": "Failed to fetch crags data"}, status=500)
+
+        return Response({"crags": crag_data})
+
+    def get_crag_data(self):
+        query = """
+query GetCountries {
+  countries {
+    areaName
+    metadata {
+      lat
+      lng
+    }
+    totalClimbs
+    uuid
+    id
+  }
+}
+
+"""
+        print(query)
+
+        variables = {
+    
+        }
+
+        try:
+            response = requests.post(
+                "https://api.openbeta.io/",
+                json={"query": query, "variables": variables},
+                timeout=10,
+            )
+
+            response.raise_for_status()
+
+            data = response.json()
+            return data.get("data")
+        except requests.exceptions.RequestException as e:
+            # Handle request-related exceptions
+            return f"Request error: {e}"
+        except ValueError as ve:
+            # Handle JSON decoding error
+            return f"JSON decoding error: {ve}"

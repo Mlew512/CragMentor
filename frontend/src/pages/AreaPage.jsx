@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { getAPI, endpoints, postAPI } from '../utilities/api';
 
 import MapView from '../component/MapView';
+import DisplayMessage from '../component/DisplayMessage'
+import LoadingSpinner from '../component/LoadingSpinner'
 
 
 
@@ -48,15 +50,14 @@ function AreaPage() {
 
     };
    
+    const temp = async () =>{
 
+    }
     return (
         <>
         
         
-
-        {message != "" &&
-        <p>{message}</p>
-        }
+        <DisplayMessage message={message} />
         {
             isLoading == false && data != null ?
             (
@@ -102,15 +103,14 @@ function AreaPage() {
                         }
 
 
-                    <MapView data={[...data.climbs,...data.children]} centerOnAll={true} showSearch={false} />
+                    <MapView data={[...data.climbs,...data.children]} centerOnAll={true} showSearch={false} boundsChangedCallback={temp} />
                 </section>
 
 
                 </>
             ):
-            (
-                <p>Loading</p>
-            )
+            (<LoadingSpinner isLoading={isLoading} />)
+
         }
         </>
     )
