@@ -28,7 +28,7 @@ class Sign_Up(APIView):
             )
         token = Token.objects.create(user=user)
         return Response(
-            {"user": user.email, "token": token.key}, status=HTTP_201_CREATED
+            {"id": user.id, "user": user.email, "token": token.key}, status=HTTP_201_CREATED
         )
 
 
@@ -40,7 +40,7 @@ class Log_in(APIView):
         if user:
             token, created = Token.objects.get_or_create(user=user)
             return Response(
-                {"user": user.email, "token": token.key}, status=HTTP_200_OK
+                {"id": user.id, "user": user.email, "token": token.key}, status=HTTP_200_OK
             )
         return Response("User not found", HTTP_404_NOT_FOUND)
 

@@ -5,11 +5,11 @@ import { Container, Row, Col, Card, CardHeader, CardBody } from "react-bootstrap
 import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BestCrags } from "../component/BestCrags";
-import SearchBox from "../component/SearchBox";
+
 
 
 const Dashboard =()=>{
-  const {user, userProfile, setUserProfile, location} = useOutletContext();
+  const {user, userProfile, setUserProfile, location, setLocation} = useOutletContext();
   const navigate = useNavigate();
   
   // const [place, setPlace] = useState(null)
@@ -54,7 +54,7 @@ const Dashboard =()=>{
                   <ul style={{textDecoration:"none"}}>
                     <li>My Goal: {userProfile?.goal}</li>
                     <li>Grade: {userProfile?.current_level}</li>
-                    <li>Current Location: {location.name} </li>
+                    <li>Current Location: {location?.name} </li>
                     {/* <SearchBox address={userProfile?.location} setPlace={setPlace} /> */}
                     <li>Preference Area Distance: {userProfile?.dwtt}</li>
                   </ul>
@@ -66,6 +66,13 @@ const Dashboard =()=>{
             <Card>
               <CardHeader className="text-center">Progress</CardHeader>
               <CardBody>
+                  <ul style={{textDecoration:"none"}}>
+                    <li>V1: </li>
+                    <li>V2: </li>
+                    <li>V3:  </li>
+                    {/* <SearchBox address={userProfile?.location} setPlace={setPlace} /> */}
+                    <li>V4: </li>
+                  </ul>
               </CardBody>
             </Card>
           </Col>
@@ -83,7 +90,7 @@ const Dashboard =()=>{
             <Card>
               <CardHeader className="text-center">Best Reccomended Crags</CardHeader>
               <CardBody>
-                  <BestCrags userProfile={userProfile} location={location}/>
+                  <BestCrags userProfile={userProfile} location={location} setLocation={setLocation}/>
               </CardBody>
             </Card>
           </Col>

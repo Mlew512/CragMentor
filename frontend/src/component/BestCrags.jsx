@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../utilities";
 import { Table } from "react-bootstrap";
+import UserForm from "../component/UserForm";
 
-export const BestCrags = ({userProfile, location}) => {
+export const BestCrags = ({userProfile, location, setLocation}) => {
   const [areaList, setAreaList] = useState([]);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export const BestCrags = ({userProfile, location}) => {
           ))
         ) : (
           <tr>
-            <td colSpan="6">No data available</td>
+            <UserForm location={location} setLocation={setLocation}/>
           </tr>
         )}
       </tbody>

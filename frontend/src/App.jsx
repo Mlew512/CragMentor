@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Footer from './component/Footer';
 
 function App() {
+  const [userId,setUserId] = useState(null);
   const [user, setUser] = useState("")
   const [myPyramid, setMyPyramid] = useState(null)
   const [favoriteRoutes, setFavoriteRoutes] = useState(null);
@@ -24,7 +25,8 @@ function App() {
         user, setUser, 
         myPyramid, setMyPyramid, 
         userProfile, setUserProfile,
-        location, setLocation
+        location, setLocation,
+        userId, setUserId
          }}/>
       <Footer/>
     </>

@@ -17,13 +17,14 @@ const UserForm = ({location, setLocation}) => {
   // const [location, setLocation] = useState({"lat": null, "lng": null})
 
   const handleCreate = async () => {
-    console.log(location)
+    console.log(parseInt(goalGrade,10))
+
     try {
       const parsedGoalGrade = parseInt(goalGrade, 10); // Convert goalGrade to integer
       const travelDistanceMeters = travelDistance * 1609.34;
 
       const response = await api.post("beta/", {
-        goal_grade: parsedGoalGrade,
+        goal_grade: parseInt(goalGrade,10),
         location: {
           lat: location.lat,
           lng: location.lng
