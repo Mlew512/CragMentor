@@ -9,7 +9,7 @@ from django.conf import settings
 
 class Pyramid(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    routes = models.ManyToManyField(Route)
+    routes = models.ManyToManyField(Route, null=True, blank=True)
     date_generated = models.DateTimeField(auto_now_add=True, blank=True)
     latitude = models.FloatField()
     longitude = models.FloatField()

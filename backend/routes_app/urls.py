@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import TickRoute
+from .views import RouteAPIView
 
 urlpatterns = [
-    path('', TickRoute.as_view(), name="tickroute")
+    path('', RouteAPIView.as_view(), name="route")
 ]
