@@ -3,19 +3,42 @@ import "./PyramidPage.css"
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
+import { api } from "../utilities";
 
 
 const PyramidPage = () => {
   const navigate = useNavigate();
-  const { user, myPyramid } = useOutletContext();
-  const list = [0, 1, 2, 3, 4, 5, 6]
-  const {location, setLocation} = useOutletContext();
+  const { user, myPyramid, setLocation } = useOutletContext();
+  const { location: userLocation } = useOutletContext();
 
   useEffect(() => {
     if (!user) {
       navigate("/register/");
     }
   }, [user, myPyramid]);
+
+  const handleSavePyramid = async () => {
+    try {
+      const requestData = {
+        pyramidData: myPyramid,
+        userLocation: userLocation,
+      };
+      console.log('Request Payload:', requestData);
+      const userId = localStorage.getItem('user_id')
+      console.log(userId)
+      const response = await api.post("/pyramid/", {
+        pyramidData: myPyramid,
+        userLocation: userLocation,
+      });
+
+      if (response.status === 200) {
+        console.log("Pyramid saved successfully");
+        console.log('API Response:', response.data);
+      }
+    } catch (error) {
+      console.error("Error saving pyramid:", error);
+    }
+  };
 
   const the_pyramid = (
     <>
@@ -91,16 +114,22 @@ const PyramidPage = () => {
         <Row className="justify-content-center">
           <Col lg={4}>
             <Card>
-              <UserForm location={location} setLocation={setLocation} />
+              <UserForm location={userLocation} setLocation={setLocation} />
             </Card>
           </Col>
         </Row>
         {myPyramid ? (
-          the_pyramid
+          <>
+            {the_pyramid}
+            <Row className="justify-content-center">
+              <Col lg={4}>
+                <Button onClick={handleSavePyramid}>Save Pyramid</Button>
+              </Col>
+            </Row>
+          </>
         ) : (
           null
         )}
-
       </Container>
     </>
   );

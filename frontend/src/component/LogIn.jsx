@@ -19,6 +19,7 @@ const LogIn = ({setExistingUser, existingUser}) => {
         email: email,
         password: password,
       });
+      
       setUser(response.data.user);
       setUserId(response.data.id);
       localStorage.setItem("token", response.data.token);

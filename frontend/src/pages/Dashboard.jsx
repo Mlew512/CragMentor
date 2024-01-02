@@ -11,6 +11,7 @@ import { BestCrags } from "../component/BestCrags";
 const Dashboard =()=>{
   const {user, userProfile, setUserProfile, location, setLocation} = useOutletContext();
   const navigate = useNavigate();
+  const [savedPyramids, setSavedPyramids] = useState([]);
   
   // const [place, setPlace] = useState(null)
 
@@ -33,11 +34,23 @@ const Dashboard =()=>{
     }
   }
 
+  const getSavedPyramids = async () => {
+    try {
+      const response = await api.get("/pyramid/");
+      if (response.status === 200) {
+        setSavedPyramids(response.data);
+      }
+    } catch (error) {
+      console.error("Couldn't get saved pyramids:", error);
+    }
+  };
+
   useEffect(()=>{
     if(!user){
       navigate("/register/")
     }
     getSavedRoutes();
+    getSavedPyramids();
   },[user])
 
   return (
@@ -80,9 +93,13 @@ const Dashboard =()=>{
         <Row>
           <Col lg={3}>
             <Card>
-              <CardHeader className="text-center">Saved Routes</CardHeader>
+              <CardHeader className="text-center">Saved Pyramids</CardHeader>
               <CardBody>
-                
+                {savedPyramids.map((pyramid, index) => (
+                  <div key={index}>
+                    <Link to={`/pyramid${index + 1}`}>Pyramid #{index + 1}</Link>
+                  </div>
+                ))}
               </CardBody>
             </Card>
           </Col>
