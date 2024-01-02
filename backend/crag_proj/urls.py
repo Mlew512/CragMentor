@@ -22,4 +22,6 @@ urlpatterns = [
     path('api/users/', include("user_app.urls")),
     path('api/beta/', include("api_app.urls")),
     path('api/favorites/', include("favorites_app.urls")),
+    path('api/pyramid/', include("pyramid_app.urls")),
+    path('api/route/', include("routes_app.urls")),
 ]
