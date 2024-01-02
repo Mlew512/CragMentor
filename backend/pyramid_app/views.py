@@ -4,12 +4,28 @@ from rest_framework import status
 from .models import Pyramid
 from .serializers import PyramidSerializer
 from rest_framework import generics
+from rest_framework.status import (
+    HTTP_201_CREATED,
+    HTTP_204_NO_CONTENT,
+    HTTP_200_OK,
+    HTTP_404_NOT_FOUND,
+    HTTP_400_BAD_REQUEST,
+)
 
 class PyramidView(APIView):
     def get(self, request, *args, **kwargs):
         pyramids = Pyramid.objects.all()
         serializer = PyramidSerializer(pyramids, many=True)
         return Response(serializer.data)
+
+    def post(self, request):
+        serializer = PyramidSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 class PyramidDetailView(APIView):
     def get_object(self, pyramid_id):
