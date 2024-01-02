@@ -35,3 +35,15 @@ class TickRoute(APIView):
         route.save()
 
         return Response("Route completed/unfinished", status=HTTP_200_OK)
+
+    def get(self, request, route_id=None):
+        # If route_id is provided, get a single route by ID
+        if route_id:
+            route = get_object_or_404(Route, id=route_id)
+            serializer = RouteSerializer(route)
+            return Response(serializer.data, status=HTTP_200_OK)
+        else:
+            # If no route_id provided, get all routes
+            routes = Route.objects.all()
+            serializer = RouteSerializer(routes, many=True)
+            return Response(serializer.data, status=HTTP_200_OK)
