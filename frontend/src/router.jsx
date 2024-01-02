@@ -10,7 +10,7 @@ import MapPage from "./pages/MapPage.jsx";
 import RoutePage from "./pages/RoutePage.jsx";
 import AreaPage from "./pages/AreaPage.jsx";
 import PyramidPage from "./pages/PyramidPage.jsx";
-
+import FavoritesPage from './pages/FavoritesPage.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -51,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "pyramid/",
         element: <PyramidPage />,
+      },
+      {
+        path: "favorites/",
+        element: <FavoritesPage />,
       },
     ],
   },

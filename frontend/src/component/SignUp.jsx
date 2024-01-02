@@ -1,7 +1,7 @@
 
 import {Button, Form, CardBody, Container, Card} from "react-bootstrap";
 import { useState } from "react";
-import { api } from "../utilities";
+import { api } from "../utilities/api";
 import { useNavigate } from "react-router-dom";
 import photo3 from "../images/FrontPage/photo3.webp";
 

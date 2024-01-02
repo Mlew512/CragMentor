@@ -4,17 +4,22 @@ export const api = axios.create({
     baseURL: "http://127.0.0.1:8000/api/"
 })
 
+export const setAuth = (token) => {
+    api.defaults.headers.common["Authorization"] = `Token ${token}`
+}
+
 export const endpoints = {
     "auth_login":"user/login/",
     "app_pyramid":"beta/app_pyramid",
     "user_pyramids":"beta/user_pyramids/",
     "user_pyramid":"beta/user_pyramid/",
-    "favorites":"beta/favorites/",
+    "favorites":"favorites/",
     "add_favorite":"beta/favorite/",
     "remove_favorite":"beta/favorite/",
     "route":"beta/climb/",
     "area":"beta/area/",
     "climb_bounds":"beta/climb-bounds/",
+    "countries":"beta/countries/",
     
 }
 

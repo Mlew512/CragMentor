@@ -32,7 +32,7 @@ const RouteBoxView = ({route}) => {
           <Card.Text>
           Total Climbs - {route['totalClimbs']}
           </Card.Text>
-          <Button onClick={() => handleClick(`/route/${route['uuid']}`)} variant="outline-primary">View Route</Button>
+          <Button onClick={() => handleClick(`/area/${route['uuid']}`)} variant="outline-primary">View Area</Button>
         </Card.Body>
       </Card>)
     }
