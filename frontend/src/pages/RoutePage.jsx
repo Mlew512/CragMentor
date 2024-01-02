@@ -3,6 +3,9 @@ import { Link, useOutletContext,useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { getAPI, endpoints, postAPI } from '../utilities/api';
 import MapView from '../component/MapView';
+import DisplayMessage from '../component/DisplayMessage'
+import LoadingSpinner from '../component/LoadingSpinner'
+
 
 function RoutePage() {
     const [dataID, setDataID] = useState(null)
@@ -25,11 +28,13 @@ function RoutePage() {
         getData()
       },[dataID])
 
+      const temp = async () =>{
 
+      }
     const getData = async () => {
         const response = await postAPI(endpoints.route,null,{uuid:dataID})
         console.log(response)
-        if(response.status){
+        if(response.status && response.data.climb_data.climb != null){
             setData(response.data.climb_data.climb)
             setIsLoading(false)
             setMessage('')
@@ -49,9 +54,7 @@ function RoutePage() {
         
         
 
-        {message != "" &&
-        <p>{message}</p>
-        }
+        <DisplayMessage message={message} />
         {
             isLoading == false && data != null ?
             (
@@ -73,12 +76,10 @@ function RoutePage() {
 
                 </section>
 
-                <MapView data={[data]} centerOnFirst={true} showSearch={false} />
+                <MapView data={[data]} centerOnFirst={true} showSearch={false} boundsChangedCallback={temp} />
                 </>
             ):
-            (
-                <p>Loading</p>
-            )
+            (<LoadingSpinner isLoading={isLoading} />)
         }
         </>
     )
