@@ -5,7 +5,6 @@ from rest_framework.status import (
 )
 import requests
 from api_app.cragAlgorithm import ClimbingArea
-from routes_app.utilities import create_route
 from .utilities.cragservice import CragService
 
 
