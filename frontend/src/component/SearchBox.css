@@ -8,14 +8,19 @@
   font-size: 14px;
   outline: none;
   text-overflow: ellipses;
+  width: 100%;
+
+}
+.search-input.floating{
   position: absolute;
   top: 20px;
   left: 20px;
+  width: auto;
 }
 
 
 @media only screen and (max-width: 768px) {
-  .search-input {
+  .search-input.floating {
     width: auto;
     right:20px
   }
@@ -25,4 +30,3 @@
   box-shadow: 0px 0px 10px rgb(0, 55, 255); 
 }
 
-.

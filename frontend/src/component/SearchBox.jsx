@@ -5,7 +5,7 @@ import "./SearchBox.css"
 
 const libraries = ['places','drawing'];
 
-const SearchBox = ({address, setPlace}) => {
+const SearchBox = ({address, setPlace, isFloating=false}) => {
   const [placeAddress, setPlaceAddress] = useState(address)
   const autocompleteRef = useRef();
     const { isLoaded, loadError } = useJsApiLoader({
@@ -47,7 +47,7 @@ const SearchBox = ({address, setPlace}) => {
       placeholder="Enter name, address, city, state..."
       value={placeAddress} 
       onChange={(e) => { setPlaceAddress(e.target.value) }} // update the state when you type something
-      className='search-input'
+      className={'search-input' + (isFloating ? 'floating': '')}
       // style={{
       // boxSizing: `border-box`,
       // border: `1px solid transparent`,

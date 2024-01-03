@@ -1,0 +1,24 @@
+.gm-style-iw.gm-style-iw-c{
+    padding: 0 !important;
+}
+.gm-style-iw.gm-style-iw-c > .gm-style-iw-d{
+    padding: 0 !important;
+    width: 100% !important;
+    overflow: auto !important;
+}
+.gm-style-iw.gm-style-iw-c > button{
+    top: 0px !important;
+    right: 10px !important;
+}
+.gm-style-iw.gm-style-iw-c > button > span{
+    height: 30px !important;
+    width: 30px !important;
+}
+.gm-style-iw.gm-style-iw-c > .gm-style-iw-d .card{
+    margin: 0 !important;
+}
+
+.card .card-img-top{
+    height: 200px;
+    object-fit: cover;
+}
