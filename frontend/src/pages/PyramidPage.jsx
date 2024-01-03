@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./PyramidPage.css"
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate, useOutletContext, Link } from "react-router-dom";
@@ -10,7 +10,7 @@ const PyramidPage = () => {
   const navigate = useNavigate();
   const { user, myPyramid, setLocation, userId, location, userProfile} = useOutletContext();
   const { location: userLocation } = useOutletContext();
-
+  const [pyramidId, setPyramidId] = useState(null);
   useEffect(() => {
     if (!user) {
       navigate("/register/");
@@ -33,8 +33,32 @@ const PyramidPage = () => {
         goal_grade: userProfile.goal
       });
 
+      
+
       if (response.status === 201) {
         alert(`Pyramid with id: ${response.data.pyramid_id} saved successfully`);
+        console.log(typeof(myPyramid.goal_climb.uuid), myPyramid.goal_climb.name)
+        setPyramidId(response.data.pyramid_id)
+        for (const routeKey in myPyramid){
+          const route = myPyramid[routeKey];
+          try{
+            const response = await api.post("/route/",{
+            pyramid_id: pyramidId,
+            route_id: route?.uuid ,
+            name: route?.name,
+            lat: location?.lat,
+            lng: location?.lng,
+            grade: userProfile?.goal
+            
+          })
+          if (response.status ===201){
+            console.log("route created")
+            console.log(response.data)
+          }
+        }catch(error){
+          console.log("Did not save route")
+        }
+      }
         // http://127.0.0.1:8000/api/route/
         // example data to pass
         // {

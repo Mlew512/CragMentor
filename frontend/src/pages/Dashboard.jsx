@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { api } from "../utilities";
-import { Container, Row, Col, Card, CardHeader, CardBody } from "react-bootstrap";
+import { Container, Row, Col, Card, CardHeader, CardBody, Form, Button } from "react-bootstrap";
 import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BestCrags } from "../component/BestCrags";
@@ -12,7 +12,8 @@ const Dashboard =()=>{
   const {user, userProfile, location, setLocation, userId} = useOutletContext();
   const navigate = useNavigate();
   const [savedPyramids, setSavedPyramids] = useState([]);
-
+  const [searchPyramidId, setSearchPyramidId] = useState(null)
+  const [pyramidRoutes, setPyramidRoutes] = useState([])
   // To get all Pyramids across users
   const getGlobalPyramids = async () => {
     try {
@@ -27,12 +28,12 @@ const Dashboard =()=>{
     }
   };
   // To get only user pyramids
-  const getMyPyramids = async () => {
+  const getAPyramid = async () => {
     try {
-      const response = await api.get(`/pyramid/${userId}`);
+      const response = await api.get(`/pyramid/${searchPyramidId}/`);
       if (response.status === 200) {
-        console.log(response.data)
-        // setSavedPyramids(response.data);
+        console.log(response.data.routes)
+        setPyramidRoutes(response.data.routes)
       }
       
     } catch (error) {
@@ -45,7 +46,6 @@ const Dashboard =()=>{
       navigate("/register/")
     }
     
-    getMyPyramids();
     getGlobalPyramids();
   },[user])
  
@@ -73,10 +73,30 @@ const Dashboard =()=>{
     
           <Col lg={6}>
             <Card>
-              <CardHeader id="progress" className="text-center">Your Saved Pyramid</CardHeader>
+              <CardHeader id="progress" className="text-center">Get A Pyramid</CardHeader>
               <CardBody>
-                
-                  
+                <Form className="d-flex">
+                  <Form.Control
+                    type="search"
+                    value={searchPyramidId}
+                    placeholder="Number only"
+                    className="me-2"
+                    aria-label="Search"
+                    onChange={(e)=>setSearchPyramidId(e.target.value)}
+                  />
+                  <Button variant="outline-success" onClick={getAPyramid}>Find</Button>
+                </Form>
+                <div className="route-ids">
+                  {Array.isArray(pyramidRoutes) && pyramidRoutes.length > 0 ? (
+                    pyramidRoutes.map((route) => (
+                      <Button key={route}>
+                        {route}
+                      </Button>
+                    ))
+                  ) : (
+                    null
+                  )}
+                </div>
               </CardBody>
             </Card>
           </Col>
