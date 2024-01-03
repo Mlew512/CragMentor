@@ -44,7 +44,7 @@ const SearchBox = ({address, setPlace}) => {
   >
     <input
       type="text"
-      placeholder="Customized your placeholder"
+      placeholder="Enter name, address, city, state..."
       value={placeAddress} 
       onChange={(e) => { setPlaceAddress(e.target.value) }} // update the state when you type something
       className='search-input'

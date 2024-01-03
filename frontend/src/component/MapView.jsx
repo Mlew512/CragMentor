@@ -157,7 +157,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                     {
                         showSearch && 
                         <div className='text-center'>
-                        <SearchBox address={"New York, NY"} setPlace={setPlace}/>
+                        <SearchBox address={""} setPlace={setPlace}/>
                         </div>
                     }
                     
