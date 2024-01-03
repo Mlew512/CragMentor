@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../utilities";
 import { Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
 
 export const BestCrags = ({userProfile, location, setLocation}) => {
@@ -45,7 +46,7 @@ export const BestCrags = ({userProfile, location, setLocation}) => {
         {Array.isArray(areaList) && areaList.length > 0 ? (
           areaList.map((area, index) => (
             <tr key={index} className="text-center">
-              <td>{area.areaName}</td>
+              <td><Link to={`../area/${area.uuid}/`}>{area.areaName}</Link></td>
               <td>{area.normalized_score}</td>
               <td>{Math.round(area.distance*0.62)}mi</td>
               <td>{Math.round(area.overall_score)}</td>
