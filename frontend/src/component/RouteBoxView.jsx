@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import FavButton from './FavButton';
+import "./RouteBoxView.css"
 const RouteBoxView = ({data}) => {
   const navigate = useNavigate();
   function handleClick(path) {
@@ -11,35 +12,38 @@ const RouteBoxView = ({data}) => {
   console.log(data)
   return (
     <>
-    {
-      data.name != null ?
-(        <Card style={{ width: '18rem' }}>
+       
+      <Card>
+        {
+          data['media'].length > 0 ?
+          (<Card.Img variant="top" src={"https://media.openbeta.io/" + data['media'][0]['mediaUrl']} />):
+          (<Card.Img variant="top" src={"/landscape-placeholder.svg"} />)
+        }
         
-        <Card.Img variant="top" src="holder.js/100px180" />
-        <Card.Body>
-          <Card.Title>{data['name']}</Card.Title>
-          <Card.Text>
-          Total Climbs - {data['totalClimbs']}
-          </Card.Text>
-          <FavButton data={data} />
-          <Button onClick={() => handleClick(`/route/${data['uuid']}`)} variant="outline-primary">View Route</Button>
-        </Card.Body>
-      </Card>)
-      :
-      (        
-      <Card style={{ width: '18rem' }}>
         
-        <Card.Img variant="top" src="holder.js/100px180" />
         <Card.Body>
-          <Card.Title>{data['areaName']}</Card.Title>
+          {
+            data.name != null ?
+            (<Card.Title>{data['name']}</Card.Title>):
+            (<Card.Title>{data['areaName']}</Card.Title>)
+          }
           <Card.Text>
-          <FavButton data={data} />
-          Total Climbs - {data['totalClimbs']}
+          
+          {
+            data['totalClimbs'] &&
+            <>Total Climbs - {data['totalClimbs']}</>
+          }
           </Card.Text>
-          <Button onClick={() => handleClick(`/area/${data['uuid']}`)} variant="outline-primary">View Area</Button>
+
+          {
+            data.name != null ?
+            (<Button onClick={() => handleClick(`/route/${data['uuid']}`)} variant="outline-primary">View Route</Button>):
+            (<Button onClick={() => handleClick(`/area/${data['uuid']}`)} variant="outline-primary">View Area</Button>)
+          }
+          <FavButton data={data} />
+          
         </Card.Body>
-      </Card>)
-    }
+      </Card>
     </>
   );
 }

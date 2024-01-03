@@ -2,6 +2,7 @@ get_climb_by_id_query = """
         query getClimbById ( $uuid: ID! ) {
             climb(uuid: $uuid) {
                 name
+                uuid
                 metadata {
                     climb_id
                     lat
@@ -37,6 +38,10 @@ crag_in_area_query = """
                 maxDistance: $maxDistance
             ) {
                 crags {
+                    uuid
+                    media {
+                    mediaUrl
+                    }
                     areaName
                     totalClimbs
                     aggregate {
@@ -62,6 +67,9 @@ climbs_in_crag_query = """
                 climbs {
                 name
                 uuid
+                media {
+                    mediaUrl
+                }
                 grades {
                     vscale
                 }
@@ -74,21 +82,24 @@ climbs_in_crag_query = """
 
 crag_box_query = """
         query getArea($bbox: [Float], $zoom: Float) {
-        cragsWithin(filter: {bbox: $bbox, zoom:$zoom}) {
-            areaName
-            totalClimbs
-            uuid
-            density
-            gradeContext
-            content {
-            description
+            cragsWithin(filter: {bbox: $bbox, zoom:$zoom}) {
+                areaName
+                totalClimbs
+                uuid
+                density
+                gradeContext
+                media {
+                    mediaUrl
+                }
+                content {
+                    description
+                }
+                metadata {
+                    lat
+                    lng
+                }
             }
-            metadata {
-            lat
-            lng
-            }
-            }
-            }
+        }
         """
 
 crag_box_query_2 = """
@@ -99,6 +110,9 @@ crag_box_query_2 = """
                         uuid
                         density
                         gradeContext
+                        media {
+                            mediaUrl
+                        }
                         content {
                         description
                         }
@@ -109,6 +123,9 @@ crag_box_query_2 = """
                         climbs {
                             uuid
                             name
+                            media {
+                                mediaUrl
+                            }
                             metadata {
                                 lat
                                 lng
@@ -116,7 +133,13 @@ crag_box_query_2 = """
                             }
                             children {
                             areaName
+                            totalClimbs
                             uuid
+                            density
+                            gradeContext
+                            media {
+                                mediaUrl
+                            }
                             metadata {
                                 lat
                                 lng

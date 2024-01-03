@@ -41,6 +41,14 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     }
   
     const onZoomChanged = () => {
+        console.log("GGG")
+        // if(mapRef.current){
+        //     console.log(mapRef.current.zoom)
+        //     if(mapRef.current.zoom > 15){
+        //         setZoom(15)
+        //     }
+
+        // }
         boundsChanged()
     }
     const onDragEnd = () => {
@@ -48,12 +56,16 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     }
 
     const onLoadMap = (map) => {
+        console.log("dd")
         mapRef.current = map;
         if(setMap){
+            console.log(map)
+            console.log("ss")
             setMap(mapRef.current)
         }
     }
     const onTilesLoaded =() =>{
+        console.log("sss")
         setCenter(null)
         boundsChanged()
     }
@@ -94,7 +106,12 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                     bounds.extend(markers[i].position);
                 }
                 
-                mapRef.current.fitBounds(bounds);
+                console.log(mapRef.current.getZoom())
+                console.log(mapRef.current.zoom)
+                console.log(zoom)
+                mapRef.current.fitBounds(bounds,{left:20,right:20,bottom:20,top:20});
+                console.log(zoom)
+                console.log(mapRef.current.getZoom())
             }
             else{
                 setCenter(defaultCenter)
@@ -111,14 +128,14 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
             <div className='map-container' style={{ position: 'relative' }}>
                 
                 <GoogleMap
-                    zoom={zoom}
+                    zoom={8}
                     scrollwheel={true}
                     draggable={true}
                     options= {
                         {
                             gestureHandling: 'greedy',
                             rotateControl:false,
-                            fullscreenControl:false,
+                            fullscreenControl:true,
                             mapTypeControl:false,
                             streetViewControl:false,
                             center:center
@@ -159,9 +176,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                     ) : null}
                     {
                         showSearch && 
-                        <div className='search-in-map'>
-                        <SearchBox address={""} setPlace={setPlace}/>
-                        </div>
+                        <SearchBox address={""} setPlace={setPlace} isFloating={true}/>
                     }
                     
                 </GoogleMap>

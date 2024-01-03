@@ -33,6 +33,7 @@ class An_Favorite(APIView):
         return Response(serialized_favorites.data)
 
     def delete(self, request, id):
+        print(id)
         favorite = Favorite_Route.objects.get(uuid = id, user=request.user)
 
         if favorite:
