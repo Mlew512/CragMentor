@@ -5,11 +5,13 @@ import { Container, Row, Col, Card, CardHeader, CardBody } from "react-bootstrap
 import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BestCrags } from "../component/BestCrags";
-
+import { Table } from "react-bootstrap";
+import FavButton from "../component/FavButton";
+import { Link } from "react-router-dom";import "./Dashboard.css"
 import "./Dashboard.css"
 
 const Dashboard =()=>{
-  const {user, userProfile, location, setLocation, userId} = useOutletContext();
+  const {user, userProfile, setUserProfile, location, setLocation, userId, favoriteRoutes, setFavoriteRoutes} = useOutletContext();
   const navigate = useNavigate();
   const [savedPyramids, setSavedPyramids] = useState([]);
 
@@ -109,6 +111,44 @@ const Dashboard =()=>{
             </Card>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <Card>
+              <CardHeader className="text-center">Favorites</CardHeader>
+              <CardBody>
+
+
+                <Table striped>
+                  <thead>
+                    <tr className="text-center">
+                      <th>Name</th>
+                      <th>View</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.isArray(favoriteRoutes) && favoriteRoutes.length > 0 ? (
+                      favoriteRoutes.map((fav, index) => (
+                        <tr key={index} className="text-center">
+                          <td><Link to={`/${fav.areaName != null ? 'area' : 'route'}/${fav.uuid}`}>{fav.areaName != null ? fav.areaName : fav.name}</Link></td>
+                    
+                          <td>View</td>
+                          <td><FavButton data={fav} /></td>
+                          
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6">No data available</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+  
       </Container>
     </>
   );

@@ -5,7 +5,7 @@ import { getAPI, endpoints, postAPI } from '../utilities/api';
 import MapView from '../component/MapView';
 import DisplayMessage from '../component/DisplayMessage'
 import LoadingSpinner from '../component/LoadingSpinner'
-
+import FavButton from "../component/FavButton"
 
 function RoutePage() {
     const [dataID, setDataID] = useState(null)
@@ -65,6 +65,7 @@ function RoutePage() {
                         <img style={{width:'100px'}} src={"https://media.openbeta.io/" + data.media[0]['mediaUrl']}/>
                     }
                     {data.name}
+                    <FavButton data={data} />
                     {data.boltsCount != -1 && <p>boltsCount - {data.boltsCount}</p>}
                     {data.length != -1 && <p>length - {data.length}</p>}
                     {data.gradeContext != null && <p>gradeContext - {data.gradeContext}</p>}         

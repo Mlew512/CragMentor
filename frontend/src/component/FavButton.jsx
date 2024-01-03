@@ -7,31 +7,30 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import {postAPI,deleteAPI, endpoints} from '../../utilities/api'
-import {ConvertDictToURLParams} from "../../utilities/converters"
+import {postAPI,deleteAPI, endpoints} from '../utilities/api'
+import {ConvertDictToURLParams} from "../utilities/converters"
 const FavButton = ({data}) => {
-    const { favorites, setFavorites, user } = useOutletContext();
+    const { favoriteRoutes, setFavoriteRoutes, user } = useOutletContext();
 
 
-    const [showAuthModal, setShowAuthModal] = useState(false)
 
 
 
     const [isFav, setIsFav] = useState(false);
     useEffect(()=>{
-        if(favorites.includes(data.id)){
-            setIsFav(true)
-        }else{
-            setIsFav(false)
+        for(let x = 0; x < favoriteRoutes.length; x ++){
+            if(favoriteRoutes[x]['uuid'] == data['uuid']){
+                setIsFav(true)
+            }
         }
-      },[favorites])
+      },[favoriteRoutes, data])
 
 
-      const deleteFavorite = async (id) => {
+      const deleteFavorite = async () => {
         try {
-            const response = await deleteAPI(`${endpoints.user_fav}${id}`);
+            const response = await deleteAPI(`${endpoints.favorite}/${data.uuid}`);
             if (response.status){
-                console.log("Fav")
+                setFavoriteRoutes(favoriteRoutes.filter(fav => fav.uuid !== data.uuid))
             }else{
                 console.log("Error")
             }
@@ -40,19 +39,12 @@ const FavButton = ({data}) => {
         }
     };
 
-    const postFavorite = async (id) => {
+    const postFavorite = async () => {
         try {
-    
-            let data = {
-                "data_id":id,
-                "data_type":"Area",
-                "name":data['name']
-            }
-            let params = ConvertDictToURLParams(data)
-            const response = await postAPI(`${endpoints.user_fav}${id}`,params);
+            const response = await postAPI(endpoints.favorite,null,data);
             console.log(response)
             if (response.status){
-                console.log("Fav")
+                setFavoriteRoutes([...favoriteRoutes, data])
             }else{
                 console.log("Error")
             }
@@ -68,15 +60,13 @@ const FavButton = ({data}) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
         if(user == null){
-            setShowAuthModal(true)
+
         }else{
-            // if(isFav==false){
-            //     setFavorites([...favorites, property.listingId])
-            //     postFavorite(property.listingId)
-            // }else{
-            //     setFavorites(favorites.filter(fav => fav !== property.listingId))
-            //     deleteFavorite(property.listingId)
-            // }
+            if(isFav==false){
+                postFavorite()
+            }else{
+                deleteFavorite()
+            }
         }
 
       }
