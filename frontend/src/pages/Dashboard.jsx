@@ -6,7 +6,7 @@ import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BestCrags } from "../component/BestCrags";
 
-
+import "./Dashboard.css"
 
 const Dashboard =()=>{
   const {user, userProfile, location, setLocation} = useOutletContext();
@@ -65,7 +65,7 @@ const Dashboard =()=>{
         <Row >
           <Col lg={6}>
             <Card>
-              <CardHeader className="text-center">Preferences</CardHeader>
+              <CardHeader id="preferences" className="text-center">Preferences</CardHeader>
               <CardBody>
                   <ul style={{textDecoration:"none"}}>
                     <li>My Goal: {userProfile?.goal}</li>
@@ -80,10 +80,10 @@ const Dashboard =()=>{
     
           <Col lg={6}>
             <Card>
-              <CardHeader className="text-center">Progress</CardHeader>
+              <CardHeader id="progress" className="text-center">Progress</CardHeader>
               <CardBody>
                   <ul style={{textDecoration:"none"}}>
-                    <li>V1: </li>
+                    <li>V1: </li> 
                     <li>V2: </li>
                     <li>V3:  </li>
                     {/* <SearchBox address={userProfile?.location} setPlace={setPlace} /> */}
@@ -96,7 +96,7 @@ const Dashboard =()=>{
         <Row>
           <Col lg={5}>
             <Card>
-              <CardHeader className="text-center">Saved Pyramids</CardHeader>
+              <CardHeader id="saved-pyramids" className="text-center">Saved Pyramids</CardHeader>
               <CardBody>
                 {Array.isArray(savedPyramids) && savedPyramids.length > 0 ? (
                  savedPyramids.map((pyramid) => (
@@ -114,7 +114,7 @@ const Dashboard =()=>{
           </Col>
           <Col lg={7}>
             <Card>
-              <CardHeader className="text-center">Best Reccomended Crags</CardHeader>
+              <CardHeader id="best-crags" className="text-center">Best Reccomended Crags</CardHeader>
               <CardBody>
                   <BestCrags userProfile={userProfile} location={location} setLocation={setLocation}/>
               </CardBody>

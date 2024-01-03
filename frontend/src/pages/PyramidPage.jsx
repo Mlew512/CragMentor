@@ -4,7 +4,7 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
 import { api } from "../utilities";
-
+import { GiSaveArrow } from "react-icons/gi";
 
 const PyramidPage = () => {
   const navigate = useNavigate();
@@ -125,21 +125,17 @@ const PyramidPage = () => {
   return (
     <>
       <Container className="d-flex flex-column">
-        <Row className="justify-content-center">
+        <Row className="justify-content-center text-center">
           <Col lg={4}>
-            <Card>
+            {/* <Card className="d-flex flex-row justify-content-around"> */}
               <UserForm location={userLocation} setLocation={setLocation} />
-            </Card>
+              <Button variant= "transparent" onClick={handleSavePyramid}><GiSaveArrow size={25}/></Button>
+            {/* </Card> */}
           </Col>
         </Row>
         {myPyramid ? (
           <>
             {the_pyramid}
-            <Row className="justify-content-center">
-              <Col lg={4}>
-                <Button onClick={handleSavePyramid}>Save Pyramid</Button>
-              </Col>
-            </Row>
           </>
         ) : (
           null

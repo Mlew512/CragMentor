@@ -11,7 +11,6 @@
   position: relative;
 }
 
-
 .search-input:focus {
   border-color: 3px #007bff;
   box-shadow: 0px 0px 10px rgb(0, 55, 255); 
