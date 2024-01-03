@@ -9,7 +9,7 @@ export const setAuth = (token) => {
 }
 
 export const endpoints = {
-    "auth_login":"user/login/",
+    "auth_login":"users/login",
     "app_pyramid":"beta/app_pyramid",
     "user_pyramids":"beta/user_pyramids/",
     "user_pyramid":"beta/user_pyramid/",

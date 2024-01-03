@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 // import { api } from "../utilities";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import photo3 from "../images/FrontPage/photo3.webp";
-import {setAuth} from '../utilities/api'
+import {setAuth, postAPI, endpoints} from '../utilities/api'
 const LogIn = ({setExistingUser, existingUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,14 +15,14 @@ const LogIn = ({setExistingUser, existingUser}) => {
   const logIn = async (e) => {
     e.preventDefault();
     try {
-      let response = await api.post("users/login", {
+      let response = await postAPI(endpoints.auth_login,null, {
         email: email,
         password: password,
       });
-      
       setUser(response.data.user);
       localStorage.setItem("token", response.data.token);
       setAuth(response.data.token)
+      // setAuth(response.data.token)
       // api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
       navigate("/dashboard/");
     } catch (error) {

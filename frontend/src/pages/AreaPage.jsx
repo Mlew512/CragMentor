@@ -6,7 +6,7 @@ import { getAPI, endpoints, postAPI } from '../utilities/api';
 import MapView from '../component/MapView';
 import DisplayMessage from '../component/DisplayMessage'
 import LoadingSpinner from '../component/LoadingSpinner'
-
+import FavButton from '../component/FavButton'
 
 
 
@@ -28,7 +28,9 @@ function AreaPage() {
 
       useEffect(()=>{
         setIsLoading(true)
-        getData()
+        if(dataID){
+            getData()
+        }
       },[dataID])
 
 
@@ -67,6 +69,7 @@ function AreaPage() {
                         data.media.length > 0 &&
                         <img style={{width:'100px'}} src={"https://media.openbeta.io/" + data.media[0]['mediaUrl']}/>
                     } */}
+                    <FavButton data={data} />
                     {data.areaName}
                     {data.density}
                     {data.isDestination}

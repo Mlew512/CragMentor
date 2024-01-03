@@ -75,12 +75,14 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     useEffect(()=>{
         if(mapRef.current && (centerOnAll || centerOnFirst)){
             if(centerOnFirst && data){
+                console.log("centerOnFirst")
                 var bounds = new google.maps.LatLngBounds();
                 bounds.extend(data[0]['metadata']);
                 
                 mapRef.current.fitBounds(bounds);
             }
             else if(centerOnAll && data && markers.length == data.length){
+                console.log("centerOnAll")
                 console.log(markers)
                 console.log(mapRef.current)
                 console.log(data)
@@ -93,6 +95,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
             }
             else{
                 setCenter(defaultCenter)
+                console.log("CENTER")
             }
         }
       },[mapRef.current, centerOnFirst,data, centerOnAll, markers])
@@ -131,6 +134,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                         data.map((item, index) =>(
                             <Marker 
                                 key={index}
+                                icon={"/flag2.png"}
                                 onLoad={(event) => onLoadMarker(event, index)} 
                                 onClick={(event) => onClickMarker(event,index)} 
                                 position={{"lat":item.metadata.lat,"lng":item.metadata.lng}} 
@@ -147,7 +151,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                             setSelectedMarker(null)
                         }}
                         >
-                            <RouteBoxView route={selectedMarker['data']} />
+                            <RouteBoxView data={selectedMarker['data']} />
                     </InfoWindow>
                     ) : null}
                     {

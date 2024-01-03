@@ -32,22 +32,27 @@ class An_Favorite(APIView):
 
         return Response(serialized_favorites.data)
 
-
-    def post(self, request, id):
-
-
-        ser_fav = FavoriteSerializer(data=request.GET)
-        if ser_fav.is_valid():
-            ser_fav.save(user=request.user)
-            return Response(f"{ser_fav.data['name']} Favorited", status=HTTP_201_CREATED)
-        return Response(ser_fav.errors, status=HTTP_400_BAD_REQUEST)
-
-
     def delete(self, request, id):
-        favorite = Favorite_Route.objects.get(mls_id = id, user=request.user)
+        favorite = Favorite_Route.objects.get(uuid = id, user=request.user)
 
         if favorite:
             favorite.delete()
             return Response(f"{id} Porperty Deleted",status=HTTP_204_NO_CONTENT)
         else:
             return Response(f"Property not found",status=HTTP_400_BAD_REQUEST)
+
+
+
+class Create_Favorite(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        print(request.data)
+
+        ser_fav = FavoriteSerializer(data=request.data)
+        if ser_fav.is_valid():
+            ser_fav.save(user=request.user)
+            return Response(f"{ser_fav.data['name']} Favorited {ser_fav.data['id']}", status=HTTP_201_CREATED)
+        return Response(ser_fav.errors, status=HTTP_400_BAD_REQUEST)
+
+

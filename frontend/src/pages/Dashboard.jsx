@@ -6,8 +6,9 @@ import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { BestCrags } from "../component/BestCrags";
 import SearchBox from "../component/SearchBox";
-
-
+import { Table } from "react-bootstrap";
+import FavButton from "../component/FavButton";
+import { Link } from "react-router-dom";
 const Dashboard =()=>{
   const {user, userProfile, setUserProfile, location, favoriteRoutes, setFavoriteRoutes} = useOutletContext();
   const navigate = useNavigate();
@@ -15,11 +16,9 @@ const Dashboard =()=>{
   
   // const [place, setPlace] = useState(null)
 
-  // useEffect(()=>{
-  //   if(place){
-  //     setUserProfile(userProfile => ({...userProfile, location: place["name"]}))
-  //   }
-  // },[place])
+  useEffect(()=>{
+    console.log(favoriteRoutes)
+  },[favoriteRoutes])
 
 
   const getSavedRoutes = async()=>{
@@ -101,6 +100,43 @@ const Dashboard =()=>{
               <CardHeader className="text-center">Best Reccomended Crags</CardHeader>
               <CardBody>
                   <BestCrags userProfile={userProfile} location={location}/>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Card>
+              <CardHeader className="text-center">Favorites</CardHeader>
+              <CardBody>
+
+
+                <Table striped>
+                  <thead>
+                    <tr className="text-center">
+                      <th>Name</th>
+                      <th>View</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.isArray(favoriteRoutes) && favoriteRoutes.length > 0 ? (
+                      favoriteRoutes.map((fav, index) => (
+                        <tr key={index} className="text-center">
+                          <td><Link to={`/${fav.areaName != null ? 'area' : 'route'}/${fav.uuid}`}>{fav.areaName != null ? fav.areaName : fav.name}</Link></td>
+                    
+                          <td>View</td>
+                          <td><FavButton data={fav} /></td>
+                          
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6">No data available</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
               </CardBody>
             </Card>
           </Col>
