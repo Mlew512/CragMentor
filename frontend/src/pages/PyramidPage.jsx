@@ -11,6 +11,7 @@ const PyramidPage = () => {
   const { user, myPyramid, setLocation, userId, location, userProfile} = useOutletContext();
   const { location: userLocation } = useOutletContext();
   const [pyramidId, setPyramidId] = useState(null);
+  
   useEffect(() => {
     if (!user) {
       navigate("/register/");
@@ -37,7 +38,7 @@ const PyramidPage = () => {
 
       if (response.status === 201) {
         alert(`Pyramid with id: ${response.data.pyramid_id} saved successfully`);
-        console.log(typeof(myPyramid.goal_climb.uuid), myPyramid.goal_climb.name)
+        // console.log(typeof(myPyramid.goal_climb.uuid), myPyramid.goal_climb.name)
         setPyramidId(response.data.pyramid_id)
         for (const routeKey in myPyramid){
           const route = myPyramid[routeKey];
