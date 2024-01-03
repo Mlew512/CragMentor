@@ -65,10 +65,10 @@ const UserForm = ({location, setLocation}) => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="goalGrade">
-              <Form.Label>Goal Grade</Form.Label>
+              <Form.Label>Goal Bouldering Grade: V scale</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Enter goal grade"
+                placeholder="1-17"
                 autoFocus
                 min="1"
                 value={goalGrade}
@@ -83,12 +83,12 @@ const UserForm = ({location, setLocation}) => {
               </div>
             </div>
        
-
+    
             <Form.Group className="mb-3" controlId="travelDistance">
-              <Form.Label>Travel Distance</Form.Label>
+              <Form.Label>Search area size</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Min distance 150000"
+                placeholder="miles"
                 autoFocus
                 min="1"
                 value={travelDistance}
