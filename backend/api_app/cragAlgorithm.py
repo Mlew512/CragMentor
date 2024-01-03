@@ -6,20 +6,24 @@ class ClimbingArea:
     def __init__(self, crags_data, goal_grade):
         self.crags_data = crags_data
         self.grade_weights = {
-            # add slash grades 2.5/1.5 etc minus worth i.25/i.75
-            f"V{goal_grade}": 1,
-            f"V{goal_grade}-": 1,
-            f"V{goal_grade}+": 1,
-            f"V{goal_grade-1}": 2,
-            f"V{goal_grade-1}-": 2,
-            f"V{goal_grade-1}+": 2,
-            f"V{goal_grade-2}": 3,
-            f"V{goal_grade-2}+": 3,
-            f"V{goal_grade-2}-": 3,
+            # could do this without a long dict
+            goal_grade: 1,
+            goal_grade-.25: 1.25,
+            goal_grade-0.5:1.5,
+            goal_grade-.75: 1.75,
+            goal_grade-1: 2,
+            goal_grade-1.25: 2.25,
+            goal_grade-1.5:2.5,
+            goal_grade-1.75: 2.75,
+            goal_grade-2: 3,
+            goal_grade-2.25: 3.25,
+            goal_grade-2.5:3.5,
         }
         # print(self.crags_data)
         if self.crags_data["cragsNear"][0]["crags"]:
             self.crags = self.crags_data["cragsNear"][0]["crags"]
+        else:
+            return "no crags near you please expand your search or change locations"
 
 
     def haversine_distance(self, lat1, lon1, lat2, lon2):
@@ -36,12 +40,42 @@ class ClimbingArea:
         return distance
 
     def calculate_weighted_sum(self, crag, goal_grade):
+        goal_grade_range = range(goal_grade - 2, goal_grade + 1)
+        
         return sum(
-            grade["count"] * self.grade_weights.get(grade["label"], 0)
+            grade["count"] * self.grade_weights.get(self.parse_grade_label(grade["label"]), 0)
             for grade in crag["aggregate"]["byGrade"]
-            if f"V{goal_grade-2}" <= grade["label"] <= f"V{goal_grade}"
-            # fix to compare ints instead of strings(get labels int and then take out f sting)
+            if self.is_grade_in_range(grade["label"], goal_grade_range)
         )
+
+    def is_grade_in_range(self, grade_label, goal_grade_range):
+        grade_value = self.parse_grade_label(grade_label)
+        
+        return grade_value in goal_grade_range
+
+
+    def parse_grade_label(self, grade_label):
+        if grade_label[-1] == "-" and grade_label[0]=="V":
+            # grades like V7-
+            return int(grade_label[1:-1]) - 0.25
+
+        elif '-' in grade_label:
+            # for slash grades V6/7 
+            parts = grade_label[1:].split('-')
+            if len(parts) == 2 and parts[0].isdigit() and (parts[1].isdigit() or parts[1] == ''):
+                start = int(parts[0])
+                end = int(parts[1]) if parts[1].isdigit() else start
+                return end - 0.5
+        elif grade_label.startswith('V') and grade_label[1:].isdigit():
+            # normal grade label'V1'
+            return int(grade_label[1:])
+
+        elif grade_label.startswith('V') and grade_label[1:-1].isdigit() and grade_label[-1] == '+':
+            # Handle the case where the label is 'V3+'
+            return int(grade_label[1:-1]) + 0.25
+        # debugging 
+        # raise ValueError("Invalid grade label format: {}".format(grade_label))
+
 
     def calculate_crag_scores(self, user_lat, user_lon, goal_grade):
         crag_scores = []
@@ -57,10 +91,7 @@ class ClimbingArea:
                     "score": weighted_sum,
                     "uuid": crag['metadata']['areaId'],
                 }
-            )
-
-        # Sort crags by score in descending order
-       
+            )   
         return crag_scores
 
     def normalize_scores(self, crag_scores):
@@ -75,32 +106,14 @@ class ClimbingArea:
             crag["normalized_score"] = round(float(normalized_scores[i][0]), 3)
             crag["normalized_distance"] = 1 + round(float(normalized_distances[i][0]), 3)
 
-            # Calculate the overall score as the average of normalized score and normalized distance
-            crag["overall_score"] = round(
-                (crag["normalized_score"] / crag["normalized_distance"]) , 3
-            )
+            if crag["normalized_score"] !=0 and crag["normalized_distance"] != 0:
+                crag["overall_score"] = round(
+                    (crag["normalized_score"] / crag["normalized_distance"]), 3
+                )
+            else:
+                crag["overall_score"] = 0
 
         # Sorting crags based on overall score
         sorted_crags = sorted(crag_scores, key=lambda x: x["overall_score"], reverse=True)
         top_5_crags = sorted_crags[:5]
         return top_5_crags
-
-# # Example usage in api view
-# user_latitude = 34.65398
-# user_longitude = -85.39029
-# goal_grade= 3
-# # crag data and goal grade
-# climbing_area = ClimbingArea(crags_data.craggy, goal_grade)
-# # user imputed location
-# distance_results = climbing_area.calculate_crag_scores(user_latitude, user_longitude, goal_grade)
-
-# normalized_results = climbing_area.normalize_scores(distance_results)
-
-# for crag in normalized_results:
-#     if "normalized_score" in crag and "normalized_distance" in crag:
-#         if crag["overall_score"] > 0:
-#             print(
-#                 f"{crag['areaName']}: uuid: {crag['uuid']}, distance_score = {crag['normalized_distance']}, crag_score = {crag['normalized_score']}, overall_score = {crag['overall_score']}"
-#             )
-#     else:
-#         print(f"Missing normalization data for {crag['areaName']}")
