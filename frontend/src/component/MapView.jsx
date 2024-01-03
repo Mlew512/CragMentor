@@ -152,7 +152,9 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                     ) : null}
                     {
                         showSearch && 
-                        <SearchBox address={"New York"} setPlace={setPlace} />
+                        <div className='text-center'>
+                        <SearchBox address={"New York, NY"} setPlace={setPlace}/>
+                        </div>
                     }
                     
                 </GoogleMap>

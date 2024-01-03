@@ -8,7 +8,7 @@ import { api } from "../utilities";
 
 const PyramidPage = () => {
   const navigate = useNavigate();
-  const { user, myPyramid, setLocation } = useOutletContext();
+  const { user, myPyramid, setLocation, userId, location, userProfile} = useOutletContext();
   const { location: userLocation } = useOutletContext();
 
   useEffect(() => {
@@ -23,18 +23,32 @@ const PyramidPage = () => {
         pyramidData: myPyramid,
         userLocation: userLocation,
       };
-      console.log('Request Payload:', requestData);
-      const userId = localStorage.getItem('user_id')
-      console.log(userId)
+      // console.log('Request Payload:', requestData);
+      // console.log("goal grade: ", userProfile.goal, location.lat, location.lng, userId)
+      
       const response = await api.post("/pyramid/", {
-        pyramidData: myPyramid,
-        userLocation: userLocation,
+        user: userId,
+        latitude:location.lat,
+        longitude:location.lng,
+        goal_grade: userProfile.goal
       });
 
-      if (response.status === 200) {
-        console.log("Pyramid saved successfully");
-        console.log('API Response:', response.data);
+      if (response.status === 201) {
+        alert(`Pyramid with id: ${response.data.pyramid_id} saved successfully`);
+        // http://127.0.0.1:8000/api/route/
+        // example data to pass
+        // {
+        //   "pyramid_id":3,#input pyramid_id returned when making pyramid
+        //   "route_id": "89a929e2-d3d9-5219-baca-1f37855821b0",
+        //   "name": "Super duper Mario",
+        //   "lat": 35.249734999999994,
+        //   "lng": -85.21837,
+        //   "area": "58994c28-e56a-5a34-a931-ba2324ea4a91",
+        //   "grade": 4,
+        //   "media": "u/4d748baa-b0f9-4308-88a9-d574232654c8"
+        // }
       }
+      
     } catch (error) {
       console.error("Error saving pyramid:", error);
     }

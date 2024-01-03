@@ -5,23 +5,27 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { api } from '../utilities';
 import SearchBox from "./SearchBox";
+import LoadingSpin from "../component/Spinner";
+
 
 const UserForm = ({location, setLocation}) => {
   const navigate = useNavigate();
-  const { setMyPyramid } = useOutletContext();
+  const { setMyPyramid, setUserProfile} = useOutletContext();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [goalGrade, setGoalGrade] = useState("");
   const [travelDistance, setTravelDistance] = useState("");
+  const [loadingData, setIsLoadingData] = useState(false)
   // const [location, setLocation] = useState({"lat": null, "lng": null})
 
   const handleCreate = async () => {
-    console.log(parseInt(goalGrade,10))
-
+    setIsLoadingData(true)
     try {
       const parsedGoalGrade = parseInt(goalGrade, 10); // Convert goalGrade to integer
       const travelDistanceMeters = travelDistance * 1609.34;
+
+      setUserProfile(userProfile => ({...userProfile, goal: parseInt(goalGrade, 10)}))
 
       const response = await api.post("beta/", {
         goal_grade: parseInt(goalGrade,10),
@@ -34,12 +38,15 @@ const UserForm = ({location, setLocation}) => {
 
       if (response.status === 200) {
         console.log(response.data.my_pyramid.pyramid);
+
         navigate("/pyramid/");
         setMyPyramid(response.data.my_pyramid.pyramid);
         handleClose();
+        setIsLoadingData(false)
       }
 
     } catch (error) {
+      setIsLoadingData(false)
       console.error("Error sending data:", error);
     }
   }
@@ -68,7 +75,13 @@ const UserForm = ({location, setLocation}) => {
               />
             </Form.Group>
             {/* Search Box Component */}
-            <SearchBox setPlace={setLocation} address={location} />
+            <div className="d-flex flex-column mb-3">
+              <p>Location</p>
+              <div>
+              <SearchBox setPlace={setLocation} address={location}/>
+              </div>
+            </div>
+       
 
             <Form.Group className="mb-3" controlId="travelDistance">
               <Form.Label>Travel Distance</Form.Label>
@@ -91,8 +104,9 @@ const UserForm = ({location, setLocation}) => {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
+          
           <Button variant="primary" onClick={handleCreate}>
-            Create
+          {loadingData ? <LoadingSpin/> : "Create"}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -9,7 +9,7 @@ import { BestCrags } from "../component/BestCrags";
 
 
 const Dashboard =()=>{
-  const {user, userProfile, setUserProfile, location, setLocation} = useOutletContext();
+  const {user, userProfile, location, setLocation} = useOutletContext();
   const navigate = useNavigate();
   const [savedPyramids, setSavedPyramids] = useState([]);
   
@@ -22,24 +22,26 @@ const Dashboard =()=>{
   // },[place])
 
 
-  const getSavedRoutes = async()=>{
-    try{
-      const response = await api.get("/route/")
-      if(response.status ===200){
-        console.log(response.data)
-      }
-    }catch(error){
-      console.log("Couldn't get routes")
-      console.log("Something Bad happened")
-    }
-  }
+  // const getSavedRoutes = async()=>{
+  //   try{
+  //     const response = await api.get("/route/")
+  //     if(response.status ===200){
+  //       console.log(response.data)
+  //     }
+  //   }catch(error){
+  //     console.log("Couldn't get routes")
+  //     console.log("Something Bad happened")
+  //   }
+  // }
 
   const getSavedPyramids = async () => {
     try {
       const response = await api.get("/pyramid/");
       if (response.status === 200) {
         setSavedPyramids(response.data);
+        console.log(response.data)
       }
+      
     } catch (error) {
       console.error("Couldn't get saved pyramids:", error);
     }
@@ -49,10 +51,11 @@ const Dashboard =()=>{
     if(!user){
       navigate("/register/")
     }
-    getSavedRoutes();
+    
+    // getSavedRoutes();
     getSavedPyramids();
   },[user])
-
+ 
   return (
     <>
       <Container className="d-flex flex-column">
@@ -91,19 +94,25 @@ const Dashboard =()=>{
           </Col>
         </Row>
         <Row>
-          <Col lg={3}>
+          <Col lg={5}>
             <Card>
               <CardHeader className="text-center">Saved Pyramids</CardHeader>
               <CardBody>
-                {savedPyramids.map((pyramid, index) => (
-                  <div key={index}>
-                    <Link to={`/pyramid${index + 1}`}>Pyramid #{index + 1}</Link>
-                  </div>
-                ))}
+                {Array.isArray(savedPyramids) && savedPyramids.length > 0 ? (
+                 savedPyramids.map((pyramid) => (
+                  <tr key={pyramid.id} className="text-center">
+                    <td>id: {pyramid.id} | </td>
+                    <td>{pyramid.goal_grade} | </td>
+                    <td>{pyramid.date_generated}</td>
+                  </tr>
+                ))
+                ):(
+                  <td>{Array.isArray(savedPyramids) && savedPyramids > 0 ? savedPyramids : "nothing"}</td>
+                  )}
               </CardBody>
             </Card>
           </Col>
-          <Col lg={9}>
+          <Col lg={7}>
             <Card>
               <CardHeader className="text-center">Best Reccomended Crags</CardHeader>
               <CardBody>

@@ -23,7 +23,8 @@ export const BestCrags = ({userProfile, location, setLocation}) => {
         }
       } catch (error) {
         console.log("Something went wrong with getting the best-crag details");
-        console.error(error.response.data);
+        // console.error(error.response.data);
+        
       }
     };
 

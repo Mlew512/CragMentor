@@ -14,8 +14,9 @@ function App() {
   const [location, setLocation] = useState({"lat": null, "lng": null})
 
   useEffect(()=>{
-    setUserProfile({"current_level":3, "goal":4, "dwtt":10000})
+    setUserProfile({"current_level":3, "dwtt":10000})
     // add default, goal, current_level, distance willing to travel, location
+    
   },[])
 
   return (
