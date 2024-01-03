@@ -1,10 +1,10 @@
 
 import {Button, Form, CardBody, Container, Card} from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { api } from "../utilities";
+// import { api } from "../utilities";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import photo3 from "../images/FrontPage/photo3.webp";
-
+import {setAuth} from '../utilities/api'
 const LogIn = ({setExistingUser, existingUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +22,8 @@ const LogIn = ({setExistingUser, existingUser}) => {
       
       setUser(response.data.user);
       localStorage.setItem("token", response.data.token);
-      api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
+      setAuth(response.data.token)
+      // api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
       navigate("/dashboard/");
     } catch (error) {
       setError("Invalid email or password. Please try again.");

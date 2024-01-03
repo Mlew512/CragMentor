@@ -9,7 +9,7 @@ import SearchBox from "../component/SearchBox";
 
 
 const Dashboard =()=>{
-  const {user, userProfile, setUserProfile, location} = useOutletContext();
+  const {user, userProfile, setUserProfile, location, favoriteRoutes, setFavoriteRoutes} = useOutletContext();
   const navigate = useNavigate();
   const [savedPyramids, setSavedPyramids] = useState([]);
   

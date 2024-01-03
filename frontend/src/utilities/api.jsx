@@ -14,6 +14,7 @@ export const endpoints = {
     "user_pyramids":"beta/user_pyramids/",
     "user_pyramid":"beta/user_pyramid/",
     "favorites":"favorites/",
+    "favorite":"favorites/favorite",
     "add_favorite":"beta/favorite/",
     "remove_favorite":"beta/favorite/",
     "route":"beta/climb/",
