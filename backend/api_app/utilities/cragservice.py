@@ -69,6 +69,10 @@ class CragService:
                     "name": climb["name"],
                     "grade": climb["grades"]["vscale"],
                     "uuid": climb["uuid"],
+                    # "lat": climb["metadata"]["lat"],
+                    # "long": climb["metadata"]["lng"],
+                    # "area": climb["parent"]["area_name"],
+                    # "media": climb["media"]["media"][0]["mediaUrl"]
                 }
 
         # If no unique climb with the target grade is found, return a default climb

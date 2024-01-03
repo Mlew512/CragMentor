@@ -201,6 +201,7 @@ class BestCragView(APIView):
 
         #normalize crag score and location
         normalized_scores = climbing_area.normalize_scores(crag_scores)
+        print(normalized_scores)
     
         return Response({"normalized_scores": normalized_scores})
 
