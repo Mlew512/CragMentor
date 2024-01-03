@@ -53,9 +53,14 @@ class GetArea(APIView):
                 uuid
                 ancestors
                 id
+                totalClimbs
                 children {
                     areaName
                     uuid
+                    totalClimbs
+                    media {
+                        mediaUrl
+                    }
                     metadata {
                         lng
                         lat
@@ -64,6 +69,9 @@ class GetArea(APIView):
                     climbs {
                         name
                         uuid
+                        media {
+                        mediaUrl
+                        }
                         grades {
                         vscale
                         yds
@@ -78,6 +86,9 @@ class GetArea(APIView):
                 climbs {
                         name
                         uuid
+                        media {
+                            mediaUrl
+                        }
                         grades {
                         vscale
                         yds
@@ -226,6 +237,9 @@ query GetCountries {
     metadata {
       lat
       lng
+    }
+    media {
+        mediaUrl
     }
     totalClimbs
     uuid
