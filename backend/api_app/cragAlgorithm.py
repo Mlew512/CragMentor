@@ -106,7 +106,7 @@ class ClimbingArea:
             crag["normalized_score"] = round(float(normalized_scores[i][0]), 3)
             crag["normalized_distance"] = 1 + round(float(normalized_distances[i][0]), 3)
 
-            if crag["normalized_score"] != 0:
+            if crag["normalized_score"] !=0 and crag["normalized_distance"] != 0:
                 crag["overall_score"] = round(
                     (crag["normalized_score"] / crag["normalized_distance"]), 3
                 )
