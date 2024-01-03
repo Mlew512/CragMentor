@@ -1,19 +1,20 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import halseyImg from '../images/TeamPhotos/halsey.jpg';
+import mattimg from '../images/TeamPhotos/mattprofile.jpeg';
 
 const ContactPage = () => {
   const teamMembers = [
     {
       name: 'Halsey Filbin',
       position: 'Software Engineer',
-      imageUrl: 'halseyImg',
+      imageUrl: halseyImg,
       linkedinUrl: 'https://www.linkedin.com/in/halsey-filbin/',
       githubUrl: 'https://github.com/hfilbin10',
     },
     {
       name: 'Matt Lewis',
       position: 'Software Engineer',
-      imageUrl: '',
+      imageUrl: mattimg,
       linkedinUrl: 'https://www.linkedin.com/in/matthew-lewis-b40398184/',
       githubUrl: 'https://github.com/Mlew512',
     },
