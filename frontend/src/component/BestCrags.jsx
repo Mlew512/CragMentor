@@ -36,8 +36,8 @@ export const BestCrags = ({userProfile, location, setLocation}) => {
       <thead>
         <tr className="text-center">
           <th>Area</th>
-          <th>NS</th>
-          <th>ND</th>
+          <th>ClimbScore</th>
+          <th>Distance</th>
           <th>Overall Score</th>
         </tr>
       </thead>
@@ -47,8 +47,8 @@ export const BestCrags = ({userProfile, location, setLocation}) => {
             <tr key={index} className="text-center">
               <td>{area.areaName}</td>
               <td>{area.normalized_score}</td>
-              <td>{area.normalized_distance}</td>
-              <td>{area.overall_score}%</td>
+              <td>{Math.round(area.distance*0.62)}mi</td>
+              <td>{Math.round(area.overall_score)}</td>
             </tr>
           ))
         ) : (

@@ -16,6 +16,14 @@ query getClimbById {
       description
       location
     }
+    media {
+      mediaUrl
+    }
+    parent {
+      area_name
+      ancestors
+      id
+    }
   }
 }
 """

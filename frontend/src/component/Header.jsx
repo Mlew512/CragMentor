@@ -57,6 +57,9 @@ const Header = ({ user, setUser }) => {
                 <Dropdown.Item as={Link} to="/profile/" className="d-flex flex-row align-items-center">
                   <CgProfile size={20} /><div className="px-1">Profile</div>
                 </Dropdown.Item>
+                <Dropdown.Item as={Link} to="/dashboard/" className="d-flex flex-row align-items-center">
+                  <CgProfile size={20} /><div className="px-1">Dashboard</div>
+                </Dropdown.Item>
                 <Dropdown.Item as={Link} to="/contact/" className="d-flex flex-row align-items-center">
                   <MdOutlineContactSupport size={20} /><div className="px-1">Contact Us</div>
                 </Dropdown.Item>
