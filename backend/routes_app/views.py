@@ -57,17 +57,19 @@ class RouteAPIView(APIView):
 
         return Response("Route completed/unfinished", status=HTTP_200_OK)
 
-    def get(self, request):
+    def get(self, request, route_id):
         # If route_id is provided, get a single route by ID
-        route_id = request.data.get("id", None)
+        # route_id = request.data.get("id", None)
+      
         print(route_id)
         if route_id is not None:
-            route = get_object_or_404(Route, id=route_id)
+            route = Route.objects.get(pk=route_id)
             serializer = RouteSerializer(route)
             return Response(serializer.data, status=HTTP_200_OK)
         else:
             # Handle the case where route_id is not provided
             return Response({"error": "Please provide a valid 'id' parameter."}, status=HTTP_400_BAD_REQUEST)
+      
 
     def delete(self, request):
         # Get ID of the Route to be deleted
