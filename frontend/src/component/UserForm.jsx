@@ -22,13 +22,14 @@ const UserForm = ({location, setLocation}) => {
   const handleCreate = async () => {
     setIsLoadingData(true)
     try {
+      console.log("location: ", location.lat, location.lng)
       const parsedGoalGrade = parseInt(goalGrade, 10); // Convert goalGrade to integer
       const travelDistanceMeters = travelDistance * 1609.34;
 
-      setUserProfile(userProfile => ({...userProfile, goal: parseInt(goalGrade, 10)}))
+      setUserProfile(userProfile => ({...userProfile, goal: parseInt(goalGrade, 10), dwtt: travelDistance* 1609.34}))
 
-      const response = await api.post("beta/", {
-        goal_grade: parseInt(goalGrade,10),
+      const response = await api.post("/beta/", {
+        goal_grade: parseInt(goalGrade, 10),
         location: {
           lat: location.lat,
           lng: location.lng
@@ -85,7 +86,15 @@ const UserForm = ({location, setLocation}) => {
 
             <Form.Group className="mb-3" controlId="travelDistance">
               <Form.Label>Travel Distance</Form.Label>
-              <Form.Select
+              <Form.Control
+                type="number"
+                placeholder="Min distance 150000"
+                autoFocus
+                min="1"
+                value={travelDistance}
+                onChange={(e) => setTravelDistance(e.target.value)}
+              />
+              {/* <Form.Select
                 value={travelDistance}
                 onChange={(e) => setTravelDistance(e.target.value)}
               >
@@ -96,7 +105,7 @@ const UserForm = ({location, setLocation}) => {
                 <option value="50">50 miles</option>
                 <option value="100">100 miles</option>
                 <option value="200">200 miles</option>
-              </Form.Select>
+              </Form.Select> */}
             </Form.Group>
           </Form>
         </Modal.Body>

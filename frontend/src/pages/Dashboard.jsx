@@ -9,37 +9,30 @@ import { BestCrags } from "../component/BestCrags";
 import "./Dashboard.css"
 
 const Dashboard =()=>{
-  const {user, userProfile, location, setLocation} = useOutletContext();
+  const {user, userProfile, location, setLocation, userId} = useOutletContext();
   const navigate = useNavigate();
   const [savedPyramids, setSavedPyramids] = useState([]);
-  
-  // const [place, setPlace] = useState(null)
 
-  // useEffect(()=>{
-  //   if(place){
-  //     setUserProfile(userProfile => ({...userProfile, location: place["name"]}))
-  //   }
-  // },[place])
-
-
-  // const getSavedRoutes = async()=>{
-  //   try{
-  //     const response = await api.get("/route/")
-  //     if(response.status ===200){
-  //       console.log(response.data)
-  //     }
-  //   }catch(error){
-  //     console.log("Couldn't get routes")
-  //     console.log("Something Bad happened")
-  //   }
-  // }
-
-  const getSavedPyramids = async () => {
+  // To get all Pyramids across users
+  const getGlobalPyramids = async () => {
     try {
-      const response = await api.get("/pyramid/");
+      const response = await api.get(`/pyramid/`);
       if (response.status === 200) {
+        // console.log(response.data)
         setSavedPyramids(response.data);
+      }
+      
+    } catch (error) {
+      console.error("Couldn't get saved pyramids:", error);
+    }
+  };
+  // To get only user pyramids
+  const getMyPyramids = async () => {
+    try {
+      const response = await api.get(`/pyramid/${userId}`);
+      if (response.status === 200) {
         console.log(response.data)
+        // setSavedPyramids(response.data);
       }
       
     } catch (error) {
@@ -52,8 +45,8 @@ const Dashboard =()=>{
       navigate("/register/")
     }
     
-    // getSavedRoutes();
-    getSavedPyramids();
+    getMyPyramids();
+    getGlobalPyramids();
   },[user])
  
   return (
@@ -80,15 +73,10 @@ const Dashboard =()=>{
     
           <Col lg={6}>
             <Card>
-              <CardHeader id="progress" className="text-center">Progress</CardHeader>
+              <CardHeader id="progress" className="text-center">Your Saved Pyramid</CardHeader>
               <CardBody>
-                  <ul style={{textDecoration:"none"}}>
-                    <li>V1: </li> 
-                    <li>V2: </li>
-                    <li>V3:  </li>
-                    {/* <SearchBox address={userProfile?.location} setPlace={setPlace} /> */}
-                    <li>V4: </li>
-                  </ul>
+                
+                  
               </CardBody>
             </Card>
           </Col>
@@ -96,7 +84,7 @@ const Dashboard =()=>{
         <Row>
           <Col lg={5}>
             <Card>
-              <CardHeader id="saved-pyramids" className="text-center">Saved Pyramids</CardHeader>
+              <CardHeader id="saved-pyramids" className="text-center">People Also Saved</CardHeader>
               <CardBody>
                 {Array.isArray(savedPyramids) && savedPyramids.length > 0 ? (
                  savedPyramids.map((pyramid) => (
