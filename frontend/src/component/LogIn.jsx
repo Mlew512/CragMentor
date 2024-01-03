@@ -3,7 +3,7 @@ import {Button, Form, CardBody, Container, Card} from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { api } from "../utilities";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import photo3 from "../images/FrontPage/photo3.webp";
+import photo3 from "../imagesnew/FrontPage/background7.jpg";
 
 const LogIn = ({setExistingUser, existingUser}) => {
   const [email, setEmail] = useState("");
