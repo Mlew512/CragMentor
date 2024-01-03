@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Footer from './component/Footer';
 import {endpoints, getAPI, postAPI, setAuth} from './utilities/api'
 function App() {
+  const [userId,setUserId] = useState(null);
   const [user, setUser] = useState("")
   const [myPyramid, setMyPyramid] = useState(null)
   const [favoriteRoutes, setFavoriteRoutes] = useState([]);
@@ -47,8 +48,12 @@ function App() {
     }
   }
 
+  useEffect(()=>{
 
-
+    setUserProfile({"current_level":3, "dwtt":1000})
+    // add default, goal, current_level, distance willing to travel, location
+    
+  },[])
 
   return (
     <>
@@ -58,7 +63,8 @@ function App() {
         myPyramid, setMyPyramid, 
         userProfile, setUserProfile,
         location, setLocation,
-        favoriteRoutes, setFavoriteRoutes
+        favoriteRoutes, setFavoriteRoutes,
+        userId, setUserId
          }}/>
       <Footer/>
     </>

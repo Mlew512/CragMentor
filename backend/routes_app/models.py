@@ -9,11 +9,11 @@ class Route(models.Model):
     lng = models.FloatField()
     # pyramid = models.(to=Pyramid, null=True, blank=True)
     # Parent area for the route
-    area = models.CharField()
+    area = models.CharField(null=True)
     completed = models.BooleanField(default=False)
     grade = models.CharField(max_length=255)
     # Any media URL for the route from OpenBeta
-    media = models.CharField(max_length=255)
+    media = models.CharField(max_length=255, null= True)
 
     def __str__(self):
         return f"{self.name}"

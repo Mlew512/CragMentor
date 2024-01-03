@@ -9,7 +9,7 @@ const LogIn = ({setExistingUser, existingUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { user, setUser } = useOutletContext()
+  const { user, setUser, setUserId} = useOutletContext()
   const navigate = useNavigate();
   
   const logIn = async (e) => {
@@ -20,6 +20,7 @@ const LogIn = ({setExistingUser, existingUser}) => {
         password: password,
       });
       setUser(response.data.user);
+      setUserId(response.data.id);
       localStorage.setItem("token", response.data.token);
       setAuth(response.data.token)
       // setAuth(response.data.token)
