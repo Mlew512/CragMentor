@@ -14,7 +14,6 @@ function PyramidTable({userId,setPyramid}) {
   const handleAPyramid =async(id)=>{
     try{
       const response = await api.get(`pyramid/${id}/`)
-
       if(response.status ===200){
         setPyramid(response.data.routes)
       }
