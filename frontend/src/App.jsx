@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import Container from "react-bootstrap/Container";
 import Footer from './component/Footer';
 import {endpoints, getAPI, postAPI, setAuth} from './utilities/api'
+
 function App() {
   const [userId,setUserId] = useState(null);
   const [user, setUser] = useState("")
@@ -12,10 +13,11 @@ function App() {
   const [favoriteRoutes, setFavoriteRoutes] = useState([]);
   const [userProfile, setUserProfile] = useState({})
   const [location, setLocation] = useState({"lat": null, "lng": null})
+
   useEffect(()=>{
-    
     console.log(favoriteRoutes)
   },[favoriteRoutes])
+
   useEffect(()=>{
     let token = localStorage.getItem("token")
     if(token){
@@ -24,11 +26,9 @@ function App() {
       setAuth(null)
     }
     
-    // add default, goal, current_level, distance willing to travel, location
     if(user){
-
       getFavRoutes()
-      setUserProfile({"current_level":3, "goal":4, "dwtt":10000})
+      // setUserProfile({"current_level":3, "goal":4, "dwtt":10000})
     }
   },[user])
 
