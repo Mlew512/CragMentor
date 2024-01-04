@@ -41,6 +41,9 @@ const BestCrags = ({ userProfile, location, setLocation }) => {
   return (
     <Table striped>
       <thead>
+      <tr>
+      <BestForm location={location} setLocation={setLocation} />
+    </tr>
         <tr className="text-center">
           <th>Area</th>
           <th>ClimbScore</th>
@@ -58,7 +61,7 @@ const BestCrags = ({ userProfile, location, setLocation }) => {
               <td>{Math.round(area.overall_score)}</td>
             </tr>
           ))
-        ) : renderBestForm()}
+        ):<tr>update preferences for recommended crags</tr> }
       </tbody>
     </Table>
   );

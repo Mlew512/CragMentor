@@ -33,10 +33,10 @@ const BestForm = ({ location, setLocation }) => {
       setUserProfile(userProfile => ({...userProfile, goal: parsedGoalGrade, dwtt: travelDistance * 1609.34}));
 
       // Navigate to the dashboard immediately without waiting for the API response
-      navigate("/dashboard");
+      navigate("/");
 
       // Make the API request in the background (without awaiting)
-      api.post("/beta/", {
+      api.post("/best-crag/", {
         goal_grade: parsedGoalGrade,
         location: {
           lat: location.lat,
@@ -65,7 +65,7 @@ const BestForm = ({ location, setLocation }) => {
   return (
     <>
        <Button variant="secondary" onClick={handleShow}>
-        Generate crags
+        Change preferences
       </Button>
 
       <Modal show={show} onHide={handleClose}>

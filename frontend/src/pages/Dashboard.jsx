@@ -4,7 +4,7 @@ import { api } from "../utilities";
 import { Container, Row, Col, Card, CardHeader, CardBody, Form, Button } from "react-bootstrap";
 import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { BestCrags } from "../component/BestCrags";
+import  BestCrags from "../component/BestCrags";
 import { Table } from "react-bootstrap";
 import FavButton from "../component/FavButton";
 import { Link } from "react-router-dom";import "./Dashboard.css"
@@ -166,27 +166,6 @@ const Dashboard =()=>{
             </Card>
           </Col>
         </Row>
-        {/* <Row>
-          <Col lg={8}>
-              <Card>
-                <CardHeader id="saved-pyramids" className="text-center">People Also Saved</CardHeader>
-                <CardBody>
-                  {Array.isArray(savedPyramids) && savedPyramids.length > 0 ? (
-                  savedPyramids.map((pyramid) => (
-                    <tr key={pyramid.id} className="text-center">
-                      <td>id: {pyramid.id} | </td>
-                      <td>{pyramid.goal_grade} | </td>
-                      <td>{pyramid.date_generated}</td>
-                    </tr>
-                  ))
-                  ):(
-                    <td>{Array.isArray(savedPyramids) && savedPyramids > 0 ? savedPyramids : "nothing"}</td>
-                    )}
-                </CardBody>
-              </Card>
-            </Col>
-          </Row> */}
-
       </Container>
     </>
   );
