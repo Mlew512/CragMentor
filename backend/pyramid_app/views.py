@@ -54,6 +54,14 @@ class PyramidDetailView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, pyramid_id, *args, **kwargs):
+        pyramid_instance = self.get_object(pyramid_id)
+        if not pyramid_instance:
+            return Response({"error": "Pyramid not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        pyramid_instance.delete()
+        return Response({"message": "Pyramid deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
 class UserPyramidsView(generics.ListAPIView):
     serializer_class = PyramidSerializer
 

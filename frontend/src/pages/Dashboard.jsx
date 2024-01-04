@@ -16,12 +16,14 @@ const Dashboard =()=>{
   const [savedPyramids, setSavedPyramids] = useState([]);
   const [searchPyramidId, setSearchPyramidId] = useState(null)
   const [pyramidRoutes, setPyramidRoutes] = useState([])
+  
+  
   // To get all Pyramids across users
   const getGlobalPyramids = async () => {
     try {
-      const response = await api.get(`/pyramid/`);
+      const response = await api.get(`/pyramid/user/${userId}`);
       if (response.status === 200) {
-        // console.log(response.data)
+        console.log(response.data)
         setSavedPyramids(response.data);
       }
       
@@ -71,27 +73,14 @@ const Dashboard =()=>{
             <h3>Dashboard</h3>
         </Row>
         <Row >
-          {/* Preferences */}
+          {/* Most Recent Pyramid (3)*/}
           <Col lg={6}>
             <Card>
-              <CardHeader id="preferences" className="text-center">Preferences</CardHeader>
+              <CardHeader id="progress" className="text-center">Most Recent Pyramid</CardHeader>
               <CardBody>
-                  <ul style={{textDecoration:"none"}}>
-                    <li>My Goal: {userProfile?.goal}</li>
-                    <li>Grade: {userProfile?.current_level}</li>
-                    <li>Current Location: {location?.name} </li>
-                    {/* <SearchBox address={userProfile?.location} setPlace={setPlace} /> */}
-                    <li>Preference Area Distance: {userProfile?.dwtt}</li>
-                  </ul>
-              </CardBody>
-            </Card>
-          </Col>
-          {/* Get A Pyramid */}
-          <Col lg={6}>
-            <Card>
-              <CardHeader id="progress" className="text-center">Get A Pyramid</CardHeader>
-              <CardBody>
-                <Form className="d-flex">
+
+
+                {/* <Form className="d-flex">
                   <Form.Control
                     type="search"
                     value={searchPyramidId}
@@ -112,10 +101,26 @@ const Dashboard =()=>{
                   ) : (
                     null
                   )}
-                </div>
+                </div> */}
               </CardBody>
             </Card>
           </Col>
+          {/* Preferences */}
+          <Col lg={6}>
+            <Card>
+              <CardHeader id="preferences" className="text-center">Preferences</CardHeader>
+              <CardBody>
+                  <ul style={{textDecoration:"none"}}>
+                    <li>My Goal: {userProfile?.goal}</li>
+                    <li>Grade: {userProfile?.current_level}</li>
+                    <li>Current Location: {location?.name} </li>
+                    {/* <SearchBox address={userProfile?.location} setPlace={setPlace} /> */}
+                    <li>Preference Area Distance: {userProfile?.dwtt}</li>
+                  </ul>
+              </CardBody>
+            </Card>
+          </Col>
+          
         </Row>
         <Row>
           {/* Favorites */}
@@ -162,7 +167,7 @@ const Dashboard =()=>{
             </Card>
           </Col>
         </Row>
-        <Row>
+        {/* <Row>
           <Col lg={8}>
               <Card>
                 <CardHeader id="saved-pyramids" className="text-center">People Also Saved</CardHeader>
@@ -181,7 +186,7 @@ const Dashboard =()=>{
                 </CardBody>
               </Card>
             </Col>
-          </Row>
+          </Row> */}
 
       </Container>
     </>

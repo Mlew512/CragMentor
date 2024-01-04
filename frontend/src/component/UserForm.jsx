@@ -23,11 +23,18 @@ const UserForm = ({location, setLocation}) => {
     setIsLoadingData(true)
     try {
       console.log("location: ", location.lat, location.lng)
+      
       const parsedGoalGrade = parseInt(goalGrade, 10); // Convert goalGrade to integer
-      const travelDistanceMeters = travelDistance * 1609.34;
+      let travelDistanceMeters;
+
+      if (travelDistance < 180) {
+          travelDistanceMeters = Math.round(travelDistance * 1609.34);
+      } else {
+          travelDistanceMeters = 200000;
+      }
 
       setUserProfile(userProfile => ({...userProfile, goal: parseInt(goalGrade, 10), dwtt: travelDistance* 1609.34}))
-
+     
       const response = await api.post("/beta/", {
         goal_grade: parseInt(goalGrade, 10),
         location: {
@@ -88,9 +95,10 @@ const UserForm = ({location, setLocation}) => {
               <Form.Label>Search area size</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="miles"
+                placeholder="Max in miles: 125"
                 autoFocus
                 min="1"
+                max="125"
                 value={travelDistance}
                 onChange={(e) => setTravelDistance(e.target.value)}
               />
