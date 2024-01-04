@@ -45,7 +45,7 @@ const UserForm = ({location, setLocation}) => {
       });
 
       if (response.status === 200) {
-        console.log(response.data.my_pyramid.pyramid);
+        console.log("myPyramid: ",response.data.my_pyramid.pyramid);
 
         navigate("/pyramid/");
         setMyPyramid(response.data.my_pyramid.pyramid);

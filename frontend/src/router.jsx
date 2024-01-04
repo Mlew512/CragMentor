@@ -13,6 +13,7 @@ import PyramidPage from "./pages/PyramidPage.jsx";
 import FavoritesPage from './pages/FavoritesPage.jsx'
 import Dashboard from "./pages/Dashboard.jsx";
 import SavedPyramidsPage from "./pages/SavedPyramidsPage.jsx";
+import MyPyramidsPage from "./pages/MyPyramidsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: "pyramid/",
         element: <PyramidPage />,
+      },
+      {
+        path: "mypyramids/",
+        element: <MyPyramidsPage />,
       },
       {
         path: "dashboard/",
