@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .models import Pyramid
-from .serializers import PyramidSerializer
+from .serializers import PyramidSerializer, PyramidDetailSerializer
 from rest_framework import generics
 from rest_framework.status import (
     HTTP_201_CREATED,
@@ -29,6 +29,7 @@ class PyramidView(APIView):
 
 class PyramidDetailView(APIView):
     def get_object(self, pyramid_id):
+        # add route serializer to display all route info
         try:
             return Pyramid.objects.get(pk=pyramid_id)
         except Pyramid.DoesNotExist:
@@ -39,7 +40,7 @@ class PyramidDetailView(APIView):
         if not pyramid_instance:
             return Response({"error": "Pyramid not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = PyramidSerializer(pyramid_instance)
+        serializer = PyramidDetailSerializer(pyramid_instance)
         return Response(serializer.data)
 
     def put(self, request, pyramid_id, *args, **kwargs):
