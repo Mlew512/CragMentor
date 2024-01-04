@@ -15,7 +15,8 @@ const SavedPyramidsPage = () => {
                 if (response.status === 200) {
                     setSavedPyramids(response.data.savedPyramids);
                 }
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error("Error fetching saved pyramids:", error);
             }
         };

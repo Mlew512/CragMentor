@@ -1,0 +1,18 @@
+.search-in-map{
+  
+  top: 20px;
+  left: 20px;
+  position: absolute;
+}
+
+@media only screen and (max-width: 768px) {
+  .search-in-map {
+    width: auto;
+    right:20px
+  }
+}
+
+.search-in-map:focus {
+  border-color: 3px #007bff;
+  box-shadow: 0px 0px 10px rgb(0, 55, 255); 
+}

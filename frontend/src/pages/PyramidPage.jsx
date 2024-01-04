@@ -5,12 +5,14 @@ import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
 import { api } from "../utilities";
 import { GiSaveArrow } from "react-icons/gi";
+import PyramidTable from "../component/PyramidTable";
 
 const PyramidPage = () => {
   const navigate = useNavigate();
   const { user, myPyramid, setLocation, userId, location, userProfile} = useOutletContext();
   const { location: userLocation } = useOutletContext();
   const [pyramidId, setPyramidId] = useState(null);
+  
   useEffect(() => {
     if (!user) {
       navigate("/register/");
@@ -23,60 +25,48 @@ const PyramidPage = () => {
         pyramidData: myPyramid,
         userLocation: userLocation,
       };
-      // console.log('Request Payload:', requestData);
-      // console.log("goal grade: ", userProfile.goal, location.lat, location.lng, userId)
-      
       const response = await api.post("/pyramid/", {
         user: userId,
-        latitude:location.lat,
-        longitude:location.lng,
+        latitude: location.lat,
+        longitude: location.lng,
         goal_grade: userProfile.goal
       });
 
-      
-
       if (response.status === 201) {
         alert(`Pyramid with id: ${response.data.pyramid_id} saved successfully`);
-        console.log(typeof(myPyramid.goal_climb.uuid), myPyramid.goal_climb.name)
-        setPyramidId(response.data.pyramid_id)
-        for (const routeKey in myPyramid){
-          const route = myPyramid[routeKey];
-          try{
-            const response = await api.post("/route/",{
-            pyramid_id: pyramidId,
-            route_id: route?.uuid ,
-            name: route?.name,
-            lat: location?.lat,
-            lng: location?.lng,
-            grade: userProfile?.goal
-            
-          })
-          if (response.status ===201){
-            console.log("route created")
-            console.log(response.data)
-          }
-        }catch(error){
-          console.log("Did not save route")
+        // console.log(typeof(myPyramid.goal_climb.uuid), myPyramid.goal_climb.name)
+        setPyramidId(response.data.pyramid_id);
         }
-      }
-        // http://127.0.0.1:8000/api/route/
-        // example data to pass
-        // {
-        //   "pyramid_id":3,#input pyramid_id returned when making pyramid
-        //   "route_id": "89a929e2-d3d9-5219-baca-1f37855821b0",
-        //   "name": "Super duper Mario",
-        //   "lat": 35.249734999999994,
-        //   "lng": -85.21837,
-        //   "area": "58994c28-e56a-5a34-a931-ba2324ea4a91",
-        //   "grade": 4,
-        //   "media": "u/4d748baa-b0f9-4308-88a9-d574232654c8"
-        // }
-      }
       
     } catch (error) {
       console.error("Error saving pyramid:", error);
     }
-  };
+    };
+
+  const addRoutesToPyramid = async()=> {
+    for (const routeKey in myPyramid){
+      const route = myPyramid[routeKey];
+      try{
+        const response = await api.post("/route/",{
+        pyramid_id: pyramidId,
+        route_id: route?.uuid ,
+        name: route?.name,
+        grade: userProfile?.goal
+        
+      })
+      if (response.status ===201){
+        console.log("route created")
+        // console.log(response.data)
+      }
+      }catch(error){
+        console.log("Did not save route")
+      }
+    }
+  }
+
+  useEffect(()=>{
+   addRoutesToPyramid(); 
+  }, [pyramidId]);
 
   const the_pyramid = (
     <>
@@ -164,6 +154,7 @@ const PyramidPage = () => {
         ) : (
           null
         )}
+        <PyramidTable userId={userId}/>
       </Container>
     </>
   );

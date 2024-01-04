@@ -5,6 +5,9 @@ import { useNavigate,Link, useOutletContext,useParams } from 'react-router-dom'
 import SearchBox from '../component/SearchBox'
 import { endpoints, getAPI, postAPI } from '../utilities/api';
 import LoadingSpinner from '../component/LoadingSpinner'
+import "./MapView.css"
+import { Row } from 'react-bootstrap';
+
 const libraries = ['places', 'drawing'];
 const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false, isLoading=false, setMap=null,boundsChangedCallback=null}) => {
 
