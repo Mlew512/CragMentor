@@ -7,67 +7,70 @@ import { api } from '../utilities';
 import SearchBox from "./SearchBox";
 import LoadingSpin from "../component/Spinner";
 
-
-const UserForm = ({location, setLocation}) => {
+const BestForm = ({ location, setLocation }) => {
   const navigate = useNavigate();
-  const { setMyPyramid, setUserProfile} = useOutletContext();
+  const { setMyPyramid, setUserProfile } = useOutletContext();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [goalGrade, setGoalGrade] = useState("");
   const [travelDistance, setTravelDistance] = useState("");
-  const [loadingData, setIsLoadingData] = useState(false)
-  // const [location, setLocation] = useState({"lat": null, "lng": null})
+  const [loadingData, setIsLoadingData] = useState(false);
 
   const handleCreate = async () => {
-    setIsLoadingData(true)
+    setIsLoadingData(true);
+
     try {
-      console.log("location: ", location.lat, location.lng)
-      
       const parsedGoalGrade = parseInt(goalGrade, 10); // Convert goalGrade to integer
       let travelDistanceMeters;
 
       if (travelDistance < 180) {
-          travelDistanceMeters = Math.round(travelDistance * 1609.34);
+        travelDistanceMeters = Math.round(travelDistance * 1609.34);
       } else {
-          travelDistanceMeters = 200000;
+        travelDistanceMeters = 200000;
       }
 
-      setUserProfile(userProfile => ({...userProfile, goal: parseInt(goalGrade, 10), dwtt: travelDistance* 1609.34}))
-     
-      const response = await api.post("/beta/", {
-        goal_grade: parseInt(goalGrade, 10),
+      setUserProfile(userProfile => ({...userProfile, goal: parsedGoalGrade, dwtt: travelDistance * 1609.34}));
+
+      // Navigate to the dashboard immediately without waiting for the API response
+      navigate("/dashboard");
+
+      // Make the API request in the background (without awaiting)
+      api.post("/beta/", {
+        goal_grade: parsedGoalGrade,
         location: {
           lat: location.lat,
           lng: location.lng
         },
         maxDistance: travelDistanceMeters,
+      })
+      .then(response => {
+        if (response.status === 200) {
+          console.log(response.data.my_pyramid.pyramid);
+          setMyPyramid(response.data.my_pyramid.pyramid);
+          handleClose();
+          setIsLoadingData(false);
+        }
+      })
+      .catch(error => {
+        setIsLoadingData(false);
+        console.error("Error sending data:", error);
       });
-
-      if (response.status === 200) {
-        console.log(response.data.my_pyramid.pyramid);
-
-        navigate("/pyramid/");
-        setMyPyramid(response.data.my_pyramid.pyramid);
-        handleClose();
-        setIsLoadingData(false)
-      }
-
     } catch (error) {
-      setIsLoadingData(false)
+      setIsLoadingData(false);
       console.error("Error sending data:", error);
     }
-  }
+  };
 
   return (
     <>
-      <Button variant="secondary" onClick={handleShow}>
-        Generate Pyramid
+       <Button variant="secondary" onClick={handleShow}>
+        Generate crags
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Generate Pyramid</Modal.Title>
+          <Modal.Title>Find best crags</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -82,7 +85,6 @@ const UserForm = ({location, setLocation}) => {
                 onChange={(e) => setGoalGrade(e.target.value)}
               />
             </Form.Group>
-            {/* Search Box Component */}
             <div className="d-flex flex-column mb-3">
               <p>Location</p>
               <div>
@@ -95,7 +97,7 @@ const UserForm = ({location, setLocation}) => {
               <Form.Label>Search area size</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Max in miles: 125"
+                placeholder="Max distance: 125mi"
                 autoFocus
                 min="1"
                 max="125"
@@ -111,7 +113,7 @@ const UserForm = ({location, setLocation}) => {
           </Button>
           
           <Button variant="primary" onClick={handleCreate}>
-          {loadingData ? <LoadingSpin/> : "Create"}
+          {loadingData ? <LoadingSpin/> : "Find Best Crags"}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -119,4 +121,4 @@ const UserForm = ({location, setLocation}) => {
   );
 };
 
-export default UserForm;
+export default BestForm;

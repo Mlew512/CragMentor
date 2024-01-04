@@ -112,10 +112,9 @@ const Dashboard =()=>{
               <CardBody>
                   <ul style={{textDecoration:"none"}}>
                     <li>My Goal: {userProfile?.goal}</li>
-                    <li>Grade: {userProfile?.current_level}</li>
                     <li>Current Location: {location?.name} </li>
                     {/* <SearchBox address={userProfile?.location} setPlace={setPlace} /> */}
-                    <li>Preference Area Distance: {userProfile?.dwtt}</li>
+                    <li>Preference Area Distance: {Math.round(userProfile?.dwtt/1609.34)} miles</li>
                   </ul>
               </CardBody>
             </Card>
