@@ -79,7 +79,7 @@ const UserForm = ({location, setLocation}) => {
             <div className="d-flex flex-column mb-3">
               <p>Location</p>
               <div>
-              <SearchBox setPlace={setLocation} address={location}/>
+              <SearchBox setPlace={setLocation} address={""}/>
               </div>
             </div>
        

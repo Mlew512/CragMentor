@@ -146,7 +146,7 @@ response =
 
 ***get all pyramids for user***
 Get 
-http://127.0.0.1:8000/api/pyramid/${userid}/
+http://127.0.0.1:8000/api/pyramid/user/${userid}/
 
 response= 
 {
