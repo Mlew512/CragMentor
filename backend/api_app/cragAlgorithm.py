@@ -22,8 +22,10 @@ class ClimbingArea:
         # print(self.crags_data)
         if not isinstance(self.crags_data, str):
             self.crags = self.crags_data["cragsNear"][0]["crags"]
+            print(self.crags)
         else:
-            self.crags= [[]]
+            self.crags= []
+            print(self.crags)
 
 
     def haversine_distance(self, lat1, lon1, lat2, lon2):
@@ -99,18 +101,30 @@ class ClimbingArea:
             return []
 
     def normalize_scores(self, crag_scores):
+        # Validate input
+        if not crag_scores or not all(isinstance(crag, dict) for crag in crag_scores):
+            raise ValueError("Invalid input for normalize_scores")
+
         scores = [crag["score"] for crag in crag_scores]
         distances = [crag["distance"] for crag in crag_scores]
 
-        # Normalizing scores using RobustScaler
-        normalized_scores = RobustScaler().fit_transform([[score] for score in scores])
-        normalized_distances = RobustScaler().fit_transform([[distance] for distance in distances])
+        # Check if input arrays have the correct shape
+        if len(scores) < 2 or len(distances) < 2:
+            raise ValueError("Insufficient data for normalization")
+
+        try:
+            # Normalizing scores using RobustScaler
+            normalized_scores = RobustScaler().fit_transform([[score] for score in scores])
+            normalized_distances = RobustScaler().fit_transform([[distance] for distance in distances])
+        except ValueError as e:
+            print(f"Error during normalization: {e}")
+            return []
 
         for i, crag in enumerate(crag_scores):
             crag["normalized_score"] = round(float(normalized_scores[i][0]), 3)
             crag["normalized_distance"] = 1 + round(float(normalized_distances[i][0]), 3)
 
-            if crag["normalized_score"] !=0 and crag["normalized_distance"] != 0:
+            if crag["normalized_score"] != 0 and crag["normalized_distance"] != 0:
                 crag["overall_score"] = round(
                     (crag["normalized_score"] / crag["normalized_distance"]), 3
                 )
