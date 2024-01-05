@@ -33,6 +33,7 @@ const PyramidPage = () => {
       const response = await api.post("/pyramid/", {
         // change into location instead of lat long
         user: user_id,
+        location: location,
         latitude: location.lat,
         longitude: location.lng,
         goal_grade: userProfile.goal
