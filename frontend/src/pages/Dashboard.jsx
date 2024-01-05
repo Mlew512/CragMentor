@@ -88,7 +88,7 @@ const Dashboard = () => {
                         .slice(0, 3)
                         .map((pyramid, index) => (
                           <tr key={index} className="text-center">
-                            <td>{pyramid.goal_grade}</td>
+                            <td>V{pyramid.goal_grade}</td>
                             <td onClick={() => handleAPyramid(pyramid.id)}>
                               <Button variant="outline-info">
                                 {pyramid.id}

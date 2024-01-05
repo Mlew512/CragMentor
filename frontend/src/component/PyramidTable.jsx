@@ -59,9 +59,9 @@ function PyramidTable({ userId, setPyramid }) {
           <Table striped bordered hover size="sm" className="text-center">
             <thead>
               <tr>
+                <th>Pyramid</th>
                 <th>Goal Grade</th>
-                <th>Pyramid ID</th>
-                <th>Pyramid Location</th>
+                <th>Location</th>
                 <th>Date Created</th>
                 <th></th>
               </tr>
@@ -71,10 +71,10 @@ function PyramidTable({ userId, setPyramid }) {
               reversedPyramids.length > 0 ? (
                 reversedPyramids.map((pyramid, idx) => (
                   <tr key={idx}>
-                    <td>V{pyramid.goal_grade}</td>
                     <td onClick={() => handleAPyramid(pyramid.id)}>
-                      <Button variant="outline-info">{pyramid.id}</Button>
+                      <Button variant="outline-info">View</Button>
                     </td>
+                    <td>V{pyramid.goal_grade}</td>
                     <td>{pyramid.location}</td>
                     <td>
                       {new Date(pyramid.date_generated).toLocaleDateString()}
