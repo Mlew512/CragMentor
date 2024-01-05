@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { api } from "../utilities";
+import {api} from '../utilities/api'
 
 const SavedPyramidsPage = () => {
     const { user, setSavedPyramids } = useOutletContext();

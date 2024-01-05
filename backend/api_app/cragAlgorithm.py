@@ -23,7 +23,7 @@ class ClimbingArea:
         if not isinstance(self.crags_data, str):
             self.crags = self.crags_data["cragsNear"][0]["crags"]
         else:
-            self.crags= []
+            self.crags= [[]]
 
 
     def haversine_distance(self, lat1, lon1, lat2, lon2):
