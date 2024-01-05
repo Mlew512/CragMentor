@@ -23,6 +23,7 @@ const Header = ({ user, setUser }) => {
       if (response.status === 204) {
         setUser(null);
         localStorage.removeItem("token");
+        localStorage.removeItem("user_id");
         delete api.defaults.headers.common["Authorization"];
         navigate("/");
       }
