@@ -171,7 +171,7 @@ const Dashboard = () => {
           <Col lg={7}>
             <Card>
               <CardHeader id="best-crags" className="text-center">
-                Best Reccomended Crags
+                Best Recommended Crags
               </CardHeader>
               <CardBody>
                 <BestCrags
