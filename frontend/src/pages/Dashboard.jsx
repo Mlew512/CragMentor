@@ -17,8 +17,6 @@ import { Table } from "react-bootstrap";
 import FavButton from "../component/FavButton";
 import { Link } from "react-router-dom";
 import "./Dashboard.css";
-import "./Dashboard.css";
-import handleAPyramid from "../component/PyramidTable";
 
 const Dashboard = () => {
   const {
@@ -48,11 +46,7 @@ const Dashboard = () => {
       console.error("Couldn't get pyramids:", error);
     }
   };
-  const handleNavigate = (id) => {
-    // console.log(id)
-    navigate("/mypyramids/");
-    handleAPyramid(id);
-  };
+  
   useEffect(() => {
     getUserPyramids();
   }, [userId]);
