@@ -10,9 +10,32 @@
   
   .right-column {
     width: 45%; /* Adjust the width as needed */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px;
+    background-color: #f8f8f8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
   .route-image {
     width: 100%; /* Make the image fill the container */
   }
+  
+
+    
+  
+    /* .route-details img {
+      display: block;
+      margin: 0 auto 10px;
+    }
+  
+    .route-details h3 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+  
+    .route-details p {
+      margin-bottom: 8px;
+    } */
   
