@@ -13,7 +13,12 @@ const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    // not working
     try {
+      const authToken = localStorage.getItem("token");
+      if (authToken) {
+        api.defaults.headers.common["Authorization"] = `Token ${authToken}`;
+      }
       const response = await api.post("users/logout");
       if (response.status === 204) {
         setUser(null);
