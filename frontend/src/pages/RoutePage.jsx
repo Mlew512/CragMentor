@@ -59,12 +59,12 @@ function RoutePage() {
                 <img className="route-image" src={`https://media.openbeta.io/${data.media[0]['mediaUrl']}`} alt={data.name} />
               )}
               <h2>{data.name}</h2>
-              <p>Grade: {data.grades?.vscale}</p>
+              <p><strong>Grade:</strong> {data.grades?.vscale}</p>
               <FavButton data={data} />
             </div>
             <div className="right-column">
-              <p>Description - {data.content.description}</p>
-              <p>Location - {data.content.location}</p>
+              <p><strong>Description:</strong> {data.content.description}</p>
+              <p><strong>Location:</strong> {data.content.location}</p>
               <Link to={`/area/${data.parent.uuid}`}>
                 <button className="btn btn-primary">Go to {data.parent.area_name}</button>
               </Link>
