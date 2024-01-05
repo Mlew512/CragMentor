@@ -1,0 +1,18 @@
+.route-details-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+  }
+  
+  .left-column {
+    width: 45%; /* Adjust the width as needed */
+  }
+  
+  .right-column {
+    width: 45%; /* Adjust the width as needed */
+  }
+  
+  .route-image {
+    width: 100%; /* Make the image fill the container */
+  }
+  
