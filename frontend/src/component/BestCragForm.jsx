@@ -32,11 +32,10 @@ const BestForm = ({ location, setLocation }) => {
 
       setUserProfile(userProfile => ({...userProfile, goal: parsedGoalGrade, dwtt: travelDistance * 1609.34}));
 
-      // Navigate to the dashboard immediately without waiting for the API response
-      navigate("/");
+      
 
       // Make the API request in the background (without awaiting)
-      api.post("/best-crag/", {
+      api.post("beta/best-crag/", {
         goal_grade: parsedGoalGrade,
         location: {
           lat: location.lat,
@@ -44,6 +43,7 @@ const BestForm = ({ location, setLocation }) => {
         },
         maxDistance: travelDistanceMeters,
       })
+      handleClose()
       .then(response => {
         if (response.status === 200) {
           console.log(response.data.my_pyramid.pyramid);
