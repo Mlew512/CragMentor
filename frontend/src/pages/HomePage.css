@@ -1,7 +1,42 @@
+/* .pyramid-container {
+  margin-top: 500px;
+} */
+
+.overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  text-align: center;
+  margin-top: 55px;
+}
+
 #home-background-img {
   position: absolute;
-  top:0;
+  top: 0;
   width: 100vw;
   height: 100vh;
   z-index: -1;
+}
+
+.white-text {
+  color: white;
+}
+
+.pyramid {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 37vw solid transparent;
+  border-right: 37vw solid transparent;
+  border-bottom: 80vh solid rgba(255, 255, 255, 0.2);
+  /* Adjust the transparency here */
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+  /* Allows clicks to go through the pyramid */
+  margin-top: 45px;
 }
