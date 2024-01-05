@@ -1,6 +1,7 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import halseyImg from '../images/TeamPhotos/halsey.jpg';
 import mattimg from '../images/TeamPhotos/mattprofile.jpeg';
+import derekimg from '../images/TeamPhotos/derekprofile.jpg'
 
 const ContactPage = () => {
   const teamMembers = [
@@ -28,7 +29,7 @@ const ContactPage = () => {
     {
       name: 'Derek Marion',
       position: 'Software Engineer',
-      imageUrl: 'images/Halsey.JPG',
+      imageUrl: derekimg,
       linkedinUrl: 'https://www.linkedin.com/in/derek-marion-9b6a4370/',
       githubUrl: 'https://github.com/derekmarion',
     },
