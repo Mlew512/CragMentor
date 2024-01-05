@@ -43,7 +43,7 @@ const LogIn = ({setExistingUser, existingUser}) => {
       <img id="home-background-img" src={photo3} alt="Background Image"/>
       <Container>
         <Card 
-        style={{background:"rgb(255, 255, 255, .15)", top:"200px", left:"100px"}}
+        style={{background:"rgb(255, 255, 255, .5)", top:"200px", left:"100px"}}
         
         >
         <CardBody id="sign-forms">
