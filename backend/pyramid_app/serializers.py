@@ -6,7 +6,7 @@ from routes_app.serializers import RouteSerializer
 class PyramidSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pyramid
-        fields = ['id', 'user', 'routes', 'date_generated', 'latitude', 'longitude', 'goal_grade']
+        fields = ['id', 'user', 'routes', 'date_generated', 'location', 'latitude', 'longitude', 'goal_grade']
 
 class PyramidDetailSerializer(serializers.ModelSerializer):
     routes = RouteSerializer(many=True, read_only=True)

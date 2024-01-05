@@ -65,6 +65,7 @@ function PyramidTable({userId,setPyramid}) {
              <tr>
                <th>Goal Grade</th>
                <th>Pyramid ID</th>
+               <th>Pyramid Location</th>
                <th>Date Created</th>
                <th></th>
              </tr>
@@ -77,6 +78,7 @@ function PyramidTable({userId,setPyramid}) {
                    <td onClick={()=>handleAPyramid(pyramid.id)}>
                     <Button variant="outline-info">{pyramid.id}</Button>
                     </td>
+                    <td>{pyramid.location}</td>
                    <td>{pyramid.date_generated}</td>
                    <td onClick={()=>handleDeletePyramid(pyramid.id)}>
                     <Button variant="transparent"> <RiDeleteBin6Line color='red'/> </Button>
