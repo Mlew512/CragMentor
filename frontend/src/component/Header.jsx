@@ -50,7 +50,7 @@ const Header = ({ user, setUser }) => {
                 title={
                   <span>
                     <FaRegUserCircle size={30} className="d-md-none" />
-                    <span className="d-none d-md-inline"><strong>{user}</strong></span> {/* Hide on small screens */}
+                    <span className="d-none d-md-inline"><strong>{user.email}</strong></span> {/* Hide on small screens */}
                   </span>
                 }
               >
