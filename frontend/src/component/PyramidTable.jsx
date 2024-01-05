@@ -1,6 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import { Row, Col, Button} from 'react-bootstrap';
-import { api } from '../utilities';
+// import { api } from '../badutilities';
+import {api} from '../utilities/api'
 import { useOutletContext } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';

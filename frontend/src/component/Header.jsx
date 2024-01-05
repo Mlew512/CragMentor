@@ -2,7 +2,8 @@ import React from 'react';
 import { Container, Nav, Navbar, ButtonGroup, Dropdown, DropdownButton } from 'react-bootstrap';
 import Logo from "../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from '../utilities';
+// import { api } from '../badutilities';
+import {api} from '../utilities/api'
 import { MdOutlineContactSupport } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
 import { AiOutlineSetting } from "react-icons/ai";

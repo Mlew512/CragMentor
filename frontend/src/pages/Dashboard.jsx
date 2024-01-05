@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../utilities";
+import {api} from '../utilities/api'
 import {
   Container,
   Row,

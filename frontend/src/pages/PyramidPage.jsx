@@ -3,7 +3,7 @@ import "./PyramidPage.css"
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
-import { api } from "../utilities";
+import {api} from '../utilities/api'
 import { GiSaveArrow } from "react-icons/gi";
 import PyramidTable from "../component/PyramidTable";
 

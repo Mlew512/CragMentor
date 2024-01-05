@@ -3,7 +3,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { api } from '../utilities';
+// import { api } from '../badutilities';
+import {api} from '../utilities/api'
 import SearchBox from "./SearchBox";
 import LoadingSpin from "../component/Spinner";
 
