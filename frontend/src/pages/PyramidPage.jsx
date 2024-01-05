@@ -29,7 +29,9 @@ const PyramidPage = () => {
         pyramidData: myPyramid,
         userLocation: userLocation,
       };
+      console.log(location)
       const response = await api.post("/pyramid/", {
+        // change into location instead of lat long
         user: user_id,
         latitude: location.lat,
         longitude: location.lng,
@@ -44,6 +46,7 @@ const PyramidPage = () => {
       
     } catch (error) {
       console.error("Error saving pyramid:", error);
+      alert("no crags found in that. change location and try again.")
     }
     };
 

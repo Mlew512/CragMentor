@@ -22,7 +22,8 @@ class ClimbingArea:
         # print(self.crags_data)
         if not isinstance(self.crags_data, str):
             self.crags = self.crags_data["cragsNear"][0]["crags"]
-        return None
+        else:
+            self.crags= []
 
 
     def haversine_distance(self, lat1, lon1, lat2, lon2):
@@ -78,20 +79,24 @@ class ClimbingArea:
 
     def calculate_crag_scores(self, user_lat, user_lon, goal_grade):
         crag_scores = []
-        for crag in self.crags:
-            distance = self.haversine_distance(
-                user_lat, user_lon, crag["metadata"]["lat"], crag["metadata"]["lng"]
-            )
-            weighted_sum = self.calculate_weighted_sum(crag,goal_grade)
-            crag_scores.append(
-                {
-                    "areaName": crag["areaName"],
-                    "distance": distance,
-                    "score": weighted_sum,
-                    "uuid": crag['metadata']['areaId'],
-                }
-            )   
-        return crag_scores
+        
+        if self.crags:
+            for crag in self.crags:
+                distance = self.haversine_distance(
+                    user_lat, user_lon, crag["metadata"]["lat"], crag["metadata"]["lng"]
+                )
+                weighted_sum = self.calculate_weighted_sum(crag, goal_grade)
+                crag_scores.append(
+                    {
+                        "areaName": crag["areaName"],
+                        "distance": distance,
+                        "score": weighted_sum,
+                        "uuid": crag['metadata']['areaId'],
+                    }
+                )   
+            return crag_scores
+        else:
+            return []
 
     def normalize_scores(self, crag_scores):
         scores = [crag["score"] for crag in crag_scores]
