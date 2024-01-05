@@ -1,5 +1,5 @@
 .search-input{
-  width: 300px;
+  width: 400px;
   height: 40px;
   padding: 10px;
   border: 1px;
@@ -8,7 +8,6 @@
   font-size: 14px;
   outline: none;
   text-overflow: ellipses;
-  width: 100%;
 
 }
 .search-input.floating{
@@ -21,7 +20,7 @@
 
 @media only screen and (max-width: 768px) {
   .search-input.floating {
-    width: auto;
+    width: 100%;
     right:20px
   }
 }

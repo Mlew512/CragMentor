@@ -34,6 +34,9 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
   
 
     const boundsChanged = () => {
+        console.log(mapRef.current.getCenter().toJSON())
+        setCenter(mapRef.current.getCenter().toJSON())
+ 
         boundsChangedCallback()
     }
   
@@ -47,6 +50,9 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
 
         // }
         boundsChanged()
+    }
+    const onDrag = () => {
+        // setSelectedMarker(null)
     }
     const onDragEnd = () => {
         boundsChanged()
@@ -63,12 +69,14 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     }
     const onTilesLoaded =() =>{
         console.log("sss")
-        setCenter(null)
-        boundsChanged()
+        console.log(mapRef.current.getCenter().toJSON())
+        setCenter(mapRef.current.getCenter().toJSON())
+        // setCenter(null)
+        // boundsChanged()
     }
 
     const onClickMarker = (marker, index) => {
-        setCenter({"lat":data[index]['metadata']['lat'],"lng":data[index]['metadata']['lng']})
+        // setCenter({"lat":data[index]['metadata']['lat'],"lng":data[index]['metadata']['lng']})
         setSelectedMarker({marker:marker, data:data[index]})
     }
     const onLoadMarker = (marker, index) => {
@@ -78,6 +86,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
 
     const [place, setPlace] = useState(null)
     useEffect(()=>{
+        console.log(place)
       if(place){
         console.log(place)
         setCenter({"lat":place['lat'],"lng":place['lng']})
@@ -86,33 +95,23 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     },[place])
     useEffect(()=>{
         if(mapRef.current && (centerOnAll || centerOnFirst)){
+            console.log("ddddd")
             if(centerOnFirst && data){
-                console.log("centerOnFirst")
                 var bounds = new google.maps.LatLngBounds();
                 bounds.extend(data[0]['metadata']);
                 
                 mapRef.current.fitBounds(bounds);
             }
             else if(centerOnAll && data && markers.length == data.length){
-                console.log("centerOnAll")
-                console.log(markers)
-                console.log(mapRef.current)
-                console.log(data)
                 var bounds = new google.maps.LatLngBounds();
                 for (var i = 0; i < markers.length; i++) {
                     bounds.extend(markers[i].position);
                 }
-                
-                console.log(mapRef.current.getZoom())
-                console.log(mapRef.current.zoom)
-                console.log(zoom)
                 mapRef.current.fitBounds(bounds,{left:20,right:20,bottom:20,top:20});
-                console.log(zoom)
-                console.log(mapRef.current.getZoom())
             }
             else{
-                setCenter(defaultCenter)
                 console.log("CENTER")
+                setCenter(defaultCenter)
             }
         }
       },[mapRef.current, centerOnFirst,data, centerOnAll, markers])
@@ -138,8 +137,8 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                             center:center
                         }   
                     }
-
-                    center={center}
+                    onDrag={onDrag}
+                    // center={center}
                     onLoad={onLoadMap}
                     mapContainerStyle={containerStyle}
                     onTilesLoaded={onTilesLoaded}
@@ -168,7 +167,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                             setSelectedMarker(null)
                         }}
                         >
-                            <RouteBoxView data={selectedMarker['data']} />
+                        <RouteBoxView data={selectedMarker['data']} />
                     </InfoWindow>
                     ) : null}
                     {
