@@ -35,10 +35,11 @@ const Dashboard = () => {
   const [savedPyramid, setSavedPyramid] = useState([]);
   const [searchPyramidId, setSearchPyramidId] = useState(null);
 
-  // To get all Pyramids across users
+  // To get all Pyramids for user
   const getUserPyramids = async () => {
+    const user_id = localStorage.getItem("user_id");
     try {
-      const response = await api.get(`/pyramid/user/${userId}`);
+      const response = await api.get(`/pyramid/user/${user_id}`);
       if (response.status === 200) {
         console.log(response.data);
         setSavedPyramid(response.data);
@@ -47,12 +48,11 @@ const Dashboard = () => {
       console.error("Couldn't get pyramids:", error);
     }
   };
-  const handleNavigate =(id)=>{
+  const handleNavigate = (id) => {
     // console.log(id)
-    navigate('/mypyramids/')
+    navigate("/mypyramids/");
     handleAPyramid(id);
-
-  }
+  };
   useEffect(() => {
     getUserPyramids();
   }, [userId]);
@@ -74,25 +74,29 @@ const Dashboard = () => {
                 <Table striped>
                   <thead>
                     <tr className="text-center">
-                      <th>Difficulty</th>
-                      <th>location</th>
-                      <th>Date created</th>
+                      <th>Goal Grade</th>
+                      <th>Id</th>
+                      <th>Date Created</th>
                     </tr>
                   </thead>
                   <tbody>
                     {Array.isArray(savedPyramid) &&
                       savedPyramid.slice(0, 3).map((pyramid, index) => (
                         <tr key={index} className="text-center">
-                          <td onClick={()=>handleNavigate(pyramid.id)}>
-                            {pyramid.goal_grade}
-                            {/* <Link to={`/pyramid/${pyramid.id}/`}>
-                              {pyramid.goal_grade}
-                            </Link> */}
+                          <td>{pyramid.goal_grade}</td>
+                          <td>
+                            {pyramid.latitude}, {pyramid.longitude}
                           </td>
-                          <td>{pyramid.latitude}, {pyramid.longitude}</td>
                           <td>{pyramid.date_generated}</td>
                         </tr>
                       ))}
+                    <tr className="text-center">
+                      <td></td>
+                      <td>
+                        <Link to="../mypyramids/">View More</Link>
+                      </td>
+                      <td></td>
+                    </tr>
                   </tbody>
                 </Table>
               </CardBody>

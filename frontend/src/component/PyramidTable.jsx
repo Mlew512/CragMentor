@@ -23,12 +23,24 @@ function PyramidTable({userId,setPyramid}) {
 
   }
 
+  const getAllPyramid =async()=>{
+    const user_id= localStorage.getItem("user_id")
+    try{
+      const response = await api.get(`/pyramid/user/${user_id}/`)
+      if (response.status === 200){
+        setAllPyramid(response.data)
+      }
+    }catch(error){
+      console.log("cant get all pyramid", error)
+    }
+  }
   const handleDeletePyramid = async(id)=>{
     try{
       const response = await api.delete(`pyramid/${id}/`)
 
       if(response.status ===204){
         console.log("deleted")
+        getAllPyramid();
       }
     }catch(error){
       console.log("pyramid not found", error)
@@ -36,18 +48,9 @@ function PyramidTable({userId,setPyramid}) {
   }
 
   useEffect(()=>{
-    const getAllPyramid =async()=>{
-      try{
-        const response = await api.get(`/pyramid/user/${userId}/`)
-        if (response.status === 200){
-          setAllPyramid(response.data)
-        }
-      }catch(error){
-        console.log("cant get all pyramid", error)
-      }
-    }
     getAllPyramid();
-  },[allPyramid])
+    
+  },[])
 
    // Reverse the allPyramid array to get the Most Recent
    const reversedPyramids = [...allPyramid].reverse();
@@ -59,8 +62,8 @@ function PyramidTable({userId,setPyramid}) {
          <Table striped bordered hover size="sm" className='text-center'>
            <thead>
              <tr>
-               <th>Grade</th>
-               <th>Location</th>
+               <th>Goal Grade</th>
+               <th>Pyramid ID</th>
                <th>Date Created</th>
                <th></th>
              </tr>
