@@ -38,6 +38,7 @@ const Header = ({ user, setUser }) => {
             <Nav className="links" variant="underline">
               <Nav.Link as={Link} to="/pyramid/">Pyramid</Nav.Link>
               <Nav.Link as={Link} to="/map/">Map</Nav.Link>
+              <Nav.Link as={Link} to="/mypyramids/">MyPyramid</Nav.Link>
             </Nav>
             <div className="user-dropdown">
               <DropdownButton

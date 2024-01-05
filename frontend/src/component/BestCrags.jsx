@@ -3,38 +3,47 @@ import { api } from "../utilities";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
+import BestForm from "./BestCragForm";
 
-export const BestCrags = ({userProfile, location, setLocation}) => {
+const BestCrags = ({ userProfile, location, setLocation }) => {
   const [areaList, setAreaList] = useState([]);
-  
-  useEffect(() => {
-    console.log("userProfile: ",location.lat,location.lng, typeof(userProfile.dwtt) )
-    const getBestCrags = async () => {
-      try {
-        const response = await api.post("beta/best-crag/", {
-          goal_grade: userProfile?.goal,
-          location: {
-            lat: location?.lat,
-            lng: location?.lng
-          },
-          maxDistance: userProfile?.dwtt,
-        });
-        if (response.status === 200) {
-          setAreaList(response.data.normalized_scores);
-        }
-      } catch (error) {
-        console.log("Something went wrong with getting the best-crag details");
-        // console.error(error.response.data);
-        
-      }
-    };
 
+  const getBestCrags = async () => {
+    try {
+      const response = await api.post("beta/best-crag/", {
+        goal_grade: userProfile?.goal,
+        location: {
+          lat: location.lat,
+          lng: location.lng,
+        },
+        maxDistance: Math.round(userProfile.dwtt),
+      });
+
+      if (response.status === 200) {
+        setAreaList(response.data.normalized_scores);
+      }
+    } catch (error) {
+      console.error("Error getting best-crag details:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("userProfile: ", location.lat, location.lng, typeof userProfile.dwtt);
     getBestCrags();
-  }, []);
+  }, [userProfile, location.lat, location.lng, userProfile.dwtt]);
+
+  const renderBestForm = () => (
+    <tr>
+      <BestForm location={location} setLocation={setLocation} />
+    </tr>
+  );
 
   return (
     <Table striped>
       <thead>
+      <tr>
+      <BestForm location={location} setLocation={setLocation} />
+    </tr>
         <tr className="text-center">
           <th>Area</th>
           <th>ClimbScore</th>
@@ -48,16 +57,14 @@ export const BestCrags = ({userProfile, location, setLocation}) => {
             <tr key={index} className="text-center">
               <td><Link to={`../area/${area.uuid}/`}>{area.areaName}</Link></td>
               <td>{area.normalized_score}</td>
-              <td>{Math.round(area.distance*0.62)}mi</td>
+              <td>{Math.round(area.distance * 0.62)}mi</td>
               <td>{Math.round(area.overall_score)}</td>
             </tr>
           ))
-        ) : (
-          <tr>
-            <UserForm location={location} setLocation={setLocation}/>
-          </tr>
-        )}
+        ):<tr>update preferences for recommended crags</tr> }
       </tbody>
     </Table>
   );
 };
+
+export default BestCrags;

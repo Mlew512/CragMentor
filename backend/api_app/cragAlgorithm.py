@@ -20,10 +20,9 @@ class ClimbingArea:
             goal_grade-2.5:3.5,
         }
         # print(self.crags_data)
-        if self.crags_data["cragsNear"][0]["crags"]:
+        if not isinstance(self.crags_data, str):
             self.crags = self.crags_data["cragsNear"][0]["crags"]
-        else:
-            return "no crags near you please expand your search or change locations"
+        return None
 
 
     def haversine_distance(self, lat1, lon1, lat2, lon2):

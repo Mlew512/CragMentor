@@ -1,7 +1,6 @@
 
 #progress{
-  background-color: rgb(11, 133, 5);
-  color: white;
+  background-color: rgb(16, 244, 4);
 }
 #preferences{
   background-color: rgb(0, 255, 234);
@@ -21,5 +20,6 @@
 
 .route-ids button{
   margin: 3px;
-  background-color: rgb(11, 133, 5);
+  color: #000;
+  background-color: rgb(16, 244, 4);
 }
