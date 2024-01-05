@@ -13,6 +13,7 @@ class Pyramid(models.Model):
     date_generated = models.DateTimeField(auto_now_add=True, blank=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
+    location = models.CharField(default="unknown")
     goal_grade = models.IntegerField(validators=[MaxValueValidator(17)])
 
     def __str__(self):
