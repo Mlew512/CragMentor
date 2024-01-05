@@ -35,7 +35,7 @@ const SignUp = ({setUser, setExistingUser, existingUser }) => {
     <>
       <img id="home-background-img" src={photo3} alt="Background Image"/>
       <Container>
-        <Card style={{background:"rgb(255, 255, 255, .15)", top:"200px", left:"100px"}}>
+        <Card style={{background:"rgb(255, 255, 255, .5)", top:"200px", left:"100px"}}>
         <CardBody id="sign-forms">
         <Form onSubmit={(e) => signUp(e)}>
           <h4 className="text-center">Register</h4>
