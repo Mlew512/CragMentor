@@ -8,7 +8,7 @@ import FavButton from '../component/FavButton';
 
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './RoutePage.css'; // Create a CSS file for custom styling
+import './RoutePage.css'; 
 
 function RoutePage() {
   const [dataID, setDataID] = useState(null);

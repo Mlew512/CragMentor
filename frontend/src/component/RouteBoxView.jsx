@@ -34,8 +34,12 @@ const RouteBoxView = ({data}) => {
             <>Total Climbs - {data['totalClimbs']}</>
           }
           {
-            data['grades'] &&
+            data.grades && data.grades.vscale &&
             <><Button variant="outline-info">{data['grades']['vscale']}</Button></>
+          }
+          {
+            data.grades && data.grades.yds && data.grades.scale == null &&
+            <><Button variant="outline-info">{data['grades']['yds']}</Button></>
           }
           </Card.Text>
 
