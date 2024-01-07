@@ -5,6 +5,7 @@ import MapView from '../component/MapView';
 import DisplayMessage from '../component/DisplayMessage';
 import LoadingSpinner from '../component/LoadingSpinner';
 import FavButton from '../component/FavButton';
+import { Button } from 'react-bootstrap';
 
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -59,7 +60,15 @@ function RoutePage() {
                 <img className="route-image" src={`https://media.openbeta.io/${data.media[0]['mediaUrl']}`} alt={data.name} />
               )}
               <h2>{data.name}</h2>
-              <p><strong>Grade:</strong> {data.grades?.vscale}</p>
+              <> Grade: {
+            data.grades && data.grades.vscale &&
+            <><Button variant="outline-info">{data['grades']['vscale']}</Button></>
+          }
+          {
+            data.grades && data.grades.yds && data.grades.vscale == null &&
+            <><Button variant="outline-info">{data['grades']['yds']}</Button></>
+          }</>
+          <br/>
               <FavButton data={data} />
             </div>
             <div className="right-column">

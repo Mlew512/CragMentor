@@ -11,6 +11,7 @@ get_climb_by_id_query = """
                 }
                 grades {
                     vscale
+                    yds
                 }
                 content {
                     description
@@ -64,6 +65,9 @@ climbs_in_crag_query = """
             query getClimbsInCrag ($uuid: ID!){
             area(uuid: $uuid) {
                 areaName
+                content {
+                description
+                }
                 climbs {
                 name
                 uuid
@@ -72,12 +76,17 @@ climbs_in_crag_query = """
                 }
                 grades {
                     vscale
+                    yds
                 }
                 }
-                uuid
                 totalClimbs
+                media {
+                mediaUrl
+                }
+                metadata
             }
             }
+
             """
 
 crag_box_query = """

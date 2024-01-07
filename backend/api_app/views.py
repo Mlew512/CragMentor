@@ -54,6 +54,9 @@ class GetArea(APIView):
                 ancestors
                 id
                 totalClimbs
+                content {
+                description
+                }
                 children {
                     areaName
                     uuid
