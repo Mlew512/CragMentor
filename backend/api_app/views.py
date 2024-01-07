@@ -34,6 +34,7 @@ class OpenBetaView(APIView):
 
         # get climbs from the best crag
         climb_data = CragService.get_climbs_from_crag(normalized_scores[0]["uuid"])
+        print(climb_data)
         # build triangle with that crag
         pyramid_scheme = CragService.build_the_triangle(climb_data["area"]["climbs"], goal_grade)
     
