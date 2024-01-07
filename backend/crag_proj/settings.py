@@ -61,7 +61,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://cragmentor.com",
+    "http://cragmentor.com",
+    "http://localhost:5173", 
+    "http://127.0.0.1:8000", 
+]
 
 ROOT_URLCONF = "crag_proj.urls"
 
