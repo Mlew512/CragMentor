@@ -45,7 +45,7 @@ const AreaSearch = ({}) => {
     <div className='area-search-input'>
       <input
         type="text"
-        placeholder="Enter name, address, city, state..."
+        placeholder="Search for climbing areas..."
         value={searchTerm} 
         onChange={(e) => { setSearchTerm(e.target.value) }} // update the state when you type something
 
