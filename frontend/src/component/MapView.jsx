@@ -37,26 +37,19 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
   
 
     const boundsChanged = () => {
-        console.log(mapRef.current.getCenter().toJSON())
-        setCenter(mapRef.current.getCenter().toJSON())
+        if(mapRef.current){
+            setCenter(mapRef.current.getCenter().toJSON())
+        }
+        
  
         boundsChangedCallback()
     }
   
     const onZoomChanged = () => {
-        console.log("GGG")
-        // if(mapRef.current){
-        //     console.log(mapRef.current.zoom)
-        //     if(mapRef.current.zoom > 15){
-        //         setZoom(15)
-        //     }
-
-        // }
+  
         boundsChanged()
     }
-    const onDrag = () => {
-        // setSelectedMarker(null)
-    }
+ 
     const onDragEnd = () => {
         boundsChanged()
     }
@@ -71,8 +64,6 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
         }
     }
     const onTilesLoaded =() =>{
-        console.log("sss")
-        console.log(mapRef.current.getCenter().toJSON())
         setCenter(mapRef.current.getCenter().toJSON())
         // setCenter(null)
         // boundsChanged()

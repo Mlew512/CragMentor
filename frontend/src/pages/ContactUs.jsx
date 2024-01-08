@@ -2,6 +2,7 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import halseyImg from "../images/TeamPhotos/halsey.jpg";
 import mattimg from "../images/TeamPhotos/mattprofile.jpeg";
 import derekimg from "../images/TeamPhotos/derekprofile.jpg";
+import termottoimg from "../images/TeamPhotos/termotto.jpg";
 
 const ContactPage = () => {
   const teamMembers = [
@@ -37,7 +38,7 @@ const ContactPage = () => {
     {
       name: "Michael Termotto",
       position: "Software Engineer",
-      imageUrl: "images/Halsey.JPG",
+      imageUrl: termottoimg,
       linkedinUrl: "https://www.linkedin.com/in/michael-termotto-2b6800277/",
       githubUrl: "https://github.com/CustomDesignBuildStudios",
     },
