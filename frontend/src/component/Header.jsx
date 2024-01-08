@@ -8,6 +8,10 @@ import { MdOutlineContactSupport } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
 import { AiOutlineSetting } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
+import { MdSpaceDashboard } from "react-icons/md"; //dashboard icon
+import { TbHexagonalPyramidPlus } from "react-icons/tb"; //generate pyramid icon
+
+
 import AreaSearch from "./AreaSearch"
 import "./Header.css";
 

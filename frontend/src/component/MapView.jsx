@@ -12,8 +12,6 @@ const libraries = ['places', 'drawing'];
 const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false, isLoading=false, setMap=null,boundsChangedCallback=null}) => {
 
 
-
-
     const mapRef = useRef();
     const { isLoaded, loadError } = useJsApiLoader({
         googleMapsApiKey: 'AIzaSyBNqBkhvtTqAS74u3zDYgQ4NNq5aBZsrTs',

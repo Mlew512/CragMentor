@@ -7,7 +7,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import {api} from '../utilities/api'
 import SearchBox from "./SearchBox";
 import LoadingSpin from "../component/Spinner";
-
+import { TbPyramidPlus } from "react-icons/tb";
 
 const UserForm = ({location, setLocation}) => {
   const navigate = useNavigate();
@@ -63,13 +63,16 @@ const UserForm = ({location, setLocation}) => {
 
   return (
     <>
-      <Button variant="secondary" onClick={handleShow}>
-        Generate Pyramid
+      <Button variant="secondary" onClick={handleShow} className="d-flex justify-content-center">
+        <div className="me-2">
+          Create 
+        </div>
+        <TbPyramidPlus size={25}/>
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Generate Pyramid</Modal.Title>
+          <Modal.Title>Generate Pyramid </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

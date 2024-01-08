@@ -62,7 +62,7 @@ const BestCrags = ({ userProfile, location, setLocation }) => {
               <td>{Math.round(area.overall_score)}</td>
             </tr>
           ))
-        ):<tr>update preferences for recommended crags</tr> }
+        ):<tr><td colSpan={4} className="text-center">update preferences for recommended crags</td></tr> }
       </tbody>
     </Table>
   );

@@ -75,24 +75,21 @@ function AreaPage() {
             isLoading == false && data != null ?
             (
                 <>
-                        <MapView data={[...data.climbs,...data.children]} centerOnAll={true} showSearch={false} boundsChangedCallback={temp} />
+                <Container> 
+                    <Row>
 
-                        <Container>
-                            <Row>
-                                <Col>
-                                    {
-                                        data.media && data.media.length > 0 &&
-                                        <img style={{width:'100px'}} src={"https://media.openbeta.io/" + data.media[0]['mediaUrl']}/>
-                                    }
-                                    <FavButton data={data} />
-                                    <h1>{data.areaName}</h1>
-                                    <p>{data.content?.description}</p>
-                                    <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to parent</a>    
                     
-                                
-                                </Col>
-                            </Row>
-                        </Container>
+                    {/* {
+                        data.media.length > 0 &&
+                        <img style={{width:'100px'}} src={"https://media.openbeta.io/" + data.media[0]['mediaUrl']}/>
+                    } */}
+                    <FavButton data={data} />
+                    <h1>{data.areaName}</h1>
+                    <p>{data.content?.description}</p>
+                    <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to parent</a>
+
+                    {/* <p>description - {data.content.description}</p> */}
+    
 
                         {
                             data.children && data.children.length > 0 &&
@@ -141,9 +138,9 @@ function AreaPage() {
                             </Row>
                         </Container>
                         }
-
-
-
+                    <MapView data={[...data.climbs,...data.children]} centerOnAll={true} showSearch={false} boundsChangedCallback={temp} />
+                    </Row>
+                </Container>
                 </>
             ):
             (<LoadingSpinner isLoading={isLoading} />)

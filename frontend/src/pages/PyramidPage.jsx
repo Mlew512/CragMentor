@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./PyramidPage.css"
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, CardBody } from "react-bootstrap";
 import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
 import {api} from '../utilities/api'
@@ -83,77 +83,74 @@ const PyramidPage = () => {
 
   const the_pyramid = (
     <>
-      <Row className="justify-content-center">
-        <Col lg={3}>
-          <Card className="text-center">
-            <Link to={`/route/${myPyramid?.goal_climb.uuid}`}>
-              <h5>{myPyramid?.goal_climb.name}</h5>
-            </Link>
-            <Card.Footer>{myPyramid?.goal_climb.grade}</Card.Footer>
-          </Card>
-        </Col>
-      </Row>
+      <Row>
+        <Card style={{minHeight:"400px"}}>
+          <CardBody className="d-flex flex-column">
 
-      <Row className="justify-content-center">
-        <Col lg={3}>
-          <Card className="text-center">
-            <Link to={`/route/${myPyramid?.runner_up_1.uuid}`}>
-              <h5>{myPyramid?.runner_up_1.name}</h5>
-            </Link>
-            <Card.Footer>{myPyramid?.runner_up_1.grade}</Card.Footer>
-          </Card>
-        </Col>
-        <Col lg={3}>
-          <Card className="text-center">
-            <Link to={`/route/${myPyramid?.runner_up_2.uuid}`}>
-              <h5>{myPyramid?.runner_up_2.name}</h5>
-            </Link>
-            <Card.Footer>{myPyramid?.runner_up_2.grade}</Card.Footer>
-          </Card>
-        </Col>
-      </Row>
+          <Row className="justify-content-center">
+            <Col lg={3}>
+              <Card className="text-center" onClick={()=>useNavigate(`/route/${myPyramid?.goal_climb.uuid}`)}>
+                <p><i>{myPyramid?.goal_climb.name}</i></p>
+                <h4>{myPyramid?.goal_climb.grade}</h4>
+              </Card>
+            </Col>
+          </Row>
 
-      <Row className="justify-content-center">
-        <Col lg={3}>
-          <Card className="text-center">
-            <Link to={`/route/${myPyramid?.runner_up_3.uuid}`}>
-              <h5>{myPyramid?.runner_up_3.name}</h5>
-            </Link>
-            <Card.Footer>{myPyramid?.runner_up_3.grade}</Card.Footer>
-          </Card>
-        </Col>
-        <Col lg={3}>
-          <Card className="text-center">
-            <Link to={`/route/${myPyramid?.runner_up_4.uuid}`}>
-              <h5>{myPyramid?.runner_up_4.name}</h5>
-            </Link>
-            <Card.Footer>{myPyramid?.runner_up_4.grade}</Card.Footer>
-          </Card>
-        </Col>
-        <Col lg={3}>
-          <Card className="text-center">
-            <Link to={`/route/${myPyramid?.runner_up_5.uuid}`}>
-              <h5>{myPyramid?.runner_up_5.name}</h5>
-            </Link>
-            <Card.Footer>{myPyramid?.runner_up_5.grade}</Card.Footer>
-          </Card>
-        </Col>
-        <Col lg={3}>
-          <Card className="text-center">
-            <Link to={`/route/${myPyramid?.runner_up_6.uuid}`}>
-              <h5>{myPyramid?.runner_up_6.name}</h5>
-            </Link>
-            <Card.Footer>{myPyramid?.runner_up_6.grade}</Card.Footer>
-          </Card>
-        </Col>
-      </Row>
+          <Row className="justify-content-center">
+            <Col lg={3}>
+              <Card className="text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_1.uuid}`)}>
+                <p><i>{myPyramid?.runner_up_1.name}</i></p>
+                <h4>{myPyramid?.runner_up_1.grade}</h4>
+              </Card>
+            </Col>
+            <Col lg={3}>
+              <Card className="text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_2.uuid}`)}>
+                <p><i>{myPyramid?.runner_up_2.name}</i></p>
+                <h4>{myPyramid?.runner_up_2.grade}</h4>
+              </Card>
+            </Col>
+          </Row>
+
+          <Row className="justify-content-center">
+            <Col lg={3}>
+              <Card className="text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_3.uuid}`)}>
+                <p><i>{myPyramid?.runner_up_3.name}</i></p>
+                <h4>{myPyramid?.runner_up_3.grade}</h4>
+                
+              </Card>
+            </Col>
+            <Col lg={3}>
+              <Card className="text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_4.uuid}`)}>
+                <p><i>{myPyramid?.runner_up_4.name}</i></p>
+                <h4>{myPyramid?.runner_up_4.grade}</h4>
+              </Card>
+            </Col>
+            <Col lg={3}>
+              <Card className="text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_5.uuid}`)}>
+                <p><i>{myPyramid?.runner_up_5.name}</i></p>
+                <h4>{myPyramid?.runner_up_5.grade}</h4>
+        
+              </Card>
+            </Col>
+            <Col lg={3}>
+              <Card className="text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_6.uuid}`)}>
+                <p><i>{myPyramid?.runner_up_6.name}</i></p>
+                <h4>{myPyramid?.runner_up_6.grade}</h4>
+                
+              </Card>
+            </Col>
+          </Row>
+        </CardBody>
+      </Card>
+    </Row>
     </>
+
   );
   return (
     <>
       <Container className="d-flex flex-column">
         <Row className="justify-content-center text-center">
-          <Col lg={4}>
+          <Col lg={2} className="d-flex">
             {/* <Card className="d-flex flex-row justify-content-around"> */}
               <UserForm location={userLocation} setLocation={setLocation} />
               <Button variant= "transparent" onClick={handleSavePyramid}><GiSaveArrow size={25}/></Button>
@@ -165,7 +162,16 @@ const PyramidPage = () => {
             {the_pyramid}
           </>
         ) : (
-          null
+          <>
+          
+          <Row>
+            <Card style={{minHeight:"400px"}}>
+                <CardBody className="d-flex justify-content-center align-items-center">
+                  Please Generate Your Pyramid
+                </CardBody>
+            </Card>
+          </Row>
+          </>
         )}
         
       </Container>
