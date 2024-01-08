@@ -76,7 +76,7 @@ class CragService:
                 }
 
         # If no unique climb with the target grade is found, return a default climb
-        return {"name": "No Unique Climb Found", "grade": target_grade, "uuid": None}
+        return {"name": "No Unique Climb Found", "grade": f'V{target_grade}', "uuid": None}
 
     @staticmethod
     def build_the_triangle(crag_list, goal_grade):
