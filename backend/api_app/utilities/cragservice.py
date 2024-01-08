@@ -168,3 +168,32 @@ class CragService:
         except ValueError as ve:
             # Handle JSON decoding error
             return f"JSON decoding error: {ve}"
+
+
+
+
+
+    @staticmethod
+    def search_areas(search):
+        variables = {
+            "match": search,
+        }
+
+        try:
+            query = get_area_search.replace('"a"',f'"{search}"')
+            response = requests.post(
+                "https://api.openbeta.io/",
+                json={"query": query, "variables": variables},
+                timeout=20,
+            )
+            print(response.raw)
+            response.raise_for_status()
+
+            data = response.json()
+            return data.get("data")
+        except requests.exceptions.RequestException as e:
+            # Handle request-related exceptions
+            return f"Request error: {e}"
+        except ValueError as ve:
+            # Handle JSON decoding error
+            return f"JSON decoding error: {ve}"
