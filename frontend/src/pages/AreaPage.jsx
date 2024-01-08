@@ -67,24 +67,32 @@ function AreaPage() {
     return (
         <>
         
-        
-        <DisplayMessage message={message} />
+        {
+            isLoading == false &&
+                <DisplayMessage message={message} />
+        }
         {
             isLoading == false && data != null ?
             (
                 <>
-                <section>  
-                    {/* {
-                        data.media.length > 0 &&
-                        <img style={{width:'100px'}} src={"https://media.openbeta.io/" + data.media[0]['mediaUrl']}/>
-                    } */}
-                    <FavButton data={data} />
-                    <h1>{data.areaName}</h1>
-                    <p>{data.content?.description}</p>
-                    <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to parent</a>
+                        <MapView data={[...data.climbs,...data.children]} centerOnAll={true} showSearch={false} boundsChangedCallback={temp} />
 
-                    {/* <p>description - {data.content.description}</p> */}
-    
+                        <Container>
+                            <Row>
+                                <Col>
+                                    {
+                                        data.media && data.media.length > 0 &&
+                                        <img style={{width:'100px'}} src={"https://media.openbeta.io/" + data.media[0]['mediaUrl']}/>
+                                    }
+                                    <FavButton data={data} />
+                                    <h1>{data.areaName}</h1>
+                                    <p>{data.content?.description}</p>
+                                    <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to parent</a>    
+                    
+                                
+                                </Col>
+                            </Row>
+                        </Container>
 
                         {
                             data.children && data.children.length > 0 &&
@@ -134,8 +142,6 @@ function AreaPage() {
                         </Container>
                         }
 
-                    <MapView data={[...data.climbs,...data.children]} centerOnAll={true} showSearch={false} boundsChangedCallback={temp} />
-                </section>
 
 
                 </>

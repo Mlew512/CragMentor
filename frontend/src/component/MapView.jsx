@@ -57,22 +57,19 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     }
 
     const onLoadMap = (map) => {
-        console.log("dd")
         mapRef.current = map;
         if(setMap){
-            console.log(map)
-            console.log("ss")
             setMap(mapRef.current)
         }
     }
     const onTilesLoaded =() =>{
-        setCenter(mapRef.current.getCenter().toJSON())
-        // setCenter(null)
-        // boundsChanged()
+        if(mapRef.current){
+            setCenter(mapRef.current.getCenter().toJSON())
+        }
+        
     }
 
     const onClickMarker = (marker, index) => {
-        // setCenter({"lat":data[index]['metadata']['lat'],"lng":data[index]['metadata']['lng']})
         setSelectedMarker({marker:marker, data:data[index]})
     }
     const onLoadMarker = (marker, index) => {
@@ -88,19 +85,14 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
       }
     },[place])
     useEffect(()=>{
-        console.log("ggdfgfd")
         if(mapRef.current && data && (centerOnAll || centerOnFirst)){
-            console.log("sssss")
             if(centerOnFirst && data.length != 1){
                 var bounds = new google.maps.LatLngBounds();
                 bounds.extend(data[0]['metadata']);
-                console.log("sssssssss")
                 
                 mapRef.current.fitBounds(bounds);
             }
             else if(centerOnAll && markers.length == data.length && data.length != 1){
-                console.log(data)
-                console.log("ssssssssss")
                 var bounds = new google.maps.LatLngBounds();
                 for (var i = 0; i < markers.length; i++) {
                     bounds.extend(markers[i].position);
@@ -108,7 +100,6 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                 mapRef.current.fitBounds(bounds,{left:20,right:20,bottom:20,top:20});
             }
             else{
-                console.log("CENTER")
                 setCenter(defaultCenter)
             }
         }

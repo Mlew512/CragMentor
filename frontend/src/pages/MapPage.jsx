@@ -26,7 +26,7 @@ const MapPage = () => {
         setIsLoading(true)
         let zoom = map.getZoom()
         let response = null;
-        console.log(zoom)
+ 
         if(zoom < 5){
           if(countries == null){
             response = await postAPI(endpoints.countries)
