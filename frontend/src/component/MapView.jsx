@@ -22,12 +22,12 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     const [selectedMarker, setSelectedMarker] = useState(null)
 
     const defaultCenter = {
-        lat: 29.916874,
+        lat: 39.916874,
         lng: -95.569667
     }
     const [markers, setMarkers] = useState([]);
     const [center, setCenter] = useState(defaultCenter);
-    const [zoom, setZoom] = useState(8);
+    const [zoom, setZoom] = useState(4);
 
     const containerStyle = {
         width: '100%',
@@ -82,23 +82,25 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
 
     const [place, setPlace] = useState(null)
     useEffect(()=>{
-        console.log(place)
       if(place){
-        console.log(place)
         setCenter({"lat":place['lat'],"lng":place['lng']})
         mapRef.current.fitBounds(place.bounds);
       }
     },[place])
     useEffect(()=>{
-        if(mapRef.current && (centerOnAll || centerOnFirst)){
-            console.log("ddddd")
-            if(centerOnFirst && data){
+        console.log("ggdfgfd")
+        if(mapRef.current && data && (centerOnAll || centerOnFirst)){
+            console.log("sssss")
+            if(centerOnFirst && data.length != 1){
                 var bounds = new google.maps.LatLngBounds();
                 bounds.extend(data[0]['metadata']);
+                console.log("sssssssss")
                 
                 mapRef.current.fitBounds(bounds);
             }
-            else if(centerOnAll && data && markers.length == data.length){
+            else if(centerOnAll && markers.length == data.length && data.length != 1){
+                console.log(data)
+                console.log("ssssssssss")
                 var bounds = new google.maps.LatLngBounds();
                 for (var i = 0; i < markers.length; i++) {
                     bounds.extend(markers[i].position);
@@ -120,7 +122,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
             <div className='map-container' style={{ position: 'relative' }}>
                 
                 <GoogleMap
-                    zoom={8}
+                    zoom={4}
                     scrollwheel={true}
                     draggable={true}
                     options= {
@@ -130,7 +132,10 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                             fullscreenControl:true,
                             mapTypeControl:false,
                             streetViewControl:false,
-                            center:center
+                            center:center,
+                            maxZoom:15,
+                            minZoom:3,
+                            mapTypeId: 'hybrid'
                         }   
                     }
                     onDrag={onDrag}

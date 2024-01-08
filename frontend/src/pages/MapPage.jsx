@@ -16,7 +16,11 @@ const MapPage = () => {
   const navigate = useNavigate();
 
   
-
+  useEffect(()=>{
+    if(map){
+      getData()
+    }
+  },[map])
     const getData = async () =>{
       if(map){
         setIsLoading(true)
