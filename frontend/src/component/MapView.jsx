@@ -6,6 +6,7 @@ import SearchBox from '../component/SearchBox'
 import { endpoints, getAPI, postAPI } from '../utilities/api';
 import LoadingSpinner from '../component/LoadingSpinner'
 import "./MapView.css"
+import googleMapsApiKey from "../utilities/api.jsx"
 import { Row } from 'react-bootstrap';
 
 const libraries = ['places', 'drawing'];
@@ -14,7 +15,8 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
 
     const mapRef = useRef();
     const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: 'AIzaSyBNqBkhvtTqAS74u3zDYgQ4NNq5aBZsrTs',
+        // import google maps api from utilities
+        googleMapsApiKey: googleMapsApiKey,
         libraries
     });
     const [selectedMarker, setSelectedMarker] = useState(null)

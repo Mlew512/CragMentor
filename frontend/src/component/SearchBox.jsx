@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StandaloneSearchBox,useJsApiLoader } from '@react-google-maps/api';
 import { Form, Button } from 'react-bootstrap';
 import "./SearchBox.css"
+import googleMapsApiKey from "../utilities/api.jsx"
 
 const libraries = ['places','drawing'];
 
@@ -9,7 +10,8 @@ const SearchBox = ({address, setPlace, isFloating=false}) => {
   const [placeAddress, setPlaceAddress] = useState(address)
   const autocompleteRef = useRef();
     const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: 'AIzaSyBNqBkhvtTqAS74u3zDYgQ4NNq5aBZsrTs',
+      // replace with my api key from utils
+        googleMapsApiKey: googleMapsApiKey,
         libraries
     });
     const onLoadAutocomplete = (autocomplete) => {
