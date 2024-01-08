@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StandaloneSearchBox,useJsApiLoader } from '@react-google-maps/api';
 import { Form, Button } from 'react-bootstrap';
 import "./SearchBox.css"
-import googleMapsApiKey from "../utilities/api.jsx"
+import {googleMapsApiKey }from "../utilities/api.jsx"
 
 const libraries = ['places','drawing'];
 
