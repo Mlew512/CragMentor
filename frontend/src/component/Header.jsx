@@ -8,6 +8,7 @@ import { MdOutlineContactSupport } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
 import { AiOutlineSetting } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
+import AreaSearch from "./AreaSearch"
 import "./Header.css";
 
 const Header = ({ user, setUser }) => {
@@ -47,6 +48,7 @@ const Header = ({ user, setUser }) => {
               <Nav.Link as={Link} to="/pyramid/">Pyramid</Nav.Link>
               <Nav.Link as={Link} to="/map/">Map</Nav.Link>
               <Nav.Link as={Link} to="/mypyramids/">MyPyramid</Nav.Link>
+              <AreaSearch />
             </Nav>
             <div className="user-dropdown">
               <DropdownButton

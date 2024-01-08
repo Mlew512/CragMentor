@@ -1,0 +1,12 @@
+.area-search-input{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+.area-search-input-list{
+    z-index: 1000;
+    position: absolute;
+    top:33px;
+
+}

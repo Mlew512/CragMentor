@@ -275,3 +275,27 @@ query GetCountries {
         except ValueError as ve:
             # Handle JSON decoding error
             return f"JSON decoding error: {ve}"
+
+
+
+
+
+class AreaSearchByName(APIView):
+    def post(self, request, *args, **kwargs):
+        search = request.data.get("search", None)
+ 
+
+        if search is None:
+            return Response({"error": "Missing required parameters"}, status=400)
+
+
+        # Make a GraphQL api request to get crag data
+        crag_data = CragService.search_areas(search)
+
+        if not crag_data:
+            return Response({"error": "Failed to fetch crags data"}, status=500)
+
+    
+        return Response(crag_data)
+
+

@@ -47,7 +47,7 @@ const SearchBox = ({address, setPlace, isFloating=false}) => {
       placeholder="Enter name, address, city, state..."
       value={placeAddress} 
       onChange={(e) => { setPlaceAddress(e.target.value) }} // update the state when you type something
-      className={'search-input' + (isFloating ? 'floating': '')}
+      className={'search-input ' + (isFloating ? 'floating': '')}
       // style={{
       // boxSizing: `border-box`,
       // border: `1px solid transparent`,
