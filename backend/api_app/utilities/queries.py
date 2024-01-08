@@ -149,3 +149,12 @@ crag_box_query_2 = """
                         }
                         }
                         """
+
+get_area_search = """
+query areaSearchQuery($match: String = "a") {
+  areas(filter: {area_name: {match: $match}}) {
+    areaName
+    uuid
+  }
+}
+"""

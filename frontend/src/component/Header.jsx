@@ -12,6 +12,7 @@ import { MdSpaceDashboard } from "react-icons/md"; //dashboard icon
 import { TbHexagonalPyramidPlus } from "react-icons/tb"; //generate pyramid icon
 
 
+import AreaSearch from "./AreaSearch"
 import "./Header.css";
 
 const Header = ({ user, setUser }) => {
@@ -51,6 +52,7 @@ const Header = ({ user, setUser }) => {
               <Nav.Link as={Link} to="/pyramid/">Pyramid</Nav.Link>
               <Nav.Link as={Link} to="/map/">Map</Nav.Link>
               <Nav.Link as={Link} to="/mypyramids/">MyPyramid</Nav.Link>
+              <AreaSearch />
             </Nav>
             <div className="user-dropdown">
               <DropdownButton

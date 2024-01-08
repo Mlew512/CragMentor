@@ -67,8 +67,10 @@ function AreaPage() {
     return (
         <>
         
-        
-        <DisplayMessage message={message} />
+        {
+            isLoading == false &&
+                <DisplayMessage message={message} />
+        }
         {
             isLoading == false && data != null ?
             (

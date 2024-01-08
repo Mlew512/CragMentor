@@ -21,10 +21,11 @@ export const endpoints = {
     "area":"beta/area/",
     "climb_bounds":"beta/climb-bounds/",
     "countries":"beta/countries/",
+    "search_areas":"beta/area-search/"
     
 }
 
-export const postAPI = async (url, encodedParams = null, data=null) => {
+export const postAPI = async (url, encodedParams = null, data=null, config=null) => {
     try {
         let urlString = url
         if(encodedParams != null){
@@ -35,7 +36,7 @@ export const postAPI = async (url, encodedParams = null, data=null) => {
             json = data
         }
 
-        const response = await api.post(urlString, json);
+        const response = await api.post(urlString, json, config);
         if (response.status == 201 || response.status == 200){
             return {status:true, data:response.data}
         }else{

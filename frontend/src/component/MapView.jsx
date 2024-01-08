@@ -20,12 +20,12 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     const [selectedMarker, setSelectedMarker] = useState(null)
 
     const defaultCenter = {
-        lat: 29.916874,
+        lat: 39.916874,
         lng: -95.569667
     }
     const [markers, setMarkers] = useState([]);
     const [center, setCenter] = useState(defaultCenter);
-    const [zoom, setZoom] = useState(8);
+    const [zoom, setZoom] = useState(4);
 
     const containerStyle = {
         width: '100%',
@@ -35,41 +35,39 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
   
 
     const boundsChanged = () => {
+        if(mapRef.current){
+            setCenter(mapRef.current.getCenter().toJSON())
+        }
+        
+ 
         boundsChangedCallback()
     }
   
     const onZoomChanged = () => {
-        console.log("GGG")
-        // if(mapRef.current){
-        //     console.log(mapRef.current.zoom)
-        //     if(mapRef.current.zoom > 15){
-        //         setZoom(15)
-        //     }
-
-        // }
+  
         boundsChanged()
+    }
+    const onDrag = () => {
+        // setSelectedMarker(null)
     }
     const onDragEnd = () => {
         boundsChanged()
     }
 
     const onLoadMap = (map) => {
-        console.log("dd")
         mapRef.current = map;
         if(setMap){
-            console.log(map)
-            console.log("ss")
             setMap(mapRef.current)
         }
     }
     const onTilesLoaded =() =>{
-        console.log("sss")
-        setCenter(null)
-        boundsChanged()
+        if(mapRef.current){
+            setCenter(mapRef.current.getCenter().toJSON())
+        }
+        
     }
 
     const onClickMarker = (marker, index) => {
-        setCenter({"lat":data[index]['metadata']['lat'],"lng":data[index]['metadata']['lng']})
         setSelectedMarker({marker:marker, data:data[index]})
     }
     const onLoadMarker = (marker, index) => {
@@ -80,40 +78,27 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
     const [place, setPlace] = useState(null)
     useEffect(()=>{
       if(place){
-        console.log(place)
         setCenter({"lat":place['lat'],"lng":place['lng']})
         mapRef.current.fitBounds(place.bounds);
       }
     },[place])
     useEffect(()=>{
-        if(mapRef.current && (centerOnAll || centerOnFirst)){
-            if(centerOnFirst && data){
-                console.log("centerOnFirst")
+        if(mapRef.current && data && (centerOnAll || centerOnFirst)){
+            if(centerOnFirst && data.length != 1){
                 var bounds = new google.maps.LatLngBounds();
                 bounds.extend(data[0]['metadata']);
                 
                 mapRef.current.fitBounds(bounds);
             }
-            else if(centerOnAll && data && markers.length == data.length){
-                console.log("centerOnAll")
-                console.log(markers)
-                console.log(mapRef.current)
-                console.log(data)
+            else if(centerOnAll && markers.length == data.length && data.length != 1){
                 var bounds = new google.maps.LatLngBounds();
                 for (var i = 0; i < markers.length; i++) {
                     bounds.extend(markers[i].position);
                 }
-                
-                console.log(mapRef.current.getZoom())
-                console.log(mapRef.current.zoom)
-                console.log(zoom)
                 mapRef.current.fitBounds(bounds,{left:20,right:20,bottom:20,top:20});
-                console.log(zoom)
-                console.log(mapRef.current.getZoom())
             }
             else{
                 setCenter(defaultCenter)
-                console.log("CENTER")
             }
         }
       },[mapRef.current, centerOnFirst,data, centerOnAll, markers])
@@ -126,7 +111,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
             <div className='map-container' style={{ position: 'relative' }}>
                 
                 <GoogleMap
-                    zoom={8}
+                    zoom={4}
                     scrollwheel={true}
                     draggable={true}
                     options= {
@@ -136,11 +121,14 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                             fullscreenControl:true,
                             mapTypeControl:false,
                             streetViewControl:false,
-                            center:center
+                            center:center,
+                            maxZoom:15,
+                            minZoom:3,
+                            mapTypeId: 'hybrid'
                         }   
                     }
-
-                    center={center}
+                    onDrag={onDrag}
+                    // center={center}
                     onLoad={onLoadMap}
                     mapContainerStyle={containerStyle}
                     onTilesLoaded={onTilesLoaded}
@@ -169,7 +157,7 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
                             setSelectedMarker(null)
                         }}
                         >
-                            <RouteBoxView data={selectedMarker['data']} />
+                        <RouteBoxView data={selectedMarker['data']} />
                     </InfoWindow>
                     ) : null}
                     {

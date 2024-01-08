@@ -17,10 +17,12 @@ const LogIn = ({setExistingUser, existingUser}) => {
   const logIn = async (e) => {
     e.preventDefault();
     try {
+      console.log("response")
       let response = await postAPI(endpoints.auth_login,null, {
         email: email,
         password: password,
       });
+      console.log(response)
       setUser(response.data.user);
       setUserId(response.data.id);
       localStorage.setItem("token", response.data.token);
