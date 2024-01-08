@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate, useOutletContext } from "react-router-dom";
 // import { api } from '../badutilities';
-import {api} from '../utilities/api'
+import { api } from "../utilities/api";
 import SearchBox from "./SearchBox";
 import LoadingSpin from "../component/Spinner";
 
@@ -31,27 +31,50 @@ const BestForm = ({ location, setLocation }) => {
         travelDistanceMeters = 200000;
       }
 
-      setUserProfile(userProfile => ({...userProfile, goal: parsedGoalGrade, dwtt: travelDistance * 1609.34}));
+      setUserProfile((userProfile) => ({
+        ...userProfile,
+        goal: parsedGoalGrade,
+        dwtt: travelDistance * 1609.34,
+      }));
 
       const response = await api.post("beta/best-crag/", {
         goal_grade: parsedGoalGrade,
         location: {
           lat: location.lat,
-          lng: location.lng
+          lng: location.lng,
         },
         maxDistance: travelDistanceMeters,
       });
 
       if (response.status === 200) {
-        console.log(show)
+        console.log(show);
         setShow(false); // Close the modal
-        console.log(show)
+        console.log(show);
         // navigate("./dashboard/");
       }
     } catch (error) {
-      console.error("Error sending data:", error);
-      alert("no crags found in that area. change location and try again.")
-      
+      // console.error("Error sending data:", error);
+      // alert("No crags found in that area; expanding search area");
+      // setIsLoadingData(true);
+
+      try {
+        // Second attempt with maxDistance set to 300000
+        const response = await api.post("beta/best-crag/", {
+          goal_grade: parsedGoalGrade,
+          location: { lat: location.lat, lng: location.lng },
+          maxDistance: 300000,
+        });
+
+        if (response.status === 200) {
+          setShow(false); // Close the modal
+          // navigate("./dashboard/");
+        }
+      } catch (secondError) {
+        console.error("Second attempt failed:", secondError);
+        alert("No crags found even with expanded search area");
+      } finally {
+        setIsLoadingData(false);
+      }
     } finally {
       setIsLoadingData(false);
     }
@@ -83,7 +106,7 @@ const BestForm = ({ location, setLocation }) => {
             <div className="d-flex flex-column mb-3">
               <p>Location</p>
               <div>
-                <SearchBox setPlace={setLocation} address={""}/>
+                <SearchBox setPlace={setLocation} address={""} />
               </div>
             </div>
             <Form.Group className="mb-3" controlId="travelDistance">
@@ -104,7 +127,11 @@ const BestForm = ({ location, setLocation }) => {
           <Button variant="secondary" onClick={() => setShow(false)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleCreate} disabled={loadingData}>
+          <Button
+            variant="primary"
+            onClick={handleCreate}
+            disabled={loadingData}
+          >
             {loadingData ? <LoadingSpin /> : "Find Best Crags"}
           </Button>
         </Modal.Footer>

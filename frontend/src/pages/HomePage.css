@@ -18,6 +18,16 @@
   width: 100vw;
   height: 100vh;
   z-index: -1;
+  background-image: url('../imagesnew/FrontPage/background1.jpg'); 
+  background-size: cover;
+  background-position: center;
+}
+
+/* Mobile background image for smaller screens */
+@media (max-width: 768px) {
+  #home-background-img {
+    background-image: url('../imagesnew/FrontPage/vert.jpg');
+  }
 }
 
 .white-text {
@@ -39,4 +49,23 @@
   pointer-events: none;
   /* Allows clicks to go through the pyramid */
   margin-top: 45px;
+}
+
+
+@media (max-width: 768px) {
+  .pyramid-container {
+    margin-top: 200px;
+  }
+
+  .overlay-content {
+    top: 40%;
+    margin-top: 0;
+  }
+
+  .pyramid {
+    border-left: 20vw solid transparent;
+    border-right: 20vw solid transparent;
+    border-bottom: 40vh solid rgba(255, 255, 255, 0.2);
+    margin-top: 20px;
+  }
 }
