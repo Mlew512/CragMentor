@@ -63,7 +63,6 @@ function PyramidTable({ userId, setPyramid }) {
                 <th>Goal Grade</th>
                 <th>Location</th>
                 <th>Date Created</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -89,7 +88,7 @@ function PyramidTable({ userId, setPyramid }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="3">No Saved Pyramid</td>
+                  <td colSpan="4">No Saved Pyramid</td>
                 </tr>
               )}
             </tbody>

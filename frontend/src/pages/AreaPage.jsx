@@ -73,7 +73,10 @@ function AreaPage() {
             isLoading == false && data != null ?
             (
                 <>
-                <section>  
+                <Container> 
+                    <Row>
+
+                    
                     {/* {
                         data.media.length > 0 &&
                         <img style={{width:'100px'}} src={"https://media.openbeta.io/" + data.media[0]['mediaUrl']}/>
@@ -133,11 +136,9 @@ function AreaPage() {
                             </Row>
                         </Container>
                         }
-
                     <MapView data={[...data.climbs,...data.children]} centerOnAll={true} showSearch={false} boundsChangedCallback={temp} />
-                </section>
-
-
+                    </Row>
+                </Container>
                 </>
             ):
             (<LoadingSpinner isLoading={isLoading} />)

@@ -1,25 +1,29 @@
 .route-details-container {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    margin: 20px;
   }
   
   .left-column {
     width: 45%; /* Adjust the width as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+
   
   .right-column {
     width: 45%; /* Adjust the width as needed */
     padding: 20px;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     border-radius: 8px;
-    margin: 20px;
-    background-color: #f8f8f8;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* background-color: #f8f8f8; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   }
   
   .route-image {
     width: 100%; /* Make the image fill the container */
+    object-fit: cover;
   }
   
 

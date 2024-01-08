@@ -1,8 +1,12 @@
-.favorite-button{
+/* .favorite-button{
 
-}
+} */
 .favorite-button.top-right{
     position: absolute;
     top:20px;
     right:20px;
+}
+
+.star{
+    color: rgb(216, 216, 3);
 }

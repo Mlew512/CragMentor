@@ -97,36 +97,31 @@ const Dashboard = () => {
                           </tr>
                         ))}
                     <tr className="text-center">
-                      <td></td>
-                      <td>
-                        <Link to="../mypyramids/">View More</Link>
+                      <td colSpan={4}>
+                        <Link to="../mypyramids/" >View More</Link>
                       </td>
-                      <td></td>
                     </tr>
                   </tbody>
                 </Table>
               </CardBody>
             </Card>
           </Col>
-          {/* Preferences */}
+          {/* Reccomended Crags */}
           <Col lg={6}>
             <Card>
-              <CardHeader id="preferences" className="text-center">
-                Preferences
+              <CardHeader id="best-crags" className="text-center">
+                Best Recommended Crags
               </CardHeader>
               <CardBody>
-                <ul style={{ textDecoration: "none" }}>
-                  <li>My Goal: {userProfile?.goal}</li>
-                  <li>Current Location: {location?.name} </li>
-                  {/* <SearchBox address={userProfile?.location} setPlace={setPlace} /> */}
-                  <li>
-                    Preference Area Distance:{" "}
-                    {Math.round(userProfile?.dwtt / 1609.34)} miles
-                  </li>
-                </ul>
+                <BestCrags
+                  userProfile={userProfile}
+                  location={location}
+                  setLocation={setLocation}
+                />
               </CardBody>
             </Card>
           </Col>
+  
         </Row>
         <Row>
           {/* Favorites */}
@@ -165,7 +160,7 @@ const Dashboard = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="6">No data available</td>
+                        <td colSpan="4">No data available</td>
                       </tr>
                     )}
                   </tbody>
@@ -173,21 +168,7 @@ const Dashboard = () => {
               </CardBody>
             </Card>
           </Col>
-          {/* Reccomended Crags */}
-          <Col lg={7}>
-            <Card>
-              <CardHeader id="best-crags" className="text-center">
-                Best Recommended Crags
-              </CardHeader>
-              <CardBody>
-                <BestCrags
-                  userProfile={userProfile}
-                  location={location}
-                  setLocation={setLocation}
-                />
-              </CardBody>
-            </Card>
-          </Col>
+          
         </Row>
       </Container>
     </>

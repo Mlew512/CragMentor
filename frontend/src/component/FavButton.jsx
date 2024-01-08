@@ -9,12 +9,11 @@ import Col from 'react-bootstrap/Col';
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import {postAPI,deleteAPI, endpoints} from '../utilities/api'
 import {ConvertDictToURLParams} from "../utilities/converters"
+import { FaRegStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
+
 const FavButton = ({data, topRight=false}) => {
     const { favoriteRoutes, setFavoriteRoutes, user } = useOutletContext();
-
-
-
-
 
     const [isFav, setIsFav] = useState(false);
     useEffect(()=>{
@@ -88,13 +87,13 @@ const FavButton = ({data, topRight=false}) => {
         <>
         {/* <SignupLoginModal show={showAuthModal} setShow={setShowAuthModal} /> */}
 
-        <Button variant="outline-primary" className={"favorite-button " + (topRight ? 'top-right' : '')} onClick={(e) => handleClick(e)}>{
+        <Button variant="transparent" className={"favorite-button " + (topRight ? 'top-right' : '')} onClick={(e) => handleClick(e)}>{
             isFav?
             (
-                <FaHeart />
+                <FaStar className='star' size={27}/>
             ):
             (
-                <FaRegHeart />
+                <FaRegStar className='star' size={27}/>
             )
         }</Button>
 
