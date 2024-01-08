@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {api} from '../utilities/api'
+import { api } from "../utilities/api";
 import {
   Container,
   Row,
@@ -70,20 +70,32 @@ const Dashboard = () => {
                     <tr className="text-center">
                       <th>Goal Grade</th>
                       <th>Id</th>
+                      <th>Location</th>
                       <th>Date Created</th>
                     </tr>
                   </thead>
                   <tbody>
                     {Array.isArray(savedPyramid) &&
-                      savedPyramid.slice(0, 3).map((pyramid, index) => (
-                        <tr key={index} className="text-center">
-                          <td>{pyramid.goal_grade}</td>
-                          <td>
-                            {pyramid.latitude}, {pyramid.longitude}
-                          </td>
-                          <td>{pyramid.date_generated}</td>
-                        </tr>
-                      ))}
+                      savedPyramid
+                        .slice()
+                        .reverse()
+                        .slice(0, 3)
+                        .map((pyramid, index) => (
+                          <tr key={index} className="text-center">
+                            <td>V{pyramid.goal_grade}</td>
+                            <td onClick={() => handleAPyramid(pyramid.id)}>
+                              <Button variant="outline-info">
+                                {pyramid.id}
+                              </Button>
+                            </td>
+                            <td>{pyramid.location}</td>
+                            <td>
+                              {new Date(
+                                pyramid.date_generated
+                              ).toLocaleDateString()}
+                            </td>
+                          </tr>
+                        ))}
                     <tr className="text-center">
                       <td></td>
                       <td>

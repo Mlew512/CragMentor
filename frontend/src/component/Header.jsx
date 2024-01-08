@@ -38,11 +38,12 @@ const Header = ({ user, setUser }) => {
       <Container>
         {user ? (
           <>
-            <Navbar.Brand as={Link} to="/dashboard/" className='d-flex align-items-center'>
+            <Navbar.Brand as={Link} to="/" className='d-flex align-items-center'>
               <img src={Logo} style={{ width: "50px", height: "50px", borderRadius: "50px" }} alt="Logo" />
               <h3>CragMentor</h3>
             </Navbar.Brand>
             <Nav className="links" variant="underline">
+            <Nav.Link as={Link} to="/dashboard/">Dashboard</Nav.Link>
               <Nav.Link as={Link} to="/pyramid/">Pyramid</Nav.Link>
               <Nav.Link as={Link} to="/map/">Map</Nav.Link>
               <Nav.Link as={Link} to="/mypyramids/">MyPyramid</Nav.Link>
@@ -62,18 +63,18 @@ const Header = ({ user, setUser }) => {
                   </span>
                 }
               >
-                <Dropdown.Item as={Link} to="/profile/" className="d-flex flex-row align-items-center">
+                {/* <Dropdown.Item as={Link} to="/profile/" className="d-flex flex-row align-items-center">
                   <CgProfile size={20} /><div className="px-1">Profile</div>
-                </Dropdown.Item>
+                </Dropdown.Item> */}
                 <Dropdown.Item as={Link} to="/dashboard/" className="d-flex flex-row align-items-center">
                   <CgProfile size={20} /><div className="px-1">Dashboard</div>
                 </Dropdown.Item>
                 <Dropdown.Item as={Link} to="/contact/" className="d-flex flex-row align-items-center">
                   <MdOutlineContactSupport size={20} /><div className="px-1">Contact Us</div>
                 </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/" className="d-flex flex-row align-items-center">
-                  <AiOutlineSetting size={20} /> <div className="px-1">Settings</div> {/* Change to AiOutlineSetting */}
-                </Dropdown.Item>
+                {/* <Dropdown.Item as={Link} to="/" className="d-flex flex-row align-items-center">
+                  <AiOutlineSetting size={20} /> <div className="px-1">Settings</div> 
+                </Dropdown.Item> */}
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={handleLogout} style={{ color: "red" }}>Log out</Dropdown.Item>
               </DropdownButton>

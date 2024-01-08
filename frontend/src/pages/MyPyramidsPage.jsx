@@ -2,13 +2,14 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import PyramidTable from "../component/PyramidTable";
 import { Row, Col, Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import {api} from '../utilities/api'
+import {api} from '../utilities/api' 
 import { Link } from "react-router-dom";
 
 const MyPyramidsPage =()=>{
   const {user, userId} = useOutletContext();
   const navigate = useNavigate();
   const [pyramid, setPyramid] = useState(null)
+  
   
   useEffect(()=>{
     if(!user){

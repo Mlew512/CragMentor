@@ -11,6 +11,7 @@ get_climb_by_id_query = """
                 }
                 grades {
                     vscale
+                    yds
                 }
                 content {
                     description

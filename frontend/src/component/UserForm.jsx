@@ -57,7 +57,7 @@ const UserForm = ({location, setLocation}) => {
     } catch (error) {
       setIsLoadingData(false)
       console.error("Error sending data:", error);
-      alert("no crags found in that area. change location and try again.")
+      alert("no crags found in that area or our servers are down, change location and try again.")
     }
   }
 
