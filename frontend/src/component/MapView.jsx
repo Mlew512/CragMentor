@@ -49,7 +49,9 @@ const MapView = ({data, showSearch=true, centerOnFirst=false, centerOnAll=false,
   
         boundsChanged()
     }
- 
+    const onDrag = () => {
+        // setSelectedMarker(null)
+    }
     const onDragEnd = () => {
         boundsChanged()
     }
