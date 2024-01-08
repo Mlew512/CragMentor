@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { api } from "../utilities";
+// import { api } from "../badutilities";
+import {api} from '../utilities/api'
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UserForm from "../component/UserForm";

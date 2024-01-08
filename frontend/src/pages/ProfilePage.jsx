@@ -2,7 +2,7 @@ import SearchBox from '../component/SearchBox'
 import React, { useEffect, useRef, useState } from 'react';
 import { Card, Row, Col, Container } from "react-bootstrap";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { api } from '../utilities'
+import {api} from '../utilities/api'
 import JohnPhoto from "../images/TeamPhotos/John.jpg"
 import UserForm from "../component/UserForm";
 import "./ProfilePage.css"

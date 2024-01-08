@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../utilities";
+import { api } from "../utilities/api";
 import {
   Container,
   Row,
@@ -35,10 +35,11 @@ const Dashboard = () => {
   const [savedPyramid, setSavedPyramid] = useState([]);
   const [searchPyramidId, setSearchPyramidId] = useState(null);
 
-  // To get all Pyramids across users
+  // To get all Pyramids for user
   const getUserPyramids = async () => {
+    const user_id = localStorage.getItem("user_id");
     try {
-      const response = await api.get(`/pyramid/user/${userId}`);
+      const response = await api.get(`/pyramid/user/${user_id}`);
       if (response.status === 200) {
         console.log(response.data);
         setSavedPyramid(response.data);
@@ -47,12 +48,11 @@ const Dashboard = () => {
       console.error("Couldn't get pyramids:", error);
     }
   };
-  const handleNavigate =(id)=>{
+  const handleNavigate = (id) => {
     // console.log(id)
-    navigate('/mypyramids/')
+    navigate("/mypyramids/");
     handleAPyramid(id);
-
-  }
+  };
   useEffect(() => {
     getUserPyramids();
   }, [userId]);
@@ -74,25 +74,41 @@ const Dashboard = () => {
                 <Table striped>
                   <thead>
                     <tr className="text-center">
-                      <th>Difficulty</th>
-                      <th>location</th>
-                      <th>Date created</th>
+                      <th>Goal Grade</th>
+                      <th>Id</th>
+                      <th>Location</th>
+                      <th>Date Created</th>
                     </tr>
                   </thead>
                   <tbody>
                     {Array.isArray(savedPyramid) &&
-                      savedPyramid.slice(0, 3).map((pyramid, index) => (
-                        <tr key={index} className="text-center">
-                          <td onClick={()=>handleNavigate(pyramid.id)}>
-                            {pyramid.goal_grade}
-                            {/* <Link to={`/pyramid/${pyramid.id}/`}>
-                              {pyramid.goal_grade}
-                            </Link> */}
-                          </td>
-                          <td>{pyramid.latitude}, {pyramid.longitude}</td>
-                          <td>{pyramid.date_generated}</td>
-                        </tr>
-                      ))}
+                      savedPyramid
+                        .slice()
+                        .reverse()
+                        .slice(0, 3)
+                        .map((pyramid, index) => (
+                          <tr key={index} className="text-center">
+                            <td>V{pyramid.goal_grade}</td>
+                            <td onClick={() => handleAPyramid(pyramid.id)}>
+                              <Button variant="outline-info">
+                                {pyramid.id}
+                              </Button>
+                            </td>
+                            <td>{pyramid.location}</td>
+                            <td>
+                              {new Date(
+                                pyramid.date_generated
+                              ).toLocaleDateString()}
+                            </td>
+                          </tr>
+                        ))}
+                    <tr className="text-center">
+                      <td></td>
+                      <td>
+                        <Link to="../mypyramids/">View More</Link>
+                      </td>
+                      <td></td>
+                    </tr>
                   </tbody>
                 </Table>
               </CardBody>
@@ -167,7 +183,7 @@ const Dashboard = () => {
           <Col lg={7}>
             <Card>
               <CardHeader id="best-crags" className="text-center">
-                Best Reccomended Crags
+                Best Recommended Crags
               </CardHeader>
               <CardBody>
                 <BestCrags

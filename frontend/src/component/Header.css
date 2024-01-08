@@ -2,10 +2,12 @@
 .navbar {
   margin-bottom: 10px;
   background-color: rgba(240, 248, 255, 0.201);
+  color: white;
 }
 .navbar:hover {
   margin-bottom: 10px;
   background-color: rgba(240, 248, 255, 0.967);
+  color: black
 }
 
 .links{

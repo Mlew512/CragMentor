@@ -3,7 +3,7 @@ import "./PyramidPage.css"
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
-import { api } from "../utilities";
+import {api} from '../utilities/api'
 import { GiSaveArrow } from "react-icons/gi";
 import PyramidTable from "../component/PyramidTable";
 
@@ -12,6 +12,7 @@ const PyramidPage = () => {
   const { user, myPyramid, setLocation, userId, location, userProfile} = useOutletContext();
   const { location: userLocation } = useOutletContext();
   const [pyramidId, setPyramidId] = useState(null);
+  const [localUserId, setLocalUserId] = useState("")
 
   
 
@@ -22,30 +23,36 @@ const PyramidPage = () => {
   }, [user, myPyramid]);
 
   const handleSavePyramid = async () => {
+    const user_id = localStorage.getItem("user_id")
     try {
       const requestData = {
         pyramidData: myPyramid,
         userLocation: userLocation,
       };
+      console.log(location)
       const response = await api.post("/pyramid/", {
-        user: userId,
+        // change into location instead of lat long
+        user: user_id,
+        location: location.name,
         latitude: location.lat,
         longitude: location.lng,
         goal_grade: userProfile.goal
       });
 
       if (response.status === 201) {
-        alert(`Pyramid with id: ${response.data.pyramid_id} saved successfully`);
+        // alert(`Pyramid with id: ${response.data.pyramid_id} saved successfully`);
         // console.log(typeof(myPyramid.goal_climb.uuid), myPyramid.goal_climb.name)
         setPyramidId(response.data.pyramid_id);
         }
       
     } catch (error) {
       console.error("Error saving pyramid:", error);
+      alert("no crags found in that. change location and try again.")
     }
     };
 
   const addRoutesToPyramid = async()=> {
+    const user_id = localStorage.getItem("user_id")
     for (const routeKey in myPyramid){
       const route = myPyramid[routeKey];
       try{
@@ -58,7 +65,11 @@ const PyramidPage = () => {
       })
       if (response.status ===201){
         console.log("route created")
-        // console.log(response.data)
+        console.log(response.data.routes)
+        if ((response.data.routes).length == 7) { // Assuming routeKey is a numeric index starting from 0
+          // Navigate once the 7th route is added
+          navigate("../mypyramids");
+        }
       }
       }catch(error){
         console.log("Did not save route")

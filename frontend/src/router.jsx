@@ -14,6 +14,7 @@ import FavoritesPage from './pages/FavoritesPage.jsx'
 import Dashboard from "./pages/Dashboard.jsx";
 import SavedPyramidsPage from "./pages/SavedPyramidsPage.jsx";
 import MyPyramidsPage from "./pages/MyPyramidsPage.jsx";
+import Error404Page from "./pages/Error404Page.jsx"
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,7 @@ const router = createBrowserRouter([
         element: <FavoritesPage />,
       }
     ],
+    errorElement: <Error404Page />,
   },
 ]);
 export default router;

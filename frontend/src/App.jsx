@@ -1,74 +1,94 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import './App.css'
 import Header from './component/Header'
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation as useRouterLocation } from 'react-router-dom';
 import Container from "react-bootstrap/Container";
 import Footer from './component/Footer';
 import {endpoints, getAPI, postAPI, setAuth} from './utilities/api'
 
+
 function App() {
-  const [userId,setUserId] = useState(null);
-  const [user, setUser] = useState("")
-  const [myPyramid, setMyPyramid] = useState(null)
+  const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState("");
+  const [myPyramid, setMyPyramid] = useState(null);
   const [favoriteRoutes, setFavoriteRoutes] = useState([]);
-  const [userProfile, setUserProfile] = useState({})
-  const [location, setLocation] = useState({"lat": null, "lng": null})
+  const [userProfile, setUserProfile] = useState({});
+  const [location, setLocation] = useState({ "lat": null, "lng": null });
+  const navigate = useNavigate();
+  const routerLocation = useRouterLocation();
+  const lastVisited = useRef();
 
-  useEffect(()=>{
-    console.log(favoriteRoutes)
-  },[favoriteRoutes])
-
-  useEffect(()=>{
-    let token = localStorage.getItem("token")
-    if(token){
-      setAuth(token)
-    }else{
-      setAuth(null)
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (token) {
+      setAuth(token);
+    } else {
+      setAuth(null);
     }
-    
-    if(user){
-      getFavRoutes()
-      // setUserProfile({"current_level":3, "goal":4, "dwtt":10000})
-    }
-  },[user])
 
-  const getFavRoutes = async()=>{
-    try{
-      console.log(endpoints.favorites)
-      const response = await getAPI(endpoints.favorites)
-      console.log(response)
-      if(response.status){
-        console.log(response.data)
-        setFavoriteRoutes(response.data)
+    if (user) {
+      getFavRoutes();
+      setUserProfile({ "current_level": 3, "goal": 4, "dwtt": 10000 });
+
+    }
+  }, [user]);
+
+  const getFavRoutes = async () => {
+    try {
+      const response = await getAPI(endpoints.favorites);
+      if (response.status) {
+        setFavoriteRoutes(response.data);
       }
-    }catch(error){
-      console.log(error)
-      console.log("Couldn't get routes")
-      console.log("Something Bad happened")
+    } catch (error) {
+      console.log("Couldn't get routes");
+      console.error(error);
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
+    whoAmI();
+  }, []);
 
-    setUserProfile({"current_level":3, "dwtt":1000})
-    // add default, goal, current_level, distance willing to travel, location
-    
-  },[])
+  useEffect(() => {
+    if (!user) {
+      lastVisited.current = routerLocation.pathname;
+    }
+  }, [routerLocation]);
+
+  useEffect(() => {
+    if (lastVisited.current) {
+      navigate(lastVisited.current);
+    }
+  }, []); // This effect runs only once when the component mounts
+
+  const whoAmI = async () => {
+    let token = localStorage.getItem("token");
+    if (token) {
+      setAuth(token);
+      let response = await getAPI("users/info");
+      if (response.data.email) {
+        setUser(response.data);
+      }
+    }
+  };
 
   return (
     <>
-      <Header user={user} setUser={setUser}/>
-      <Outlet context={{ 
-        user, setUser, 
-        myPyramid, setMyPyramid, 
-        userProfile, setUserProfile,
-        location, setLocation,
-        favoriteRoutes, setFavoriteRoutes,
-        userId, setUserId
-         }}/>
-      <Footer/>
+      <Header user={user} setUser={setUser} />
+      <Outlet
+        context={{
+          user, setUser,
+          myPyramid, setMyPyramid,
+          userProfile, setUserProfile,
+          location, setLocation,
+          favoriteRoutes, setFavoriteRoutes,
+          userId, setUserId
+        }}
+      />
+      <Footer />
     </>
   );
 }
 
 export default App;
+

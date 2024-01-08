@@ -80,7 +80,7 @@ function AreaPage() {
                     } */}
                     <FavButton data={data} />
                     <h1>{data.areaName}</h1>
-                    <p>Total Climbs - {data.totalClimbs}</p>
+                    <p>{data.content?.description}</p>
                     <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to parent</a>
 
                     {/* <p>description - {data.content.description}</p> */}
@@ -90,7 +90,7 @@ function AreaPage() {
                             data.children && data.children.length > 0 &&
                             <Container className="d-flex flex-column">
                                 <Row className="text-center">
-                                    <h3>Areas</h3>
+                                    <h3>Areas({data.children.length})</h3>
                                 </Row>
                                 <Row >
                                     {data.children.map((area, index) => {
@@ -113,7 +113,7 @@ function AreaPage() {
                         {data.climbs && data.climbs.length > 0 &&
                         <Container className="d-flex flex-column">
                             <Row className="text-center">
-                                <h3>Climbs</h3>
+                                <h3>Routes({data.totalClimbs})</h3>
                             </Row>
                             <Row >
                                 {data.climbs.map((climb, index) => {
