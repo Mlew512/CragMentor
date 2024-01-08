@@ -15,7 +15,7 @@ class CragService:
             response = requests.post(
                 "https://api.openbeta.io/",
                 json={"query": crag_in_area_query, "variables": variables},
-                timeout=10,
+                timeout=20,
             )
 
             response.raise_for_status()
@@ -40,7 +40,7 @@ class CragService:
             response = requests.post(
                 "https://api.openbeta.io/",
                 json={"query": climbs_in_crag_query, "variables": variables},
-                timeout=5,
+                timeout=20,
             )
 
             response.raise_for_status()
@@ -131,7 +131,7 @@ class CragService:
             response = requests.post(
                 "https://api.openbeta.io/",
                 json={"query": query, "variables": variables},
-                timeout=10,
+                timeout=20,
             )
 
             response.raise_for_status()
@@ -155,7 +155,7 @@ class CragService:
             response = requests.post(
                 "https://api.openbeta.io/",
                 json={"query": get_climb_by_id_query, "variables": variables},
-                timeout=10,
+                timeout=20,
             )
 
             response.raise_for_status()
