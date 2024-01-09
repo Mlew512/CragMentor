@@ -17,7 +17,7 @@ const ContactPage = () => {
       imageUrl: halseyImg,
       linkedinUrl: "https://www.linkedin.com/in/halsey-filbin/",
       githubUrl: "https://github.com/hfilbin10",
-      aboutMe:"fill out",
+      aboutMe:"I enjoy making applications that make it easier for people to get out and enjoy their passions. When I'm not working I enjoy doing hiking, playing sports and playing with my dogs, Mickey, Maple and Moab",
     },
     {
       name: "Matthew Lewis",
