@@ -1,8 +1,8 @@
 /* Base styles */
 .navbar {
   margin-bottom: 10px;
-  background-color: rgba(240, 248, 255, 0.201);
-  color: white;
+  background-color: rgba(240, 248, 255, 0.338);
+
 }
 
 .navbar:hover {
@@ -78,4 +78,4 @@ h3.cragmentor-title {
   display: none;
 }
 }
-}
+

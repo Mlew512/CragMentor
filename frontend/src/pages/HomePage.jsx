@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import Logo from "../images/logo.png";
 import background1 from "../imagesnew/FrontPage/background1.jpg";
+import CarouselComponent from "../component/CarouselComponent";
 
 import "./HomePage.css";
 
@@ -11,11 +12,13 @@ const HomePage = () => {
 
   return (
     <>
-    <>
-    <img id="home-background-img" />
-    </>
+    {/* <img id="home-background-img" /> */}
+    
+ 
+
     <>
       <Container fluid>
+        <CarouselComponent/>
         <Row>
           <Col>
             <div className="pyramid-container">
@@ -50,6 +53,8 @@ const HomePage = () => {
             </div>
           </Col>
         </Row>
+        
+       
       </Container>
     </>
     </>
