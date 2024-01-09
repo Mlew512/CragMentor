@@ -110,7 +110,7 @@ const RandomCompliment =() =>{
           </div>
           <Row className="justify-content-center">
             <Col lg={3}>
-              <Card className="pyramid-card text-center" onClick={()=>useNavigate(`/route/${myPyramid?.goal_climb.uuid}`)}>
+              <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${myPyramid?.goal_climb.uuid}`)}>
                 <p><i>{myPyramid?.goal_climb.name}</i></p>
                 <h4>{myPyramid?.goal_climb.grade}</h4>
               </Card>
@@ -119,13 +119,13 @@ const RandomCompliment =() =>{
 
           <Row className="justify-content-center">
             <Col lg={3}>
-              <Card className="pyramid-card text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_1.uuid}`)}>
+              <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${myPyramid?.runner_up_1.uuid}`)}>
                 <p><i>{myPyramid?.runner_up_1.name}</i></p>
                 <h4>{myPyramid?.runner_up_1.grade}</h4>
               </Card>
             </Col>
             <Col lg={3}>
-              <Card className="pyramid-card text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_2.uuid}`)}>
+              <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${myPyramid?.runner_up_2.uuid}`)}>
                 <p><i>{myPyramid?.runner_up_2.name}</i></p>
                 <h4>{myPyramid?.runner_up_2.grade}</h4>
               </Card>
@@ -134,27 +134,27 @@ const RandomCompliment =() =>{
 
           <Row className="justify-content-center">
             <Col lg={3}>
-              <Card className="pyramid-card text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_3.uuid}`)}>
+              <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${myPyramid?.runner_up_3.uuid}`)}>
                 <p><i>{myPyramid?.runner_up_3.name}</i></p>
                 <h4>{myPyramid?.runner_up_3.grade}</h4>
                 
               </Card>
             </Col>
             <Col lg={3}>
-              <Card className="pyramid-card text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_4.uuid}`)}>
+              <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${myPyramid?.runner_up_4.uuid}`)}>
                 <p><i>{myPyramid?.runner_up_4.name}</i></p>
                 <h4>{myPyramid?.runner_up_4.grade}</h4>
               </Card>
             </Col>
             <Col lg={3}>
-              <Card className="pyramid-card text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_5.uuid}`)}>
+              <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${myPyramid?.runner_up_5.uuid}`)}>
                 <p><i>{myPyramid?.runner_up_5.name}</i></p>
                 <h4>{myPyramid?.runner_up_5.grade}</h4>
         
               </Card>
             </Col>
             <Col lg={3}>
-              <Card className="pyramid-card text-center" onClick={()=>useNavigate(`/route/${myPyramid?.runner_up_6.uuid}`)}>
+              <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${myPyramid?.runner_up_6.uuid}`)}>
                 <p><i>{myPyramid?.runner_up_6.name}</i></p>
                 <h4>{myPyramid?.runner_up_6.grade}</h4>
               </Card>
