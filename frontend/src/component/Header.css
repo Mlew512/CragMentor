@@ -29,6 +29,7 @@ h3.cragmentor-title {
   h3.cragmentor-title {
     display: none; /* Hide the title on small screens */
   }
+}
 /* Responsive styles for screens up to 1000px */
 @media (max-width: 1000px) {
 
@@ -75,5 +76,6 @@ h3.cragmentor-title {
 @media (min-width: 1001px) {
 .dropitems {  
   display: none;
+}
 }
 }
