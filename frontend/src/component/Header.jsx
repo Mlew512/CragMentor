@@ -51,10 +51,10 @@ const Header = ({ user, setUser }) => {
               <h3 className="cragmentor-title">CragMentor</h3>
             </Navbar.Brand>
             <Nav className="links" variant="underline">
-              <Nav.Link as={Link} to="/pyramid/"><TbHexagonalPyramidPlus size={30}/></Nav.Link>
-              <Nav.Link as={Link} to="/mypyramids/"><AiOutlineProfile size={30}/></Nav.Link>
-              <Nav.Link as={Link} to="/dashboard/"><MdOutlineFavoriteBorder size={30}/></Nav.Link>
-              <Nav.Link as={Link} to="/map/"><FiMapPin size={30}/></Nav.Link>
+              <Nav.Link as={Link} to="/pyramid/" title="Make a Pyramid"><TbHexagonalPyramidPlus size={30}/></Nav.Link>
+              <Nav.Link as={Link} to="/mypyramids/" title="My Pyramids"><AiOutlineProfile size={30}/></Nav.Link>
+              <Nav.Link as={Link} to="/dashboard/" title="Dashboard"><MdOutlineFavoriteBorder size={30}/></Nav.Link>
+              <Nav.Link as={Link} to="/map/" title="Map"><FiMapPin size={30}/></Nav.Link>
               <AreaSearch />
             </Nav>
             <div className="user-dropdown">
@@ -72,25 +72,17 @@ const Header = ({ user, setUser }) => {
                   </span>
                 }
               >
-                {/* <Dropdown.Item as={Link} to="/profile/" className="d-flex flex-row align-items-center">
-                  <CgProfile size={20} /><div className="px-1">Profile</div>
-                </Dropdown.Item> */}
                 <Dropdown.Item as={Link} to="/dashboard/" className="d-flex flex-row align-items-center" class="dropitems">
-                  <CgProfile size={20} /><div className="px-1">Dashboard</div>
+                  <div className="px-1"><MdOutlineFavoriteBorder size={20}/> Dashboard </div>
                 </Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/pyramid/" className="dropitems">Pyramid</Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/map/" className="dropitems">Map</Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/mypyramids/" className="dropitems">MyPyramids</Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/pyramid/" className="d-flex flex-row align-items-center" class="dropitems"><TbHexagonalPyramidPlus size={20}/>Generate</Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/mypyramids/" className="d-flex flex-row align-items-center" class="dropitems"><AiOutlineProfile size={20}/>MyPyramids</Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/map/" className="d-flex flex-row align-items-center" class="dropitems"><FiMapPin size={20}/>Map</Dropdown.Item>
                   <Dropdown.Item className='dropitems'>
-                    {/* may need to work figure out why its not working */}
-                    <AreaSearch />
                   </Dropdown.Item>
                 <Dropdown.Item as={Link} to="/contact/" className="d-flex flex-row align-items-center">
                   <MdOutlineContactSupport size={20} /><div className="px-1">Contact Us</div>
                 </Dropdown.Item>
-                {/* <Dropdown.Item as={Link} to="/" className="d-flex flex-row align-items-center">
-                  <AiOutlineSetting size={20} /> <div className="px-1">Settings</div> 
-                </Dropdown.Item> */}
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={handleLogout} style={{ color: "red" }}>Log out</Dropdown.Item>
               </DropdownButton>
