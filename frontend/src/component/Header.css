@@ -1,17 +1,105 @@
-
+/* Base styles */
 .navbar {
   margin-bottom: 10px;
   background-color: rgba(240, 248, 255, 0.201);
   color: white;
 }
+
 .navbar:hover {
   margin-bottom: 10px;
   background-color: rgba(240, 248, 255, 0.967);
-  color: black
+  color: black;
 }
 
-.links{
+.links {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.navbar-brand img.logo {
+  width: 50px; /* Set your desired width */
+  height: 50px; /* Set your desired height */
+}
+
+h3.cragmentor-title {
+  display: block;
+}
+@media (max-width: 1200px) {
+  h3.cragmentor-title {
+    display: none; /* Hide the title on small screens */
+  }
+/* Responsive styles for screens up to 1000px */
+@media (max-width: 1000px) {
+
+  .links, .links-header {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 56px; /* Adjust the top position as needed */
+    left: 0;
+    background-color: #fff; /* Set your desired background color */
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+
+  .links a, .links-header .dropdown-item {
+    padding: 10px;
+  }
+
+  .links.show, .links-header.show {
+    display: flex;
+  }
+
+  .links-header {
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .links-header .dropdown-item {
+    color: black; /* Set the link color */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .links-header .dropdown-item:hover {
+    background-color: rgba(240, 248, 255, 0.7); 
+  }
+}
+
+/* Larger screens (min-width: 769px) */
+@media (min-width: 800px) {
+  .links, .links-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .links a {
+    padding: 10px;
+    margin-right: 10px;
+  }
+
+  .user-dropdown {
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+  .custom-dropdown {
+    background-color: transparent;
+    border: none;
+  }
+  .dropitems {  
+    display: none;
+  }
+}
+}
+@media (min-width: 1000px) {
+.dropitems {  
+  display: none;
+}
 }
