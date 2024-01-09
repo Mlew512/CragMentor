@@ -17,6 +17,7 @@ const ContactPage = () => {
       imageUrl: halseyImg,
       linkedinUrl: "https://www.linkedin.com/in/halsey-filbin/",
       githubUrl: "https://github.com/hfilbin10",
+      aboutMe:"fill out",
     },
     {
       name: "Matthew Lewis",
@@ -33,6 +34,7 @@ const ContactPage = () => {
       imageUrl: john,
       linkedinUrl: "https://www.linkedin.com/in/john-prado-01876523a/",
       githubUrl: "https://github.com/PradoJohn",
+      aboutMe:"fill out",
     },
     {
       name: "Derek Marion",
@@ -40,6 +42,7 @@ const ContactPage = () => {
       imageUrl: derekimg,
       linkedinUrl: "https://www.linkedin.com/in/derek-marion-9b6a4370/",
       githubUrl: "https://github.com/derekmarion",
+      aboutMe:"fill out",
     },
     {
       name: "Michael Termotto",
@@ -47,6 +50,7 @@ const ContactPage = () => {
       imageUrl: termottoimg,
       linkedinUrl: "https://www.linkedin.com/in/michael-termotto-2b6800277/",
       githubUrl: "https://github.com/CustomDesignBuildStudios",
+      aboutMe:"fill out",
     },
   ];
 
