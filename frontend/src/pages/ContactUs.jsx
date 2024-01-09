@@ -42,7 +42,7 @@ const ContactPage = () => {
       imageUrl: derekimg,
       linkedinUrl: "https://www.linkedin.com/in/derek-marion-9b6a4370/",
       githubUrl: "https://github.com/derekmarion",
-      aboutMe:"fill out",
+      aboutMe:"I find joy in building efficient and effective software that is actually useful in everyday life. When I'm not coding, I'm climbing, skiing, and surfing.",
     },
     {
       name: "Michael Termotto",
