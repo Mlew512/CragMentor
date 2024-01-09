@@ -1,0 +1,18 @@
+#contact-card{
+  width: 900px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 8px gray;
+  display: flex;
+  background-color: #BBDEFB;
+  min-height: 350px;
+}
+.contact-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 30%;
+  padding: 20px;
+}
+#contact-img{
+  border-radius: 50px;
+}
