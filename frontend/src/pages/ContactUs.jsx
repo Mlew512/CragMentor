@@ -19,12 +19,13 @@ const ContactPage = () => {
       githubUrl: "https://github.com/hfilbin10",
     },
     {
-      name: "Matt Lewis",
+      name: "Matthew Lewis",
       position: "Software Engineer",
       imageUrl: mattimg,
       mountainlink:"https://www.mountainproject.com/user/200177473/matthew-lewis",
       linkedinUrl: "https://www.linkedin.com/in/matthew-lewis-b40398184/",
       githubUrl: "https://github.com/Mlew512",
+      aboutMe:`As an enthusiastic rock climber with motivation for challenging terrains, I've transitioned from a role as a Trauma ICU nurse to a dedicated software developer. My passion lies in problem-solving and creating user-friendly solutions that have a meaningful impact on people's lives each day. Whether I'm bouldering in Chattanooga, sport climbing in Spain, or tackling T-Wall's gear placements, I find inspiration in both physical and digital challenges. Committed to continuous improvement, I bring an adaptive leadership approach to foster the best in others. My journey involves not only scaling heights on rocky surfaces but also elevating the possibilities in the world of software development.`,
     },
     {
       name: "John Prado",
@@ -94,9 +95,9 @@ const ContactPage = () => {
                           </a>
                         </li>
                       )}
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, eum exercitationem excepturi accusamus, fuga et velit similique, iusto quisquam doloremque a. Amet perferendis, temporibus ratione itaque at doloremque ipsum cum!
-                    </p>
+                    {member.aboutMe &&(
+                      <p>{member.aboutMe}</p>
+                    )}
                 </Card.Text>
               </Card.Body>
             </Card>
