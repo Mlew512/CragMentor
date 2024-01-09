@@ -30,7 +30,7 @@ const LogIn = ({setExistingUser, existingUser}) => {
       setAuth(response.data.token)
       // setAuth(response.data.token)
       // api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
-      navigate("/dashboard/");
+      navigate("/pyramid/");
       window.location.reload();
     } catch (error) {
       setError("Invalid email or password. Please try again.");
