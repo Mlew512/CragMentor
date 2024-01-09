@@ -44,8 +44,9 @@
 @media (max-width: 1000px) {
   #home-background-img {
     background-image: url('../imagesnew/FrontPage/vert.jpg');
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
+    width: 100vw;
+    height: 100vh;
+    background-position: center;
   }
 
   .pyramid-container {
