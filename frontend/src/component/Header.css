@@ -72,33 +72,7 @@ h3.cragmentor-title {
 }
 
 /* Larger screens (min-width: 769px) */
-@media (min-width: 800px) {
-  .links, .links-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .links a {
-    padding: 10px;
-    margin-right: 10px;
-  }
-
-  .user-dropdown {
-    margin-left: auto;
-    margin-right: 10px;
-  }
-
-  .custom-dropdown {
-    background-color: transparent;
-    border: none;
-  }
-  .dropitems {  
-    display: none;
-  }
-}
-}
-@media (min-width: 1000px) {
+@media (min-width: 1001px) {
 .dropitems {  
   display: none;
 }
