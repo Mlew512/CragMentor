@@ -45,17 +45,17 @@ const Header = ({ user, setUser }) => {
           <>
             <Navbar.Brand as={Link} to="/" className='d-flex align-items-center'>
               <img src={Logo} style={{ width: "50px", height: "50px", borderRadius: "50px" }} alt="Logo" />
-              <h3>CragMentor</h3>
+              <h3 className="cragmentor-title">CragMentor</h3>
             </Navbar.Brand>
             <Nav className="links" variant="underline">
             <Nav.Link as={Link} to="/dashboard/">Dashboard</Nav.Link>
               <Nav.Link as={Link} to="/pyramid/">Pyramid</Nav.Link>
               <Nav.Link as={Link} to="/map/">Map</Nav.Link>
-              <Nav.Link as={Link} to="/mypyramids/">MyPyramid</Nav.Link>
+              <Nav.Link as={Link} to="/mypyramids/">MyPyramids</Nav.Link>
               <AreaSearch />
             </Nav>
             <div className="user-dropdown">
-              <DropdownButton
+              <DropdownButton 
                 as={ButtonGroup}
                 key="start"
                 className={"custom-dropdown"}
@@ -72,9 +72,16 @@ const Header = ({ user, setUser }) => {
                 {/* <Dropdown.Item as={Link} to="/profile/" className="d-flex flex-row align-items-center">
                   <CgProfile size={20} /><div className="px-1">Profile</div>
                 </Dropdown.Item> */}
-                <Dropdown.Item as={Link} to="/dashboard/" className="d-flex flex-row align-items-center">
+                <Dropdown.Item as={Link} to="/dashboard/" className="d-flex flex-row align-items-center" class="dropitems">
                   <CgProfile size={20} /><div className="px-1">Dashboard</div>
                 </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/pyramid/" className="dropitems">Pyramid</Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/map/" className="dropitems">Map</Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/mypyramids/" className="dropitems">MyPyramids</Dropdown.Item>
+                  <Dropdown.Item className='dropitems'>
+                    {/* may need to work figure out why its not working */}
+                    <AreaSearch />
+                  </Dropdown.Item>
                 <Dropdown.Item as={Link} to="/contact/" className="d-flex flex-row align-items-center">
                   <MdOutlineContactSupport size={20} /><div className="px-1">Contact Us</div>
                 </Dropdown.Item>

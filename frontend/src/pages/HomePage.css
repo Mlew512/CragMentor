@@ -1,7 +1,4 @@
-/* .pyramid-container {
-  margin-top: 500px;
-} */
-
+/* Common styles for both screen sizes */
 .overlay-content {
   position: absolute;
   top: 50%;
@@ -14,20 +11,14 @@
 
 #home-background-img {
   position: absolute;
+  background-image: url('../imagesnew/FrontPage/background1.jpg');
+
   top: 0;
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  background-image: url('../imagesnew/FrontPage/background1.jpg'); 
   background-size: cover;
   background-position: center;
-}
-
-/* Mobile background image for smaller screens */
-@media (max-width: 768px) {
-  #home-background-img {
-    background-image: url('../imagesnew/FrontPage/vert.jpg');
-  }
 }
 
 .white-text {
@@ -43,16 +34,20 @@
   border-left: 37vw solid transparent;
   border-right: 37vw solid transparent;
   border-bottom: 80vh solid rgba(255, 255, 255, 0.2);
-  /* Adjust the transparency here */
   transform: translateX(-50%);
   z-index: 0;
   pointer-events: none;
-  /* Allows clicks to go through the pyramid */
   margin-top: 45px;
 }
 
+/* Responsive styles for smaller screens */
+@media (max-width: 1000px) {
+  #home-background-img {
+    background-image: url('../imagesnew/FrontPage/vert.jpg');
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+  }
 
-@media (max-width: 768px) {
   .pyramid-container {
     margin-top: 200px;
   }
@@ -68,4 +63,15 @@
     border-bottom: 40vh solid rgba(255, 255, 255, 0.2);
     margin-top: 20px;
   }
+
+  .responsive-logo {
+    display:none;
+  }
 }
+
+/* Responsive styles for medium screens
+@media (min-width: 1000px) and (max-width: 1200px) {
+  #home-background-img {
+    background-image: url('../imagesnew/FrontPage/backgroundmid.jpg');
+  }
+} */
