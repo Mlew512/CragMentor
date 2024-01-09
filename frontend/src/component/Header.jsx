@@ -8,10 +8,13 @@ import { MdOutlineContactSupport } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
 import { AiOutlineSetting } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
-import { MdSpaceDashboard } from "react-icons/md"; //dashboard icon
-import { TbHexagonalPyramidPlus } from "react-icons/tb"; //generate pyramid icon
 
-
+// Navbar Pages Icons
+import { MdOutlineFavoriteBorder } from "react-icons/md";
+import { MdFavorite } from "react-icons/md";
+import { TbHexagonalPyramidPlus } from "react-icons/tb"; //pyramid icon
+import { FiMapPin } from "react-icons/fi"; //
+import { AiOutlineProfile } from "react-icons/ai";
 import AreaSearch from "./AreaSearch"
 import "./Header.css";
 
@@ -48,10 +51,10 @@ const Header = ({ user, setUser }) => {
               <h3 className="cragmentor-title">CragMentor</h3>
             </Navbar.Brand>
             <Nav className="links" variant="underline">
-            <Nav.Link as={Link} to="/dashboard/">Dashboard</Nav.Link>
-              <Nav.Link as={Link} to="/pyramid/">Pyramid</Nav.Link>
-              <Nav.Link as={Link} to="/map/">Map</Nav.Link>
-              <Nav.Link as={Link} to="/mypyramids/">MyPyramids</Nav.Link>
+              <Nav.Link as={Link} to="/pyramid/"><TbHexagonalPyramidPlus size={30}/></Nav.Link>
+              <Nav.Link as={Link} to="/mypyramids/"><AiOutlineProfile size={30}/></Nav.Link>
+              <Nav.Link as={Link} to="/dashboard/"><MdOutlineFavoriteBorder size={30}/></Nav.Link>
+              <Nav.Link as={Link} to="/map/"><FiMapPin size={30}/></Nav.Link>
               <AreaSearch />
             </Nav>
             <div className="user-dropdown">

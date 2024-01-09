@@ -3,10 +3,25 @@
     display: flex;
     justify-content: center;
     align-items:center;
+
 }
 .area-search-input-list{
     z-index: 1000;
     position: absolute;
     top:33px;
 
+}
+
+.input-bar{
+    border-radius: 5px;
+    border-color: gainsboro;
+    padding: 5px 10px 5px 10px;
+}
+
+.search-icon{
+    position: absolute;
+    right: 10px; /* Adjust the left position to place the icon where you want it */
+    top: 50%; /* Center the icon vertically */
+    transform: translateY(-50%);
+    color: #555; /* Change the icon color as needed */
 }

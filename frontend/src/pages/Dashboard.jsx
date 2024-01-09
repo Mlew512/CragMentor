@@ -54,17 +54,14 @@ const Dashboard = () => {
   return (
     <>
       <Container className="d-flex flex-column">
-        <Row className="text-center">
-          <h3>Dashboard</h3>
-        </Row>
         <Row>
           {/* Most Recent Pyramid (3)*/}
           <Col lg={6}>
             <Card>
               <CardHeader id="progress" className="text-center">
-                Most Recent Pyramid
+                <h4>Most Recent Pyramid</h4>
               </CardHeader>
-              <CardBody>
+              <CardBody id="card-progress">
                 <Table striped>
                   <thead>
                     <tr className="text-center">
@@ -106,28 +103,10 @@ const Dashboard = () => {
               </CardBody>
             </Card>
           </Col>
-          {/* Reccomended Crags */}
+          {/* Favorites */}
           <Col lg={6}>
             <Card>
-              <CardHeader id="best-crags" className="text-center">
-                Best Recommended Crags
-              </CardHeader>
-              <CardBody>
-                <BestCrags
-                  userProfile={userProfile}
-                  location={location}
-                  setLocation={setLocation}
-                />
-              </CardBody>
-            </Card>
-          </Col>
-  
-        </Row>
-        <Row>
-          {/* Favorites */}
-          <Col lg={5}>
-            <Card>
-              <CardHeader className="text-center">Favorites</CardHeader>
+              <CardHeader id="favorites-card" className="text-center"><h4>Favorites</h4></CardHeader>
               <CardBody>
                 <Table striped>
                   <thead>
@@ -169,6 +148,24 @@ const Dashboard = () => {
             </Card>
           </Col>
           
+  
+        </Row>
+        <Row>
+          {/* Reccomended Crags */}
+          <Col lg={6}>
+            <Card>
+              <CardHeader id="best-crags" className="text-center">
+                <h4>Best Recommended Crags</h4>
+              </CardHeader>
+              <CardBody id="card-best-crags">
+                <BestCrags
+                  userProfile={userProfile}
+                  location={location}
+                  setLocation={setLocation}
+                />
+              </CardBody>
+            </Card>
+          </Col>
         </Row>
       </Container>
     </>
