@@ -70,9 +70,12 @@
   }
 }
 
-/* Responsive styles for medium screens
-@media (min-width: 1000px) and (max-width: 1200px) {
+
+@media (max-width: 500px) {
   #home-background-img {
-    background-image: url('../imagesnew/FrontPage/backgroundmid.jpg');
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    display:none;
   }
-} */
+}
