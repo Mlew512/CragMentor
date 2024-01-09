@@ -34,7 +34,7 @@ const ContactPage = () => {
       imageUrl: john,
       linkedinUrl: "https://www.linkedin.com/in/john-prado-01876523a/",
       githubUrl: "https://github.com/PradoJohn",
-      aboutMe:"fill out",
+      aboutMe:"I'm a Software Engineer who loves tackling tech puzzles as much as I enjoy hiking through Hawaii's trails. Always on the lookout for the next adventure, whether it's in code or in the great outdoors. My journey is all about exploring new horizons, in tech and in life!",
     },
     {
       name: "Derek Marion",
