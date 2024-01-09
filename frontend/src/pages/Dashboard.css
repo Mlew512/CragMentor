@@ -9,12 +9,11 @@
 #preferences{
   background-color: rgb(0, 255, 234);
 }
-
+#favorites-card{
+  background-color: #0091EA;
+}
 #best-crags{
   background-color: #00BFA5;
-}
-#card-best-crags{
-  max-height: 350px;
 }
 #saved-pyramids{
   background-color: rgb(238, 255, 0);

@@ -14,13 +14,13 @@ const PyramidPage = () => {
   const { location: userLocation } = useOutletContext();
   const [pyramidId, setPyramidId] = useState(null);
   const [localUserId, setLocalUserId] = useState("")
-
-  
+  const [complimentMSG, setComplimentMSG] = useState(null)
 
   useEffect(() => {
     if (!user) {
       navigate("/register/");
     }
+    setComplimentMSG(RandomCompliment)
   }, [user, myPyramid]);
 
   const handleSavePyramid = async () => {
@@ -77,6 +77,23 @@ const PyramidPage = () => {
       }
     }
   }
+  // Random Compliment when Pyramid is generated
+const RandomCompliment =() =>{
+    const numberArray = [
+      "Awesome work!",
+      "Fantastic job!",
+      "Impressive!",
+      "Well done!",
+      "Outstanding!",
+      "Terrific!",
+      "Excellent!",
+      "Brilliant!",
+      "Superb!",
+      "You nailed it!"
+    ];
+    const randomIndex = Math.floor(Math.random() * numberArray.length);
+    return numberArray[randomIndex];
+  }
 
   useEffect(()=>{
    addRoutesToPyramid(); 
@@ -87,7 +104,10 @@ const PyramidPage = () => {
       <Row>
         <Card id="pyramid-container" style={{minHeight:"400px"}}>
           <CardBody  className="d-flex flex-column">
-
+          <div style={{position:"absolute", left:"15%"}}>
+            <p className="text-start px-5 m-0">{complimentMSG}</p>
+            <PyramidMentor/>
+          </div>
           <Row className="justify-content-center">
             <Col lg={3}>
               <Card className="pyramid-card text-center" onClick={()=>useNavigate(`/route/${myPyramid?.goal_climb.uuid}`)}>
@@ -158,7 +178,7 @@ const PyramidPage = () => {
           </Col>
         </Row>
         {myPyramid ? (
-          <>
+          <> 
             {the_pyramid}
           </>
         ) : (

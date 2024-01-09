@@ -103,28 +103,10 @@ const Dashboard = () => {
               </CardBody>
             </Card>
           </Col>
-          {/* Reccomended Crags */}
-          <Col lg={6}>
-            <Card>
-              <CardHeader id="best-crags" className="text-center">
-                <h4>Best Recommended Crags</h4>
-              </CardHeader>
-              <CardBody id="card-best-crags">
-                <BestCrags
-                  userProfile={userProfile}
-                  location={location}
-                  setLocation={setLocation}
-                />
-              </CardBody>
-            </Card>
-          </Col>
-  
-        </Row>
-        <Row>
           {/* Favorites */}
           <Col lg={6}>
             <Card>
-              <CardHeader className="text-center"><h4>Favorites</h4></CardHeader>
+              <CardHeader id="favorites-card" className="text-center"><h4>Favorites</h4></CardHeader>
               <CardBody>
                 <Table striped>
                   <thead>
@@ -166,6 +148,24 @@ const Dashboard = () => {
             </Card>
           </Col>
           
+  
+        </Row>
+        <Row>
+          {/* Reccomended Crags */}
+          <Col lg={6}>
+            <Card>
+              <CardHeader id="best-crags" className="text-center">
+                <h4>Best Recommended Crags</h4>
+              </CardHeader>
+              <CardBody id="card-best-crags">
+                <BestCrags
+                  userProfile={userProfile}
+                  location={location}
+                  setLocation={setLocation}
+                />
+              </CardBody>
+            </Card>
+          </Col>
         </Row>
       </Container>
     </>

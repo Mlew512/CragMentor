@@ -44,7 +44,7 @@ function PyramidTable({ userId, setPyramid }) {
       console.log("pyramid not found", error);
     }
   };
-
+  
   useEffect(() => {
     getAllPyramid();
   }, []);

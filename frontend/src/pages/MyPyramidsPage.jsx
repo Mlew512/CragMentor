@@ -6,26 +6,31 @@ import {api} from '../utilities/api'
 import { Link } from "react-router-dom";
 import { PyramidMentor } from "../component/PyramidMentor";
 
+
 const MyPyramidsPage =()=>{
   const {user, userId} = useOutletContext();
   const navigate = useNavigate();
   const [pyramid, setPyramid] = useState(null)
-  
-  
+
   useEffect(()=>{
     if(!user){
       navigate("/register/")
     }
   },[user, pyramid])
-  console.log("the_pramid: ", pyramid)
 
+  console.log("the_pramid: ", pyramid)
+  
   const the_pyramid = (
     <>
       {Array.isArray(pyramid) && pyramid.length >0 ?(
         <>
         <Row>
           <Card id="pyramid-container" style={{minHeight:"400px"}}>
-            <CardBody className="d-flex flex-column"> 
+            <CardBody className="d-flex flex-column">
+            <div style={{position:"absolute", right:"10%"}}>
+            <p className="text-end m-0 px-5">Way To Go!</p>
+            <PyramidMentor/>
+            </div>
             <Row className="justify-content-center">
               <Col lg={3}>
                 <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${pyramid[0].route_id}`)}>
@@ -86,7 +91,7 @@ const MyPyramidsPage =()=>{
 
     </>
   );
-  console.log(pyramid)
+
   return(
     <>
     <Container className="d-flex flex-column">
@@ -97,7 +102,7 @@ const MyPyramidsPage =()=>{
           <Row>
             <Card id="pyramid-container" style={{minHeight:"400px"}}>
                 <CardBody className="d-flex justify-content-center align-items-center">
-                <p>You can access your past content here.</p>
+                <p>Click "View" to access your past content here.</p>
                 <PyramidMentor/>
                 </CardBody>
             </Card>
