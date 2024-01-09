@@ -85,7 +85,7 @@ function App() {
           userId, setUserId
         }}
       />
-      <Footer />
+      <Footer/>
     </>
   );
 }
