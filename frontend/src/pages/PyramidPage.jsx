@@ -173,7 +173,7 @@ const RandomCompliment =() =>{
           <Col lg={2} className="d-flex">
             {/* <Card className="d-flex flex-row justify-content-around"> */}
               <UserForm location={userLocation} setLocation={setLocation} />
-              <Button variant= "transparent" onClick={handleSavePyramid}><GiSaveArrow onClick={handleSavePyramid} size={25}/></Button>
+              <Button variant= "transparent" onClick={handleSavePyramid}><GiSaveArrow size={25}/></Button>
             {/* </Card> */}
           </Col>
         </Row>
