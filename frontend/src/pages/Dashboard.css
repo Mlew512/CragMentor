@@ -1,12 +1,19 @@
 
 #progress{
-  background-color: rgb(16, 244, 4);
+  background-color: #00B8D4;
 }
+#card-progress{
+  min-height: 350px;
+}
+
 #preferences{
   background-color: rgb(0, 255, 234);
 }
+#favorites-card{
+  background-color: #0091EA;
+}
 #best-crags{
-  background-color: rgb(38, 194, 237);
+  background-color: #00BFA5;
 }
 #saved-pyramids{
   background-color: rgb(238, 255, 0);

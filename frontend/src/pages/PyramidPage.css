@@ -1,0 +1,14 @@
+.pyramid-card{
+  transition: all .1s ease-in-out;
+  box-shadow: 1px 1px 5px gray;
+}
+
+.pyramid-card:hover{
+  box-shadow: 0px 0px 20px blue;
+  bottom: 1px;
+}
+
+#pyramid-container{
+  background-color: rgb(255,255,255,.5);
+}
+
