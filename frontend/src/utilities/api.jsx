@@ -7,6 +7,7 @@ export const api = axios.create({
 export const setAuth = (token) => {
     api.defaults.headers.common["Authorization"] = `Token ${token}`
 }
+export const googleMapsApiKey = "AIzaSyCSV4rPe__62GMDyAMSSiYJayxNmPPB3q4"
 
 export const endpoints = {
     "auth_login":"users/login",
