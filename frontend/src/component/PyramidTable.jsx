@@ -55,14 +55,15 @@ function PyramidTable({ userId, setPyramid }) {
   return (
     <>
       <Row className="justify-content-center mt-5">
-        <Col lg={8}>
+        <Col lg={10}>
           <Table striped bordered hover size="sm" className="text-center">
             <thead>
               <tr>
                 <th>Pyramid</th>
                 <th>Goal Grade</th>
                 <th>Location</th>
-                <th>Date Created</th>
+                <th colSpan={2}>Date Created</th>
+                
               </tr>
             </thead>
             <tbody>

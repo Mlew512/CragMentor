@@ -4,6 +4,9 @@ import { postAPI, endpoints } from '../utilities/api';
 import ListGroup from 'react-bootstrap/ListGroup';
 import axios from 'axios'
 import './AreaSearch.css'
+import { IoSearch } from "react-icons/io5";
+
+
 const AreaSearch = ({}) => {
   const [searchTerm, setSearchTerm] = useState("")
   // const [lastSearch, setLastSearch] = useState("")
@@ -43,9 +46,11 @@ const AreaSearch = ({}) => {
   return (
     <>
     <div className='area-search-input'>
+      <IoSearch className='search-icon' size={25}/>
       <input
+        className='input-bar'
         type="text"
-        placeholder="Enter name, address, city, state..."
+        placeholder="Address, city, state..."
         value={searchTerm} 
         onChange={(e) => { setSearchTerm(e.target.value) }} // update the state when you type something
 

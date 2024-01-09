@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
+
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 // import { api } from '../badutilities';
 import {api} from '../utilities/api'
 import SearchBox from "./SearchBox";
@@ -17,10 +16,12 @@ const UserForm = ({location, setLocation}) => {
   const handleShow = () => setShow(true);
   const [goalGrade, setGoalGrade] = useState("");
   const [travelDistance, setTravelDistance] = useState("");
-  const [loadingData, setIsLoadingData] = useState(false)
+  const [loadingData, setIsLoadingData] = useState(false);
+  const [errorMSG, setErrorMSG] = useState(null);
   // const [location, setLocation] = useState({"lat": null, "lng": null})
 
   const handleCreate = async () => {
+    setErrorMSG(null);
     setIsLoadingData(true)
     try {
       console.log("location: ", location.lat, location.lng)
@@ -46,8 +47,7 @@ const UserForm = ({location, setLocation}) => {
       });
 
       if (response.status === 200) {
-        console.log("myPyramid: ",response.data.my_pyramid.pyramid);
-
+        // console.log("myPyramid: ",response.data.my_pyramid.pyramid);
         navigate("/pyramid/");
         setMyPyramid(response.data.my_pyramid.pyramid);
         handleClose();
@@ -57,9 +57,16 @@ const UserForm = ({location, setLocation}) => {
     } catch (error) {
       setIsLoadingData(false)
       console.error("Error sending data:", error);
-      alert("no crags found in that area or our servers are down, change location and try again.")
+      // alert("no crags found in that area or our servers are down, change location and try again.")
+      setErrorMSG(alertError);
     }
   }
+
+  const alertError = (
+    <Alert variant="danger">
+          no crags found in that area or our servers are down, change location and try again.
+        </Alert>
+  )
 
   return (
     <>
@@ -109,6 +116,7 @@ const UserForm = ({location, setLocation}) => {
               />
             </Form.Group>
           </Form>
+          {errorMSG? errorMSG : null}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

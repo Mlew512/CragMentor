@@ -54,17 +54,14 @@ const Dashboard = () => {
   return (
     <>
       <Container className="d-flex flex-column">
-        <Row className="text-center">
-          <h3>Dashboard</h3>
-        </Row>
         <Row>
           {/* Most Recent Pyramid (3)*/}
           <Col lg={6}>
             <Card>
               <CardHeader id="progress" className="text-center">
-                Most Recent Pyramid
+                <h4>Most Recent Pyramid</h4>
               </CardHeader>
-              <CardBody>
+              <CardBody id="card-progress">
                 <Table striped>
                   <thead>
                     <tr className="text-center">
@@ -110,9 +107,9 @@ const Dashboard = () => {
           <Col lg={6}>
             <Card>
               <CardHeader id="best-crags" className="text-center">
-                Best Recommended Crags
+                <h4>Best Recommended Crags</h4>
               </CardHeader>
-              <CardBody>
+              <CardBody id="card-best-crags">
                 <BestCrags
                   userProfile={userProfile}
                   location={location}
@@ -125,9 +122,9 @@ const Dashboard = () => {
         </Row>
         <Row>
           {/* Favorites */}
-          <Col lg={5}>
+          <Col lg={6}>
             <Card>
-              <CardHeader className="text-center">Favorites</CardHeader>
+              <CardHeader className="text-center"><h4>Favorites</h4></CardHeader>
               <CardBody>
                 <Table striped>
                   <thead>
