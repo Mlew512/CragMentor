@@ -50,7 +50,7 @@ const ContactPage = () => {
       imageUrl: termottoimg,
       linkedinUrl: "https://www.linkedin.com/in/michael-termotto-2b6800277/",
       githubUrl: "https://github.com/CustomDesignBuildStudios",
-      aboutMe:"fill out",
+      aboutMe:"",
     },
   ];
 
