@@ -20,6 +20,8 @@ const SignUp = ({setUser, setExistingUser, existingUser }) => {
       if (response.status === 201) {
         setUser(response.data.user);
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", response.data.user);
+        localStorage.setItem("user_id", response.data.id);
         api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
         navigate("/dashboard/");
       } else {
