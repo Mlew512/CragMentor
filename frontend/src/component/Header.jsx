@@ -33,6 +33,7 @@ const Header = ({ user, setUser }) => {
         setUser(null);
         localStorage.removeItem("token");
         localStorage.removeItem("user_id");
+        localStorage.removeItem("user")
         delete api.defaults.headers.common["Authorization"];
         navigate("/");
       }
