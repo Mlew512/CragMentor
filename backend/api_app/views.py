@@ -33,12 +33,13 @@ class OpenBetaView(APIView):
         normalized_scores = climbing_area.normalize_scores(crag_scores)
 
         # Get top 3 crags
-        top_5_crag_uuids = [crag["uuid"] for crag in normalized_scores[:5]]
+        top_5_crag_uuids = [crag["uuid"] for crag in normalized_scores]
 
         # Initialize an empty list to compile climb data from the top 5 crags
         compiled_crag_data = []
 
         # Populate compiled_crag_data with climb data from the top 5 crags
+        # could be improved by making one api call with multiple uuids in one query, not supported by openai
         for crag_uuid in top_5_crag_uuids:
             climb_data = CragService.get_climbs_from_crag(crag_uuid)
             climbs = climb_data["area"]["climbs"]
@@ -231,9 +232,11 @@ class BestCragView(APIView):
 
         #normalize crag score and location
         normalized_scores = climbing_area.normalize_scores(crag_scores)
-        print(normalized_scores)
+        top_five= normalized_scores[:5]
+        print(top_five)
+        
     
-        return Response({"normalized_scores": normalized_scores})
+        return Response({"normalized_scores": top_five})
 
 
 

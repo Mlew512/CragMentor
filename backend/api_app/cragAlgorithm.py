@@ -133,5 +133,4 @@ class ClimbingArea:
 
         # Sorting crags based on overall score
         sorted_crags = sorted(crag_scores, key=lambda x: x["overall_score"], reverse=True)
-        top_5_crags = sorted_crags[:5]
-        return top_5_crags
+        return sorted_crags
