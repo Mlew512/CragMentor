@@ -12,7 +12,8 @@ class ClimbingArea:
         self.grade_weights= {}
         
         # sport climbing
-        if goal_grade.startswith("5."):
+        if type(goal_grade) != int:
+        # if goal_grade.startswith("5."):
             goal_grade_numeric = CragService.grade_to_numeric(goal_grade)
             # If grade is above 5.10c
             if goal_grade_numeric >= 10.4:
@@ -76,7 +77,8 @@ class ClimbingArea:
         return distance
 
     def calculate_weighted_sum(self, crag, goal_grade):
-        if goal_grade.startswith("5."):
+        # if goal_grade.startswith("5."):
+        if type(goal_grade) != int:
             return sum(
             grade["count"] * self.grade_weights.get(grade["label"])
             for grade in crag["aggregate"]["byGrade"]

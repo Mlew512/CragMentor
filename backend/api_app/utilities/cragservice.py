@@ -103,7 +103,7 @@ class CragService:
         # Initialize the response dictionary
         response = {"pyramid": {}}
 
-        if goal_grade.startswith("5."):
+        if type(goal_grade) != int:
             # goal climb
             goal_climb = CragService.find_unique_climb_by_grade_yds_scale(
                 crag_list,
