@@ -116,11 +116,11 @@ class CragService:
              # Add two runner-up climbs one grade lower
             for i in range(1, 3):
                 # if > 10.4 n = .2
-                n=1
                 if CragService.grade_to_numeric(goal_grade) > 10.2:
-                    print(CragService.grade_to_numeric)
-                    n=0.2
-                runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - n)
+                    # print(CragService.grade_to_numeric)
+                    runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - 0.2)
+                else:
+                    runner_up_grade = CragService.numeric_to_grade(math.floor(CragService.grade_to_numeric(goal_grade) - 1))
                 print("runner up grade",{runner_up_grade})
                 runner_up_climb = CragService.find_unique_climb_by_grade_yds_scale(
                     crag_list,
@@ -131,7 +131,12 @@ class CragService:
 
             # Add four runner-up climbs two grades lower
                 for i in range(3, 7):
-                    runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - (n*2))
+                    if CragService.grade_to_numeric(goal_grade) > 10.3:
+                    # print(CragService.grade_to_numeric)
+                        runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - 0.4)
+                    else:
+                        runner_up_grade = CragService.numeric_to_grade(math.floor(CragService.grade_to_numeric(goal_grade) - 2))
+
                     runner_up_climb = CragService.find_unique_climb_by_grade_yds_scale(
                         crag_list,
                         runner_up_grade,
