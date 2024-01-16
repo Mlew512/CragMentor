@@ -91,7 +91,8 @@ class CragService:
                 return {
                     "name": climb["name"],
                     "grade": climb["grades"]["yds"],
-                    "uuid": climb["uuid"]
+                    "uuid": climb["uuid"],
+                    "type": "sport"
                 }
 
         # If no unique climb with the target grade is found, return a default climb
@@ -117,9 +118,10 @@ class CragService:
                 # if > 10.4 n = .2
                 n=1
                 if CragService.grade_to_numeric(goal_grade) > 10.2:
-                     n=0.2
+                    print(CragService.grade_to_numeric)
+                    n=0.2
                 runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - n)
-                print(runner_up_grade)
+                print("runner up grade",{runner_up_grade})
                 runner_up_climb = CragService.find_unique_climb_by_grade_yds_scale(
                     crag_list,
                     runner_up_grade,
@@ -128,14 +130,14 @@ class CragService:
                 response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
 
             # Add four runner-up climbs two grades lower
-            for i in range(3, 7):
-                runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - 2)
-                runner_up_climb = CragService.find_unique_climb_by_grade_yds_scale(
-                    crag_list,
-                    runner_up_grade,
-                    [climb["uuid"] for climb in response["pyramid"].values()],
-                )
-                response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
+                for i in range(3, 7):
+                    runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - (n*2))
+                    runner_up_climb = CragService.find_unique_climb_by_grade_yds_scale(
+                        crag_list,
+                        runner_up_grade,
+                        [climb["uuid"] for climb in response["pyramid"].values()],
+                    )
+                    response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
 
         
         else:   
@@ -259,8 +261,8 @@ class CragService:
         parts= grade.split(".")
         # get the numeric part of 5.11 = 11.0
         numeric_part = float(parts[1][0:2])
-        letter_part = parts[1][-1] if len(parts[1]) > 2 else None
-        letter_values = {'a': 0.2,"-":0.3, 'b': 0.4, 'c': 0.6, "+":0.7, 'd': 0.8}
+        letter_part = parts[1][-1] if len(parts[1]) > 2 else ""
+        letter_values = {'a': 0.1,"-":0.2, 'b': 0.3, "":0.5, 'c': 0.7, "+":0.8, 'd': 0.9}
         numeric_grade = numeric_part + letter_values.get(letter_part, 0.0)
 
         return numeric_grade
@@ -268,9 +270,14 @@ class CragService:
     @staticmethod
     def numeric_to_grade(numeric_grade):
         integer_part= int(numeric_grade)
-        decimal_part = numeric_grade-integer_part
+        decimal_part = round(numeric_grade-integer_part, 1)
+        # print(integer_part)
+        # print("decimal part", decimal_part)
 
-        letter_values = {'a': 0.2,"-":0.3, 'b': 0.4, 'c': 0.6, "+":0.7, 'd': 0.8}
-        letter_part = letter_values.get(decimal_part, '')
-
+        letter_values = {'a': 0.1 ,"-":0.2, 'b': 0.3, "": 0.5, 'c': 0.7,"+":0.8,'d': 0.9}
+        if decimal_part != 0:
+            letter_part = list(letter_values.keys())[list(letter_values.values()).index(decimal_part)]
+        else:
+            letter_part= ""
+        print(f'5.{integer_part}{letter_part}')
         return f'5.{integer_part}{letter_part}'
