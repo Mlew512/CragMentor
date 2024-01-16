@@ -65,19 +65,25 @@ climbs_in_crag_query = """
             query getClimbsInCrag ($uuid: ID!){
             area(uuid: $uuid) {
                 areaName
-                climbs {
-                name
-                uuid
-                media {
-                    mediaUrl
+                    climbs {
+                    name
+                    uuid
+                    media {
+                        mediaUrl
+                    }
+                    grades {
+                        vscale
+                        yds
+                    }
+                    type {
+                        sport
+                        trad
+                        bouldering
+                    }
+                    }
+                    uuid
+                    totalClimbs
                 }
-                grades {
-                    vscale
-                }
-                }
-                uuid
-                totalClimbs
-            }
             }
             """
 
@@ -157,4 +163,83 @@ query areaSearchQuery($match: String = "a") {
     uuid
   }
 }
+"""
+
+get_area_children = """
+            query GetArea($uuid: ID!) {
+            area(uuid: $uuid) {
+                areaName
+                uuid
+                ancestors
+                id
+                totalClimbs
+                content {
+                description
+                }
+                children {
+                    areaName
+                    uuid
+                    totalClimbs
+                    media {
+                        mediaUrl
+                    }
+                    metadata {
+                        lng
+                        lat
+                        areaId
+                    }
+                    climbs {
+                        name
+                        uuid
+                        media {
+                        mediaUrl
+                        }
+                        grades {
+                        vscale
+                        yds
+                        }
+                        metadata {
+                        lat
+                        lng
+                        climbId
+                        }
+                    }
+                }
+                climbs {
+                        name
+                        uuid
+                        media {
+                            mediaUrl
+                        }
+                        grades {
+                        vscale
+                        yds
+                        }
+                        metadata {
+                        lat
+                        lng
+                        climbId
+                        }
+                    }
+            }
+            }
+            """
+
+get_countries_query = """
+query GetCountries {
+  countries {
+    areaName
+    metadata {
+      lat
+      lng
+    }
+    media {
+        mediaUrl
+    }
+    totalClimbs
+    uuid
+    id
+  }
+}
+
 """

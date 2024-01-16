@@ -1,6 +1,7 @@
 # crag_service.py
 import requests
 from .queries import *
+import math
 
 
 class CragService:
@@ -46,6 +47,7 @@ class CragService:
             response.raise_for_status()
 
             data = response.json()
+            # print(response.json())
             return data.get("data")
         except requests.exceptions.RequestException as e:
             # Handle request-related exceptions
@@ -55,7 +57,7 @@ class CragService:
             return None
 
     @staticmethod
-    def find_unique_climb_by_grade(crag_list, target_grade, used_climbs):
+    def find_unique_climb_by_grade_v_scale(crag_list, target_grade, used_climbs):
         print(used_climbs)
         # Find the first climb in the crag_list with the target grade and not in used_climbs
         for climb in crag_list:
@@ -79,37 +81,98 @@ class CragService:
         return {"name": "No Unique Climb Found", "grade": f'V{target_grade}', "uuid": None}
 
     @staticmethod
+    def find_unique_climb_by_grade_yds_scale(crag_list, target_grade:str, used_climbs):
+        for climb in crag_list: 
+            if (
+                climb["grades"]["yds"] == target_grade
+                and climb["uuid"] not in used_climbs
+                and climb["type"]["sport"]
+            ):
+                return {
+                    "name": climb["name"],
+                    "grade": climb["grades"]["yds"],
+                    "uuid": climb["uuid"],
+                    "type": "sport"
+                }
+
+        # If no unique climb with the target grade is found, return a default climb
+        return {"name": "No Unique Climb Found", "grade": target_grade, "uuid": None}
+
+    @staticmethod
     def build_the_triangle(crag_list, goal_grade):
         # Initialize the response dictionary
         response = {"pyramid": {}}
 
+        if type(goal_grade) != int:
+            # goal climb
+            goal_climb = CragService.find_unique_climb_by_grade_yds_scale(
+                crag_list,
+                goal_grade,
+                [climb["uuid"] for climb in response["pyramid"].values()],
+            )
+            response["pyramid"]["goal_climb"] = goal_climb
+
+            
+             # Add two runner-up climbs one grade lower
+            for i in range(1, 3):
+                # if > 10.4 n = .2
+                if CragService.grade_to_numeric(goal_grade) > 10.2:
+                    # print(CragService.grade_to_numeric)
+                    runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - 0.2)
+                else:
+                    runner_up_grade = CragService.numeric_to_grade(math.floor(CragService.grade_to_numeric(goal_grade) - 1))
+                print("runner up grade",{runner_up_grade})
+                runner_up_climb = CragService.find_unique_climb_by_grade_yds_scale(
+                    crag_list,
+                    runner_up_grade,
+                    [climb["uuid"] for climb in response["pyramid"].values()],
+                )
+                response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
+
+            # Add four runner-up climbs two grades lower
+                for i in range(3, 7):
+                    if CragService.grade_to_numeric(goal_grade) > 10.3:
+                    # print(CragService.grade_to_numeric)
+                        runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - 0.4)
+                    else:
+                        runner_up_grade = CragService.numeric_to_grade(math.floor(CragService.grade_to_numeric(goal_grade) - 2))
+
+                    runner_up_climb = CragService.find_unique_climb_by_grade_yds_scale(
+                        crag_list,
+                        runner_up_grade,
+                        [climb["uuid"] for climb in response["pyramid"].values()],
+                    )
+                    response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
+
+        
+        else:   
         # Add the goal climb to the top of the pyramid
-        goal_climb = CragService.find_unique_climb_by_grade(
-            crag_list,
-            goal_grade,
-            [climb["uuid"] for climb in response["pyramid"].values()],
-        )
-        response["pyramid"]["goal_climb"] = goal_climb
-
-        # Add two runner-up climbs one grade lower
-        for i in range(1, 3):
-            runner_up_grade = goal_grade - 1
-            runner_up_climb = CragService.find_unique_climb_by_grade(
+            goal_climb = CragService.find_unique_climb_by_grade_v_scale(
                 crag_list,
-                runner_up_grade,
+                goal_grade,
                 [climb["uuid"] for climb in response["pyramid"].values()],
             )
-            response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
+            response["pyramid"]["goal_climb"] = goal_climb
 
-        # Add four runner-up climbs two grades lower
-        for i in range(3, 7):
-            runner_up_grade = goal_grade - 2
-            runner_up_climb = CragService.find_unique_climb_by_grade(
-                crag_list,
-                runner_up_grade,
-                [climb["uuid"] for climb in response["pyramid"].values()],
-            )
-            response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
+            # Add two runner-up climbs one grade lower
+            for i in range(1, 3):
+                runner_up_grade = goal_grade - 1
+                runner_up_climb = CragService.find_unique_climb_by_grade_v_scale(
+                    crag_list,
+                    runner_up_grade,
+                    [climb["uuid"] for climb in response["pyramid"].values()],
+                )
+                response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
+
+            # Add four runner-up climbs two grades lower
+            for i in range(3, 7):
+                runner_up_grade = goal_grade - 2
+                runner_up_climb = CragService.find_unique_climb_by_grade_v_scale(
+                    crag_list,
+                    runner_up_grade,
+                    [climb["uuid"] for climb in response["pyramid"].values()],
+                )
+                response["pyramid"]["runner_up_{}".format(i)] = runner_up_climb
 
         return response
 
@@ -197,3 +260,29 @@ class CragService:
         except ValueError as ve:
             # Handle JSON decoding error
             return f"JSON decoding error: {ve}"
+
+    @staticmethod
+    def grade_to_numeric(grade):
+        parts= grade.split(".")
+        # get the numeric part of 5.11 = 11.0
+        numeric_part = float(parts[1][0:2])
+        letter_part = parts[1][-1] if len(parts[1]) > 2 else ""
+        letter_values = {'a': 0.1,"-":0.2, 'b': 0.3, "":0.5, 'c': 0.7, "+":0.8, 'd': 0.9}
+        numeric_grade = numeric_part + letter_values.get(letter_part, 0.0)
+
+        return numeric_grade
+
+    @staticmethod
+    def numeric_to_grade(numeric_grade):
+        integer_part= int(numeric_grade)
+        decimal_part = round(numeric_grade-integer_part, 1)
+        # print(integer_part)
+        # print("decimal part", decimal_part)
+
+        letter_values = {'a': 0.1 ,"-":0.2, 'b': 0.3, "": 0.5, 'c': 0.7,"+":0.8,'d': 0.9}
+        if decimal_part != 0:
+            letter_part = list(letter_values.keys())[list(letter_values.values()).index(decimal_part)]
+        else:
+            letter_part= ""
+        print(f'5.{integer_part}{letter_part}')
+        return f'5.{integer_part}{letter_part}'
