@@ -24,6 +24,7 @@ class OpenBetaView(APIView):
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
         # Use the ClimbingArea class to calculate and normalize crag scores
+        # need to take into accound if sport climbing or bouldering(could do 2 different functions)
         climbing_area = ClimbingArea(crag_data, goal_grade)
 
         # calculate crag score
@@ -33,23 +34,19 @@ class OpenBetaView(APIView):
         normalized_scores = climbing_area.normalize_scores(crag_scores)
 
         # Get top 3 crags
-        top_5_crag_uuids = [crag["uuid"] for crag in normalized_scores]
+        top_crag_uuids = [crag["uuid"] for crag in normalized_scores]
 
         # Initialize an empty list to compile climb data from the top 5 crags
         compiled_crag_data = []
 
-        # Populate compiled_crag_data with climb data from the top 5 crags
-        # could be improved by making one api call with multiple uuids in one query, not supported by openai
-        for crag_uuid in top_5_crag_uuids:
+        # could be improved by making one api call with multiple uuids in one query, not supported by openbeta
+        for crag_uuid in top_crag_uuids:
             climb_data = CragService.get_climbs_from_crag(crag_uuid)
             climbs = climb_data["area"]["climbs"]
             # Shuffle the order of climbs for each crag
             random.shuffle(climbs)
             # Append climb data to the list
             compiled_crag_data.extend(climbs)
-
-        # Randomize the order of climbs across all crags
-        # random.shuffle(compiled_crag_data)
 
         # Build one triangle using climbs from all crags
         combined_pyramid_scheme = CragService.build_the_triangle(compiled_crag_data, goal_grade)
@@ -62,67 +59,6 @@ class GetArea(APIView):
         # get uuid of area from request
         uuid = request.data.get("uuid", None)
 
-        # GraphQL query to get children of requested area
-        query = """
-            query GetArea($uuid: ID!) {
-            area(uuid: $uuid) {
-                areaName
-                uuid
-                ancestors
-                id
-                totalClimbs
-                content {
-                description
-                }
-                children {
-                    areaName
-                    uuid
-                    totalClimbs
-                    media {
-                        mediaUrl
-                    }
-                    metadata {
-                        lng
-                        lat
-                        areaId
-                    }
-                    climbs {
-                        name
-                        uuid
-                        media {
-                        mediaUrl
-                        }
-                        grades {
-                        vscale
-                        yds
-                        }
-                        metadata {
-                        lat
-                        lng
-                        climbId
-                        }
-                    }
-                }
-                climbs {
-                        name
-                        uuid
-                        media {
-                            mediaUrl
-                        }
-                        grades {
-                        vscale
-                        yds
-                        }
-                        metadata {
-                        lat
-                        lng
-                        climbId
-                        }
-                    }
-            }
-            }
-            """
-
         variables = {
             "uuid": uuid,
         }
@@ -130,7 +66,7 @@ class GetArea(APIView):
         try:
             response = requests.post(
                 "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
+                json={"query": get_area_children, "variables": variables},
                 timeout=10,
             )
             response.raise_for_status()
@@ -252,34 +188,13 @@ class Countries(APIView):
         return Response({"crags": crag_data})
 
     def get_crag_data(self):
-        query = """
-query GetCountries {
-  countries {
-    areaName
-    metadata {
-      lat
-      lng
-    }
-    media {
-        mediaUrl
-    }
-    totalClimbs
-    uuid
-    id
-  }
-}
-
-"""
-        print(query)
-
         variables = {
-    
         }
 
         try:
             response = requests.post(
                 "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
+                json={"query": get_countries_query, "variables": variables},
                 timeout=10,
             )
 
