@@ -58,7 +58,7 @@ class CragService:
 
     @staticmethod
     def find_unique_climb_by_grade_v_scale(crag_list, target_grade, used_climbs):
-        print(used_climbs)
+        # print(used_climbs)
         # Find the first climb in the crag_list with the target grade and not in used_climbs
         for climb in crag_list:
             # duplicating climbs
@@ -66,7 +66,7 @@ class CragService:
                 climb["grades"]["vscale"] == f"V{target_grade}"
                 and climb["uuid"] not in used_climbs
             ):
-                print(climb)
+                # print(climb)
                 return {
                     "name": climb["name"],
                     "grade": climb["grades"]["vscale"],
@@ -121,7 +121,7 @@ class CragService:
                     runner_up_grade = CragService.numeric_to_grade(CragService.grade_to_numeric(goal_grade) - 0.2)
                 else:
                     runner_up_grade = CragService.numeric_to_grade(math.floor(CragService.grade_to_numeric(goal_grade) - 1))
-                print("runner up grade",{runner_up_grade})
+                # print("runner up grade",{runner_up_grade})
                 runner_up_climb = CragService.find_unique_climb_by_grade_yds_scale(
                     crag_list,
                     runner_up_grade,
@@ -249,7 +249,7 @@ class CragService:
                 json={"query": query, "variables": variables},
                 timeout=20,
             )
-            print(response.raw)
+            # print(response.raw)
             response.raise_for_status()
 
             data = response.json()
@@ -284,5 +284,5 @@ class CragService:
             letter_part = list(letter_values.keys())[list(letter_values.values()).index(decimal_part)]
         else:
             letter_part= ""
-        print(f'5.{integer_part}{letter_part}')
+        # print(f'5.{integer_part}{letter_part}')
         return f'5.{integer_part}{letter_part}'

@@ -163,7 +163,7 @@ class ClimbingArea:
             normalized_scores = RobustScaler().fit_transform([[score] for score in scores])
             normalized_distances = RobustScaler().fit_transform([[distance] for distance in distances])
         except ValueError as e:
-            print(f"Error during normalization: {e}")
+            # print(f"Error during normalization: {e}")
             return []
 
         for i, crag in enumerate(crag_scores):
