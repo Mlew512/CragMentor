@@ -25,15 +25,15 @@ const UserForm = ({location, setLocation}) => {
     setErrorMSG(null);
     setIsLoadingData(true)
     try {
-      console.log("location: ", location.lat, location.lng)
+      // console.log("location: ", location.lat, location.lng)
       // need to implement different parsing for sport climbing
-      const parsedGoalGrade = parseInt(goalGrade, 10); // Convert goalGrade to integer
+      // const parsedGoalGrade = parseInt(goalGrade, 10); // Convert goalGrade to integer
       let travelDistanceMeters;
-      if(goalGrade.length < 3){
-        setGoalGrade(parsedGoalGrade)
-        console.log(goalGrade)
+      // if(goalGrade.length < 3){
+      //   setGoalGrade(parsedGoalGrade)
+      //   console.log(goalGrade)
 
-      }
+      // }
 
       if (travelDistance < 180) {
           travelDistanceMeters = Math.round(travelDistance * 1609.34);
@@ -155,10 +155,10 @@ const UserForm = ({location, setLocation}) => {
         </Form.Group>
             )}
             {climbingType === 'bouldering' && (
-        <Form.Group className="mb-3" controlId="sportClimbingGrade">
+        <Form.Group className="mb-3" controlId="BoulderClimbingGrade">
           <Form.Label>Goal Bouldering Grade</Form.Label>
           <Form.Select
-            onChange={(e) => setGoalGrade(e.target.value)}
+            onChange={(e) => setGoalGrade(parseInt(e.target.value, 10))}
           >
             <option value={1}>V1</option>
             <option value={2}>V2</option>

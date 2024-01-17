@@ -135,14 +135,15 @@ class ClimbingArea:
                     user_lat, user_lon, crag["metadata"]["lat"], crag["metadata"]["lng"]
                 )
                 weighted_sum = self.calculate_weighted_sum(crag, goal_grade)
-                crag_scores.append(
-                    {
-                        "areaName": crag["areaName"],
-                        "distance": distance,
-                        "score": weighted_sum,
-                        "uuid": crag['metadata']['areaId'],
-                    }
-                )   
+                if weighted_sum != 0:
+                    crag_scores.append(
+                        {
+                            "areaName": crag["areaName"],
+                            "distance": distance,
+                            "score": weighted_sum,
+                            "uuid": crag['metadata']['areaId'],
+                        }
+                    )
             return crag_scores
         else:
             return []
