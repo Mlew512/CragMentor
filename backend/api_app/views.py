@@ -34,23 +34,25 @@ class OpenBetaView(APIView):
         #normalize crag score and location
         normalized_scores = climbing_area.normalize_scores(crag_scores)
 
-        # Get top 3 crags
+        # Get top crags, could only return  crags with score > 0 *** to make faster***
         top_crag_uuids = [crag["uuid"] for crag in normalized_scores]
 
         # Initialize an empty list to compile climb data from the top 5 crags
         compiled_crag_data = []
 
-        # could be improved by making one api call with multiple uuids in one query, not supported by openbeta
-        for crag_uuid in top_crag_uuids:
-            climb_data = CragService.get_climbs_from_crag(crag_uuid)
-            climbs = climb_data["area"]["climbs"]
-            # Shuffle the order of climbs for each crag
-            random.shuffle(climbs)
-            # Append climb data to the list
-            compiled_crag_data.extend(climbs)
+        # 1 api call method
+        
+        compiled_crag_data = CragService.get_climbs_from_crag(top_crag_uuids)
+        compiled_climbs = []
+        # Iterate through each area in the data
+        for area_key, area_value in compiled_crag_data.items():
+            # Extract climbs from the current area and add to the compiled list
+            area_climbs = area_value.get('climbs', [])
+            random.shuffle(area_climbs)
+            compiled_climbs.extend(area_climbs)
 
         # Build one triangle using climbs from all crags
-        combined_pyramid_scheme = CragService.build_the_triangle(compiled_crag_data, goal_grade)
+        combined_pyramid_scheme = CragService.build_the_triangle(compiled_climbs, goal_grade)
 
         return Response({"my_pyramid": combined_pyramid_scheme})    
 

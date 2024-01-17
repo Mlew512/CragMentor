@@ -62,8 +62,8 @@ crag_in_area_query = """
         """
 
 climbs_in_crag_query = """
-            query getClimbsInCrag ($uuid: ID!){
-            area(uuid: $uuid) {
+            query getClimbsInCrag ($uuids: [ID!]){
+            areas: areasList(uuids: $uuids) {
                 areaName
                     climbs {
                     name

@@ -89,16 +89,20 @@ class CragService:
             return f"JSON decoding error: {ve}"
 
     @staticmethod
-    def get_climbs_from_crag(uuid):
-        # GraphQL query to get boulder information based on area_id
+    def get_climbs_from_crag(uuids):
+        # GraphQL query to get area information based on area_id
+        
+        built_query= CragService.generate_query(uuids)
+
+
         variables = {
-            "uuid": uuid,
+            "uuids": uuids,
         }
 
         try:
             response = requests.post(
                 "https://api.openbeta.io/",
-                json={"query": climbs_in_crag_query, "variables": variables},
+                json={"query": built_query},
                 timeout=20,
             )
 
@@ -129,10 +133,6 @@ class CragService:
                     "name": climb["name"],
                     "grade": climb["grades"]["vscale"],
                     "uuid": climb["uuid"],
-                    # "lat": climb["metadata"]["lat"],
-                    # "long": climb["metadata"]["lng"],
-                    # "area": climb["parent"]["area_name"],
-                    # "media": climb["media"]["media"][0]["mediaUrl"]
                 }
 
         # If no unique climb with the target grade is found, return a default climb
@@ -330,3 +330,27 @@ class CragService:
             letter_part = ""
 
         return f"5.{integer_part}{letter_part}"
+
+
+    @staticmethod
+    def generate_query(uuids):
+    # Initialize an empty string to build the query
+        query_string = "query getClimbsInCrag{\n"
+
+        # Loop through the UUIDs and dynamically generate aliases with UUIDs
+        for index, uuid in enumerate(uuids, start=1):
+            alias = f"a{index}"
+            query_string += f"  {alias}: area(uuid: \"{uuid}\") {{\n"  # Insert the UUID into the query
+            query_string += "    uuid\n    areaName\n"
+            query_string += "    climbs {\n"
+            query_string += "      name\n      uuid\n"
+            query_string += "      media {\n        mediaUrl\n      }\n"
+            query_string += "      grades {\n        vscale\n        yds\n      }\n"
+            query_string += "      type {\n        sport\n        trad\n        bouldering\n      }\n"
+            query_string += "    }\n"
+            query_string += "    totalClimbs\n  }\n"
+
+        # Close the query
+        query_string += "}"
+
+        return query_string
