@@ -7,6 +7,7 @@ import requests
 from api_app.cragAlgorithm import ClimbingArea
 from .utilities.cragservice import CragService
 import random
+from .utilities.queries import *
 
 class OpenBetaView(APIView):
     def post(self, request, *args, **kwargs):
@@ -74,7 +75,7 @@ class GetArea(APIView):
             data = response.json()
             return Response(data.get("data"), status=HTTP_200_OK)
         except requests.exceptions.RequestException as e:
-            print(e)
+            # print(e)
             # Handle request-related exceptions
             return Response({"error": "Request error"}, status=500)
         except ValueError as ve:
@@ -169,7 +170,7 @@ class BestCragView(APIView):
         #normalize crag score and location
         normalized_scores = climbing_area.normalize_scores(crag_scores)
         top_five= normalized_scores[:5]
-        print(top_five)
+        # print(top_five)
         
     
         return Response({"normalized_scores": top_five})

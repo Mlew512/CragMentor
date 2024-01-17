@@ -14,7 +14,7 @@ class Pyramid(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     location = models.CharField(default="unknown", null=True, blank=True)
-    goal_grade = models.IntegerField(validators=[MaxValueValidator(17)])
+    goal_grade = models.CharField()
 
     def __str__(self):
         return f"{self.user.username}'s Pyramid"

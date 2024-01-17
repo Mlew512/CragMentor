@@ -19,10 +19,11 @@ class ClimbingArea:
             if goal_grade_numeric >= 10.4:
                 # increment by letter grades
                 self.grade_weights[goal_grade]=1
+                self.grade_weights[CragService.numeric_to_grade(goal_grade_numeric-0.1)]=1.5
                 self.grade_weights[CragService.numeric_to_grade(goal_grade_numeric-0.2)]=2
                 self.grade_weights[CragService.numeric_to_grade(goal_grade_numeric-0.3)]=2.5
                 self.grade_weights[CragService.numeric_to_grade(goal_grade_numeric-0.4)]=3
-                # will need to take - and plus into account
+                # will need to take - and plus into account?
 
             if goal_grade_numeric <=10.4 and goal_grade_numeric >10.0:
                 self.grade_weights[goal_grade]=1
@@ -163,7 +164,7 @@ class ClimbingArea:
             normalized_scores = RobustScaler().fit_transform([[score] for score in scores])
             normalized_distances = RobustScaler().fit_transform([[distance] for distance in distances])
         except ValueError as e:
-            print(f"Error during normalization: {e}")
+            # print(f"Error during normalization: {e}")
             return []
 
         for i, crag in enumerate(crag_scores):

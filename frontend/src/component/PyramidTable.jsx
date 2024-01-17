@@ -74,7 +74,7 @@ function PyramidTable({ userId, setPyramid }) {
                     <td onClick={() => handleAPyramid(pyramid.id)}>
                       <Button variant="outline-info">View</Button>
                     </td>
-                    <td>V{pyramid.goal_grade}</td>
+                    <td>{pyramid.goal_grade}</td>
                     <td>{pyramid.location}</td>
                     <td>
                       {new Date(pyramid.date_generated).toLocaleDateString()}
