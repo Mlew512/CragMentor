@@ -29,8 +29,10 @@ const UserForm = ({location, setLocation}) => {
       // need to implement different parsing for sport climbing
       const parsedGoalGrade = parseInt(goalGrade, 10); // Convert goalGrade to integer
       let travelDistanceMeters;
-      if(goalGrade.length< 3){
+      if(goalGrade.length < 3){
         setGoalGrade(parsedGoalGrade)
+        console.log(goalGrade)
+
       }
 
       if (travelDistance < 180) {
@@ -40,7 +42,6 @@ const UserForm = ({location, setLocation}) => {
       }
 
       setUserProfile(userProfile => ({...userProfile, goal: parseInt(goalGrade, 10), dwtt: travelDistance* 1609.34}))
-     
       const response = await api.post("/beta/", {
         goal_grade: goalGrade,
         location: {

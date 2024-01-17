@@ -102,7 +102,7 @@ const MyPyramidsPage =()=>{
           <Row>
             <Card id="pyramid-container" style={{minHeight:"400px"}}>
                 <CardBody className="d-flex justify-content-center align-items-center">
-                <p>Click "View" to access your past content here.</p>
+                <p>Click "View" to view your saved pyramid here.</p>
                 <PyramidMentor/>
                 </CardBody>
             </Card>

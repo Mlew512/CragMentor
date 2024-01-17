@@ -37,7 +37,7 @@ const PyramidPage = () => {
         location: location.name,
         latitude: location.lat,
         longitude: location.lng,
-        goal_grade: userProfile.goal
+        goal_grade: myPyramid?.goal_climb.grade
       });
 
       if (response.status === 201) {
@@ -80,11 +80,11 @@ const PyramidPage = () => {
   // Random Compliment when Pyramid is generated
 const RandomCompliment =() =>{
     const numberArray = [
-      "Awesome work!",
-      "Fantastic job!",
-      "Impressive!",
-      "Well done!",
-      "Outstanding!",
+      "Send it!",
+      "You got it crusher!",
+      "Venga!",
+      "Allez!",
+      "A la muerte!",
       "Terrific!",
       "Excellent!",
       "Brilliant!",
