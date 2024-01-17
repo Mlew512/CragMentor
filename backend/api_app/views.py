@@ -7,6 +7,7 @@ import requests
 from api_app.cragAlgorithm import ClimbingArea
 from .utilities.cragservice import CragService
 import random
+from .utilities.queries import *
 
 class OpenBetaView(APIView):
     def post(self, request, *args, **kwargs):

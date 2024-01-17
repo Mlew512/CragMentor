@@ -29,6 +29,9 @@ const UserForm = ({location, setLocation}) => {
       // need to implement different parsing for sport climbing
       const parsedGoalGrade = parseInt(goalGrade, 10); // Convert goalGrade to integer
       let travelDistanceMeters;
+      if(goalGrade.length< 3){
+        setGoalGrade(parsedGoalGrade)
+      }
 
       if (travelDistance < 180) {
           travelDistanceMeters = Math.round(travelDistance * 1609.34);
@@ -88,19 +91,6 @@ const UserForm = ({location, setLocation}) => {
         <Modal.Body>
           <Form>
 
-            {/* add button to switch between bouldering and sport climbing */}
-            <Form.Group className="mb-3" controlId="goalGrade">
-              <Form.Label>{`Goal ${climbingType === 'bouldering' ? "bouldering" : "Sport Climbing"} Grade: ${climbingType === 'bouldering'? 'V scale': 'YDS scale'}`}</Form.Label>
-
-              <Form.Control
-                type="number"
-                placeholder={climbingType === 'bouldering' ? '1-17' : '5.5-5.15d'}
-                autoFocus
-                min={climbingType=== 'bouldering'? '1' : '5.5'}
-                value={goalGrade}
-                onChange={(e) => setGoalGrade(e.target.value)}
-              />
-            </Form.Group>
             {/* climbing type toggle button */}
             <ButtonGroup toggle>
               <ToggleButton
@@ -111,7 +101,7 @@ const UserForm = ({location, setLocation}) => {
               checked={climbingType === 'bouldering'}
               onClick={()=> handleTypeToggle('bouldering')}
               >
-                bouldering
+                Bouldering
               </ToggleButton>
               <ToggleButton
               type="radio"
@@ -127,7 +117,7 @@ const UserForm = ({location, setLocation}) => {
             {/* dropdown for sport */}
             {climbingType === 'sportClimbing' && (
         <Form.Group className="mb-3" controlId="sportClimbingGrade">
-          <Form.Label>Sport Climbing Grade</Form.Label>
+          <Form.Label>Goal Sport Climbing Grade</Form.Label>
           <Form.Select
             onChange={(e) => setGoalGrade(e.target.value)}
           >
@@ -160,6 +150,32 @@ const UserForm = ({location, setLocation}) => {
             <option value="5.15b">5.15b</option>
             <option value="5.15c">5.15c</option>
             <option value="5.15d">5.15d</option>
+          </Form.Select>
+        </Form.Group>
+            )}
+            {climbingType === 'bouldering' && (
+        <Form.Group className="mb-3" controlId="sportClimbingGrade">
+          <Form.Label>Goal Bouldering Grade</Form.Label>
+          <Form.Select
+            onChange={(e) => setGoalGrade(e.target.value)}
+          >
+            <option value={1}>V1</option>
+            <option value={2}>V2</option>
+            <option value={3}>V3</option>
+            <option value={4}>V4</option>
+            <option value={5}>V5</option>
+            <option value={6}>V6</option>
+            <option value={7}>V7</option>
+            <option value={8}>V8</option>
+            <option value={9}>V9</option>
+            <option value={10}>V10</option>
+            <option value={11}>V11</option>
+            <option value={12}>V12</option>
+            <option value={13}>V13</option>
+            <option value={14}>V14</option>
+            <option value={15}>V15</option>
+            <option value={16}>V16</option>
+            <option value={17}>V17</option>
           </Form.Select>
         </Form.Group>
             )}
