@@ -18,7 +18,7 @@ const MyPyramidsPage =()=>{
     }
   },[user, pyramid])
 
-  console.log("the_pramid: ", pyramid)
+  // console.log("the_pramid: ", pyramid)
   
   const the_pyramid = (
     <>

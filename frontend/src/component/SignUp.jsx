@@ -3,7 +3,6 @@ import {Button, Form, CardBody, Container, Card} from "react-bootstrap";
 import { useState } from "react";
 import { api } from "../utilities/api";
 import { useNavigate } from "react-router-dom";
-import photo3 from  "../imagesnew/FrontPage/background8.jpg";
 
 const SignUp = ({setUser, setExistingUser, existingUser }) => {
   const [email, setEmail] = useState("");
