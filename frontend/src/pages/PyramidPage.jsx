@@ -96,7 +96,9 @@ const RandomCompliment =() =>{
   }
 
   useEffect(()=>{
-   addRoutesToPyramid(); 
+    if (pyramidId !== null) {
+      addRoutesToPyramid();
+    }; 
   }, [pyramidId]);
 
   const the_pyramid = (
