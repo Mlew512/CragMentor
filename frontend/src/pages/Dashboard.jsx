@@ -79,7 +79,7 @@ const Dashboard = () => {
                         .slice(0, 3)
                         .map((pyramid, index) => (
                           <tr key={index} className="text-center">
-                            <td>V{pyramid.goal_grade}</td>
+                            <td>{pyramid.goal_grade}</td>
                             <td onClick={() => handleAPyramid(pyramid.id)}>
                               <Button variant="outline-info">
                                 {pyramid.id}
@@ -159,6 +159,7 @@ const Dashboard = () => {
               </CardHeader>
               <CardBody id="card-best-crags">
                 <BestCrags
+                // need to change this to save to users profile so it is maintained throughout sessions
                   userProfile={userProfile}
                   location={location}
                   setLocation={setLocation}

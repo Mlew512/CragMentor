@@ -19,7 +19,6 @@ const UserForm = ({location, setLocation}) => {
   const [loadingData, setIsLoadingData] = useState(false);
   const [errorMSG, setErrorMSG] = useState(null);
   const [climbingType, setClimbingType] = useState("bouldering");
-  // const [location, setLocation] = useState({"lat": null, "lng": null})
 
   const handleCreate = async () => {
     setErrorMSG(null);

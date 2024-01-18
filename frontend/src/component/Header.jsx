@@ -6,13 +6,16 @@ import { Link, useNavigate } from "react-router-dom";
 import {api} from '../utilities/api'
 import { MdOutlineContactSupport } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
-import { AiOutlineSetting } from "react-icons/ai";
+import { MdOutlineDashboard } from "react-icons/md";
+
+
 import { CgProfile } from "react-icons/cg";
 
 // Navbar Pages Icons
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { TbHexagonalPyramidPlus } from "react-icons/tb"; //pyramid icon
+import { TbHexagonalPyramid } from "react-icons/tb"; 
 import { FiMapPin } from "react-icons/fi"; //
 import { AiOutlineProfile } from "react-icons/ai";
 import AreaSearch from "./AreaSearch"
@@ -53,8 +56,8 @@ const Header = ({ user, setUser }) => {
             </Navbar.Brand>
             <Nav className="links" variant="underline">
               <Nav.Link as={Link} to="/pyramid/" title="Make a Pyramid"><TbHexagonalPyramidPlus size={30}/></Nav.Link>
-              <Nav.Link as={Link} to="/mypyramids/" title="My Pyramids"><AiOutlineProfile size={30}/></Nav.Link>
-              <Nav.Link as={Link} to="/dashboard/" title="Dashboard"><MdOutlineFavoriteBorder size={30}/></Nav.Link>
+              <Nav.Link as={Link} to="/mypyramids/" title="My Pyramids"><TbHexagonalPyramid size={30}/></Nav.Link>
+              <Nav.Link as={Link} to="/dashboard/" title="Dashboard"><MdOutlineDashboard size={30}/></Nav.Link>
               <Nav.Link as={Link} to="/map/" title="Map"><FiMapPin size={30}/></Nav.Link>
               <AreaSearch />
             </Nav>
@@ -74,10 +77,10 @@ const Header = ({ user, setUser }) => {
                 }
               >
                 <Dropdown.Item as={Link} to="/dashboard/" className="d-flex flex-row align-items-center" class="dropitems">
-                  <div className="px-1"><MdOutlineFavoriteBorder size={20}/> Dashboard </div>
+                  <MdOutlineFavoriteBorder size={20}/>Dashboard
                 </Dropdown.Item>
                   <Dropdown.Item as={Link} to="/pyramid/" className="d-flex flex-row align-items-center" class="dropitems"><TbHexagonalPyramidPlus size={20}/>Generate</Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/mypyramids/" className="d-flex flex-row align-items-center" class="dropitems"><AiOutlineProfile size={20}/>MyPyramids</Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/mypyramids/" className="d-flex flex-row align-items-center" class="dropitems"><TbHexagonalPyramid size={20}/>MyPyramids</Dropdown.Item>
                   <Dropdown.Item as={Link} to="/map/" className="d-flex flex-row align-items-center" class="dropitems"><FiMapPin size={20}/>Map</Dropdown.Item>
                   <Dropdown.Item className='dropitems'>
                   </Dropdown.Item>
