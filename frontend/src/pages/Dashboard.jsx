@@ -56,7 +56,7 @@ const Dashboard = () => {
       <Container className="d-flex flex-column">
         <Row>
           {/* Most Recent Pyramid (3)*/}
-          <Col lg={6}>
+          <Col lg={6} sm={10}>
             <Card>
               <CardHeader id="progress" className="text-center">
                 <h4>Most Recent Pyramid</h4>
@@ -66,7 +66,7 @@ const Dashboard = () => {
                   <thead>
                     <tr className="text-center">
                       <th>Goal Grade</th>
-                      <th>Id</th>
+                      {/* <th>Id</th> */}
                       <th>Location</th>
                       <th>Date Created</th>
                     </tr>
@@ -80,11 +80,12 @@ const Dashboard = () => {
                         .map((pyramid, index) => (
                           <tr key={index} className="text-center">
                             <td>{pyramid.goal_grade}</td>
-                            <td onClick={() => handleAPyramid(pyramid.id)}>
-                              <Button variant="outline-info">
+                            {/* <td onClick={() => handleAPyramid(pyramid.id)}>
+                              * lets fix this button and change the link to location not id */}
+                              {/* <Button variant="outline-info">
                                 {pyramid.id}
                               </Button>
-                            </td>
+                            </td> */}
                             <td>{pyramid.location}</td>
                             <td>
                               {new Date(
@@ -104,7 +105,7 @@ const Dashboard = () => {
             </Card>
           </Col>
           {/* Favorites */}
-          <Col lg={6}>
+          <Col lg={6} sm={10}>
             <Card>
               <CardHeader id="favorites-card" className="text-center"><h4>Favorites</h4></CardHeader>
               <CardBody>
@@ -152,12 +153,15 @@ const Dashboard = () => {
         </Row>
         <Row>
           {/* Reccomended Crags */}
-          <Col lg={6}>
+          {/* adjust sizing for small screens */}
+          <Col lg={6} sm={10}>
             <Card>
               <CardHeader id="best-crags" className="text-center">
                 <h4>Best Recommended Crags</h4>
               </CardHeader>
               <CardBody id="card-best-crags">
+                {/* change it to only show area name and overall score on small screens */}
+                {/* update the user table to reflect the new pref need api call to user model */}
                 <BestCrags
                 // need to change this to save to users profile so it is maintained throughout sessions
                   userProfile={userProfile}

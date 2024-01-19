@@ -12,3 +12,6 @@
   background-color: rgb(255,255,255,.5);
 }
 
+.pyramid-text{
+  z-index: 1000;
+}

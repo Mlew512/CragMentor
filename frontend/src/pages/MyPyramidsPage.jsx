@@ -94,15 +94,15 @@ const MyPyramidsPage =()=>{
 
   return(
     <>
-    <Container className="d-flex flex-column">
-    <Row>
+    <Container className="d-flex flex-column width-100%">
+    <Row >
       {pyramid ? the_pyramid : (
           <>
           
-          <Row>
-            <Card id="pyramid-container" style={{minHeight:"400px"}}>
+          <Row className="m-0">
+            <Card id="pyramid-container" className="width-100% "style={{minHeight:"400px"}}>
                 <CardBody className="d-flex justify-content-center align-items-center">
-                <p>Click "View" to view your saved pyramid here.</p>
+                <p>Click grade to view your saved pyramid here.</p>
                 <PyramidMentor/>
                 </CardBody>
             </Card>

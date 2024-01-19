@@ -55,11 +55,11 @@ function PyramidTable({ userId, setPyramid }) {
   return (
     <>
       <Row className="justify-content-center mt-5">
-        <Col lg={10}>
+        <Col className="p-0"lg={10}>
           <Table striped bordered hover size="sm" className="text-center">
             <thead>
               <tr>
-                <th>Pyramid</th>
+                {/* <th>Pyramid</th> */}
                 <th>Goal Grade</th>
                 <th>Location</th>
                 <th colSpan={2}>Date Created</th>
@@ -72,9 +72,9 @@ function PyramidTable({ userId, setPyramid }) {
                 reversedPyramids.map((pyramid, idx) => (
                   <tr key={idx}>
                     <td onClick={() => handleAPyramid(pyramid.id)}>
-                      <Button variant="outline-info">View</Button>
+                      <Button variant="outline-info">{pyramid.goal_grade}</Button>
                     </td>
-                    <td>{pyramid.goal_grade}</td>
+                    {/* <td>{pyramid.goal_grade}</td> */}
                     <td>{pyramid.location}</td>
                     <td>
                       {new Date(pyramid.date_generated).toLocaleDateString()}

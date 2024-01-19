@@ -22,7 +22,7 @@ const SignUp = ({setUser, setExistingUser, existingUser }) => {
         localStorage.setItem("user", response.data.user);
         localStorage.setItem("user_id", response.data.id);
         api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
-        navigate("/dashboard/");
+        navigate("/pyramid/");
       } else {
         alert("Something Went wrong");
       }
@@ -35,7 +35,7 @@ const SignUp = ({setUser, setExistingUser, existingUser }) => {
   return (
     <>
       <img id="home-background-img" className="home-background-image"/>
-      <Container>
+      <Container className="p-0">
         <Card style={{background:"rgb(255, 255, 255, .5)"}}>
         <CardBody id="sign-forms">
         <Form onSubmit={(e) => signUp(e)}>
