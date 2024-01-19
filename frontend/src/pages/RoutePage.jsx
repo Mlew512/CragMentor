@@ -37,7 +37,7 @@ function RoutePage() {
 
   const getData = async () => {
     const response = await postAPI(endpoints.route, null, { uuid: dataID });
-    console.log(response);
+    // console.log(response);
     if (response.status && response.data.climb_data.climb != null) {
       setData(response.data.climb_data.climb);
       setIsLoading(false);

@@ -20,3 +20,13 @@ We fetch climbing route data from a GraphQL API.
 User data, including usernames and names, is securely stored.
 We use coordinates for precise route recommendations.
 Optional Google Maps integration enhances location-based features.
+
+
+change about us page--
+
+make it more obvious what everything does,
+
+on login/signup navigate to generate pyramid page. 
+
+save user preferences
+

@@ -23,7 +23,7 @@ class ClimbingArea:
                 self.grade_weights[CragService.numeric_to_grade(goal_grade_numeric-0.2)]=2
                 self.grade_weights[CragService.numeric_to_grade(goal_grade_numeric-0.3)]=2.5
                 self.grade_weights[CragService.numeric_to_grade(goal_grade_numeric-0.4)]=3
-                # will need to take - and plus into account?
+                
 
             if goal_grade_numeric <=10.4 and goal_grade_numeric >10.0:
                 self.grade_weights[goal_grade]=1

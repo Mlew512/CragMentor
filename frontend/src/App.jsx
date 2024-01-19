@@ -17,6 +17,7 @@ function App() {
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
   const lastVisited = useRef();
+  const [lastPyramidId, setLastPyramidId]= useState();
 
   useEffect(() => {
     let token = localStorage.getItem("token");
@@ -82,7 +83,8 @@ function App() {
           userProfile, setUserProfile,
           location, setLocation,
           favoriteRoutes, setFavoriteRoutes,
-          userId, setUserId
+          userId, setUserId,
+          lastPyramidId, setLastPyramidId
         }}
       />
       <Footer/>

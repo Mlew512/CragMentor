@@ -45,7 +45,7 @@ export const postAPI = async (url, encodedParams = null, data=null, config=null)
         }
     }
     catch (error){
-        console.log(error)
+        // console.log(error)
         return {status:false, error:error}
         
     }
@@ -62,7 +62,7 @@ export const deleteAPI = async (url, encodedParams = null, data=null) => {
         }
 
         const response = await api.delete(urlString, json);
-        console.log(response)
+        // console.log(response)
         if (response.status == 201 || response.status == 200 || response.status == 204){
             return {status:true, data:response.data}
         }else{
@@ -70,7 +70,7 @@ export const deleteAPI = async (url, encodedParams = null, data=null) => {
         }
     }
     catch (error){
-        console.log(error)
+        // console.log(error)
         return {status:false, error:error}
         
     }
@@ -84,7 +84,7 @@ export const getAPI = async (url, encodedParams = null) => {
             urlString += `?${encodedParams}`
         }
         const response = await api.get(urlString);
-        console.log(response)
+        // console.log(response)
         if (response.status == 200){
             return {status:true, data:response.data}
         }else{
@@ -92,7 +92,7 @@ export const getAPI = async (url, encodedParams = null) => {
         }
     }
     catch (error){
-        console.log(error)
+        // console.log(error)
         return {status:false, error:error}
         
     }

@@ -1,12 +1,14 @@
 
 #footer{
-  position: fixed;
+  position:absolute;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.1);
   padding: 1px;
   text-align: center;
+  margin:0;
   margin-top: 50px;
-  color: white
+  color: white;
+  width:100%;
 }

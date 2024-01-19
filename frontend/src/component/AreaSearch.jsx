@@ -9,7 +9,17 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import styled, { keyframes } from 'styled-components';
 
 
-
+const spinAnimation = keyframes`
+from {
+  transform: rotate(0deg);
+}
+to {
+  transform: rotate(360deg);
+}
+`;
+const SpinningAiOutlineLoading3Quarters = styled(AiOutlineLoading3Quarters)`
+animation: ${spinAnimation} 1s linear infinite;
+`;
 
 const AreaSearch = ({}) => {
   const [searchTerm, setSearchTerm] = useState("")
@@ -45,17 +55,6 @@ const AreaSearch = ({}) => {
           }
       }
     }
-  const spinAnimation = keyframes`
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  `;
-  const SpinningAiOutlineLoading3Quarters = styled(AiOutlineLoading3Quarters)`
-  animation: ${spinAnimation} 1s linear infinite;
-`;
 
   return (
     <>

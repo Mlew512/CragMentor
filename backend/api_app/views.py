@@ -24,11 +24,11 @@ class OpenBetaView(APIView):
         if not crag_data:
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
-        # Use the ClimbingArea class to calculate and normalize crag scores
-        # need to take into accound if sport climbing or bouldering(could do 2 different functions)
         climbing_area = ClimbingArea(crag_data, goal_grade)
 
-        # calculate crag score
+        # calculate crag scorecation["lng"], goal_grade)
+
+        #normalize crag score and location
         crag_scores = climbing_area.calculate_crag_scores(location["lat"], location["lng"], goal_grade)
 
         #normalize crag score and location

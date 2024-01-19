@@ -2,8 +2,6 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import PyramidTable from "../component/PyramidTable";
 import { Row, Col, Card, CardBody, Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import {api} from '../utilities/api' 
-import { Link } from "react-router-dom";
 import { PyramidMentor } from "../component/PyramidMentor";
 
 
@@ -16,9 +14,8 @@ const MyPyramidsPage =()=>{
     if(!user){
       navigate("/register/")
     }
-  },[user, pyramid])
+  },[user])
 
-  // console.log("the_pramid: ", pyramid)
   
   const the_pyramid = (
     <>
@@ -94,15 +91,15 @@ const MyPyramidsPage =()=>{
 
   return(
     <>
-    <Container className="d-flex flex-column">
-    <Row>
+    <Container className="d-flex flex-column width-100%">
+    <Row >
       {pyramid ? the_pyramid : (
           <>
           
-          <Row>
-            <Card id="pyramid-container" style={{minHeight:"400px"}}>
+          <Row className="m-0">
+            <Card id="pyramid-container" className="width-100% "style={{minHeight:"400px"}}>
                 <CardBody className="d-flex justify-content-center align-items-center">
-                <p>Click "View" to view your saved pyramid here.</p>
+                <p>Click grade to view your saved pyramid here.</p>
                 <PyramidMentor/>
                 </CardBody>
             </Card>
@@ -110,7 +107,7 @@ const MyPyramidsPage =()=>{
           </>
         )}
     </Row>
-    <PyramidTable userId={userId} setPyramid={setPyramid}/>
+    <PyramidTable userId={userId} setPyramid={setPyramid} pyramid={pyramid}/>
     </Container>
     </>
   );
