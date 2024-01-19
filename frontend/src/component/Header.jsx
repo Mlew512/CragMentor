@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar, ButtonGroup, Dropdown, DropdownButton } from 'react-bootstrap';
 import Logo from "../images/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import {api} from '../utilities/api'
 import { MdOutlineContactSupport } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -83,6 +83,8 @@ const Header = ({ user, setUser }) => {
                   <Dropdown.Item as={Link} to="/pyramid/" className="d-flex flex-row align-items-center" id="dropitems"><TbHexagonalPyramidPlus size={20}/>Generate</Dropdown.Item>
                   <Dropdown.Item as={Link} to="/mypyramids/" className="d-flex flex-row align-items-center" id="dropitems"><TbHexagonalPyramid size={20}/>MyPyramids</Dropdown.Item>
                   <Dropdown.Item as={Link} to="/map/" className="d-flex flex-row align-items-center" id="dropitems"><FiMapPin size={20}/>Map</Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/contact/" className='d-flex flex-row align-items-center'><MdOutlineContactSupport size={20}/>Contact</Dropdown.Item>
+
                   <Dropdown.Item className='dropitems'>
                   </Dropdown.Item>
                 {/* <Dropdown.Item as={Link} to="/contact/" className="d-flex flex-row align-items-center">
