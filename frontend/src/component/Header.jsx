@@ -99,16 +99,17 @@ const Header = ({ user, setUser }) => {
               <img src={Logo} style={{ width: "50px", height: "50px", borderRadius: "50px" }} alt="Logo" />
               <h3 className="cragmentor-title">CragMentor</h3>
             </Navbar.Brand>
-            <Nav className="links" variant="underline">
+            <Nav variant="underline">
             <Nav.Link id="logged-out"as={Link} to="/pyramid/" title="Make a Pyramid"><TbHexagonalPyramidPlus size={30}/></Nav.Link>
-            <Nav.Link id="logged-out" as={Link} to="/contact/" title="about us"><MdOutlineContactSupport size={30}/></Nav.Link>
+             <Nav.Link id="logged-out" as={Link} to="/contact/" title="about us"><MdOutlineContactSupport size={30}/></Nav.Link>
 
             </Nav>
+
           <div 
           style={{width:"100%"}}
           className='d-flex justify-content-end'>
             
-            <Nav.Link as={Link} to="/register/" style={{marginRight:"17%"}}>Login/Register  </Nav.Link>
+            <Nav.Link as={Link} to="/register/" style={{marginRight:"17%"}}>Login</Nav.Link>
           </div>
           </>
         )}
