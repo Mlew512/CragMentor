@@ -47,9 +47,9 @@ const BestCrags = ({ userProfile, location, setLocation }) => {
     </tr>
         <tr className="text-center">
           <th>Area</th>
-          <th>ClimbScore</th>
+          {/* <th>ClimbScore</th> */}
           <th>Distance</th>
-          <th>Overall Score</th>
+          <th>Score</th>
         </tr>
       </thead>
       <tbody>
@@ -57,7 +57,7 @@ const BestCrags = ({ userProfile, location, setLocation }) => {
           areaList.map((area, index) => (
             <tr key={index} className="text-center">
               <td><Link to={`../area/${area.uuid}/`}>{area.areaName}</Link></td>
-              <td>{Math.round(area.normalized_score)}</td>
+              {/* <td>{Math.round(area.normalized_score)}</td> */}
               <td>{Math.round(area.distance * 0.62)}mi</td>
               <td>{Math.round(area.overall_score)}</td>
             </tr>

@@ -38,6 +38,7 @@
   z-index: 0;
   pointer-events: none;
   margin-top: 45px;
+  display:none;
 }
 
 /* Responsive styles for smaller screens */
@@ -70,9 +71,16 @@
   }
 }
 
-
-@media (max-width: 500px) {
-  #home-background-img {
+.mentor-box{
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Add this line for horizontal centering */
+  height: 40vh; /* Set a height for vertical centering, adjust as needed */
+  background-position: center;
+  text-align: center;
+}
+@media (max-width: 1000px) {
+  .pyramid {
     width: 100%;
     height: 100%;
     background-position: center;
