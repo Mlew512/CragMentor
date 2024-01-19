@@ -1,5 +1,5 @@
-
 /* Styling for Pyramid Animation */
+
 .animated-pyramid {
   position: relative;
   width: 300px;
@@ -49,6 +49,9 @@
   border: 0;
   background: blue;
 }
+.one, .two, .three, .four {
+  background: url('../images/logo.png') center/contain no-repeat;
+}
 
 @keyframes rotate {
   from {
@@ -64,10 +67,3 @@
 }
 
 /* Animation End */
-
-
-@media (max-width: 1000px) {
-  .animated-pyramid {
-    display:none;
-  }
-}
