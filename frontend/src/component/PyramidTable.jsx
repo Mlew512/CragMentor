@@ -44,13 +44,21 @@ function PyramidTable({ userId, setPyramid }) {
       console.log("pyramid not found", error);
     }
   };
+  const reversedPyramids = [...allPyramid].reverse();
   
   useEffect(() => {
     getAllPyramid();
   }, []);
 
+  useEffect(() => {
+    if(reversedPyramids[0]){
+      handleAPyramid(reversedPyramids[0].id)
+    }
+  }, [reversedPyramids[0]]);
+
+
   // Reverse the allPyramid array to get the Most Recent
-  const reversedPyramids = [...allPyramid].reverse();
+  // setPyramid(reversedPyramids[0])
 
   return (
     <>
