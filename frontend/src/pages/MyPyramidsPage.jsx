@@ -2,8 +2,6 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import PyramidTable from "../component/PyramidTable";
 import { Row, Col, Card, CardBody, Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import {api} from '../utilities/api' 
-import { Link } from "react-router-dom";
 import { PyramidMentor } from "../component/PyramidMentor";
 
 
@@ -16,9 +14,8 @@ const MyPyramidsPage =()=>{
     if(!user){
       navigate("/register/")
     }
-  },[user, pyramid])
+  },[user])
 
-  // console.log("the_pramid: ", pyramid)
   
   const the_pyramid = (
     <>
@@ -110,7 +107,7 @@ const MyPyramidsPage =()=>{
           </>
         )}
     </Row>
-    <PyramidTable userId={userId} setPyramid={setPyramid}/>
+    <PyramidTable userId={userId} setPyramid={setPyramid} pyramid={pyramid}/>
     </Container>
     </>
   );

@@ -9,7 +9,7 @@ import { PyramidMentor } from "../component/PyramidMentor";
 
 const PyramidPage = () => {
   const navigate = useNavigate();
-  const { user, myPyramid, setLocation, userId, location, userProfile} = useOutletContext();
+  const { user, myPyramid, setLocation, userId, location, userProfile, lastPyramidId, setLastPyramidId} = useOutletContext();
   const { location: userLocation } = useOutletContext();
   const [pyramidId, setPyramidId] = useState(null);
   const [localUserId, setLocalUserId] = useState("")
@@ -35,6 +35,7 @@ const PyramidPage = () => {
 
       if (response.status === 201) {
         setPyramidId(response.data.pyramid_id);
+        setLastPyramidId(response.data.pyramid_id);
         }
       
     } catch (error) {

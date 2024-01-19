@@ -2,19 +2,22 @@ import Table from "react-bootstrap/Table";
 import { Row, Col, Button } from "react-bootstrap";
 // import { api } from '../badutilities';
 import { api } from "../utilities/api";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-function PyramidTable({ userId, setPyramid }) {
+function PyramidTable({ userId, setPyramid, pyramid}) {
   const [allPyramid, setAllPyramid] = useState([]);
+  const [pyramidId, setPyramidId]= useState(null);
+  const {lastPyramidId, setLastPyramidId}= useOutletContext();
 
   const handleAPyramid = async (id) => {
     try {
       const response = await api.get(`pyramid/${id}/`);
       if (response.status === 200) {
         setPyramid(response.data.routes);
+        setLastPyramidId(response.data.id)
       }
     } catch (error) {
       console.log("pyramid not found", error);
@@ -52,13 +55,18 @@ function PyramidTable({ userId, setPyramid }) {
 
   useEffect(() => {
     if(reversedPyramids[0]){
-      handleAPyramid(reversedPyramids[0].id)
+      if(lastPyramidId){
+        handleAPyramid(lastPyramidId)
+      }else{
+        handleAPyramid(reversedPyramids[0].id)
+        console.log("reversed")
+      }
     }
-  }, [reversedPyramids[0]]);
+  }, [reversedPyramids[0]]);  
 
 
   // Reverse the allPyramid array to get the Most Recent
-  // setPyramid(reversedPyramids[0])
+
 
   return (
     <>
@@ -67,11 +75,9 @@ function PyramidTable({ userId, setPyramid }) {
           <Table striped bordered hover size="sm" className="text-center">
             <thead>
               <tr>
-                {/* <th>Pyramid</th> */}
                 <th>Goal Grade</th>
                 <th>Location</th>
                 <th colSpan={2}>Date Created</th>
-                
               </tr>
             </thead>
             <tbody>
