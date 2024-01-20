@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useOutletContext,useParams } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom';
-import { getAPI, endpoints, postAPI } from '../utilities/api';
-import { Container, Row, Col, Card, CardHeader, CardBody } from "react-bootstrap";
-
+import { useEffect, useState } from 'react';
+import {useParams } from 'react-router-dom'
+import {endpoints, postAPI } from '../utilities/api';
+import { Container, Row, Col } from "react-bootstrap";
 import MapView from '../component/MapView';
 import DisplayMessage from '../component/DisplayMessage'
 import LoadingSpinner from '../component/LoadingSpinner'
@@ -20,7 +18,6 @@ function AreaPage() {
     const [message, setMessage] = useState("")
     const [isLoading, setIsLoading] = useState(true)
     const params = useParams();
-    const navigate = useNavigate();
 
     useEffect(()=>{
         let id = null
@@ -40,7 +37,7 @@ function AreaPage() {
 
     const getData = async () => {
         const response = await postAPI(endpoints.area,null,{uuid:dataID})
-        console.log(response)
+        // console.log(response)
         if(response.status){
             setData(response.data.area)
             setIsLoading(false)

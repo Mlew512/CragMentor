@@ -24,3 +24,5 @@ Optional Google Maps integration enhances location-based features.
 
 save user preferences
 
+fix map search bar length
+

@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -9,7 +8,7 @@ const RouteBoxView = ({data}) => {
   function handleClick(path) {
     navigate(path);
   }
-  console.log(data)
+  
   return (
     <>
        

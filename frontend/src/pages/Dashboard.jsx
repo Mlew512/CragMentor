@@ -7,7 +7,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Form,
   Button,
 } from "react-bootstrap";
 import { useOutletContext } from "react-router-dom";
@@ -20,25 +19,20 @@ import "./Dashboard.css";
 
 const Dashboard = () => {
   const {
-    userProfile,
-    location,
-    setLocation,
     userId,
     favoriteRoutes,
-    lastPyramidID,
     setLastPyramidId
   } = useOutletContext();
   const navigate = useNavigate();
   const [savedPyramid, setSavedPyramid] = useState([]);
-  const [searchPyramidId, setSearchPyramidId] = useState(null);
 
-  // To get all Pyramids for user
+
   const getUserPyramids = async () => {
     const user_id = localStorage.getItem("user_id");
     try {
       const response = await api.get(`/pyramid/user/${user_id}`);
       if (response.status === 200) {
-        console.log(response.data);
+        // console.log(response.data);
         setSavedPyramid(response.data);
       }
     } catch (error) {
@@ -151,8 +145,6 @@ const Dashboard = () => {
   
         </Row>
         <Row>
-          {/* Reccomended Crags */}
-          {/* adjust sizing for small screens */}
           <Col lg={6} sm={10}>
             <Card>
               <CardHeader id="best-crags" className="text-center">
@@ -161,12 +153,7 @@ const Dashboard = () => {
               <CardBody id="card-best-crags">
                 {/* change it to only show area name and overall score on small screens */}
                 {/* update the user table to reflect the new pref need api call to user model */}
-                <BestCrags
-                // need to change this to save to users profile so it is maintained throughout sessions
-                  userProfile={userProfile}
-                  location={location}
-                  setLocation={setLocation}
-                />
+                <BestCrags/>
               </CardBody>
             </Card>
           </Col>

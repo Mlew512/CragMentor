@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { postAPI, endpoints } from '../utilities/api';
 import MapView from '../component/MapView';
 import DisplayMessage from '../component/DisplayMessage';
 import LoadingSpinner from '../component/LoadingSpinner';
 import FavButton from '../component/FavButton';
 import {Row, Container,Button} from 'react-bootstrap';
-// Import Bootstrap CSS
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './RoutePage.css'; 
 
@@ -28,7 +28,9 @@ function RoutePage() {
 
   useEffect(() => {
     setIsLoading(true);
-    getData();
+    if(dataID!=null){
+      getData();
+    }
   }, [dataID]);
 
   const temp = async () =>{

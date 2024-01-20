@@ -1,78 +1,65 @@
-import React, { useState } from "react";
-import {Button, ButtonGroup, Form, Modal, ToggleButton } from "react-bootstrap";
-import { useNavigate, useOutletContext } from "react-router-dom";
-// import { api } from '../badutilities';
+import { useState } from "react";
+import {
+  Button,
+  ButtonGroup,
+  Form,
+  Modal,
+  ToggleButton,
+} from "react-bootstrap";
+import { useOutletContext } from "react-router-dom";
 import { api } from "../utilities/api";
 import SearchBox from "./SearchBox";
 import LoadingSpin from "../component/Spinner";
 
-const BestForm = ({ location, setLocation }) => {
-  const navigate = useNavigate();
-  const { setMyPyramid, setUserProfile } = useOutletContext();
+const BestForm = () => {
+  const { setUser, user } = useOutletContext();
+  const [location, setLocation] = useState({});
   const [show, setShow] = useState(false);
   const [goalGrade, setGoalGrade] = useState("");
   const [travelDistance, setTravelDistance] = useState("");
   const [loadingData, setIsLoadingData] = useState(false);
   const [climbingType, setClimbingType] = useState("bouldering");
+  // const [newGoal, setNewGoal]= useState(null)
 
   const handleShow = () => setShow(true);
 
-  const handleCreate = async () => {
+  const handleTypeToggle = (type) => {
+    setClimbingType(type);
+  };
+
+  const handleUpdateUser = async () => {
     setIsLoadingData(true);
 
     try {
-      // const parsedGoalGrade = parseInt(goalGrade, 10);
       let travelDistanceMeters;
+      
+        if (travelDistance < 1) {
+          travelDistanceMeters = user.distance_willing_to_travel;
+        } else if (travelDistance < 180) {
+          travelDistanceMeters = Math.round(travelDistance * 1609.34);
+        } else {
+          travelDistanceMeters = 200000;
+        }
 
-      if (travelDistance < 180) {
-        travelDistanceMeters = Math.round(travelDistance * 1609.34);
-      } else {
-        travelDistanceMeters = 200000;
-      }
-      // this should be changed to send a post to the users profile
-      setUserProfile((userProfile) => ({
-        ...userProfile,
+      const response = await api.post(`users/info/${user.id}/`, {
         goal: goalGrade,
-        dwtt: travelDistance * 1609.34,
-      }));
-
-      const response = await api.post("beta/best-crag/", {
-        goal_grade: goalGrade,
-        location: {
-          lat: location.lat,
-          lng: location.lng,
-        },
-        maxDistance: travelDistanceMeters,
+        lat: location.lat,
+        long: location.lng,
+        distance_willing_to_travel: travelDistanceMeters,
       });
 
       if (response.status === 200) {
+        setUser(response.data);
         setShow(false); // Close the modal
+        console.log("User profile updated successfully");
       }
     } catch (error) {
-      try {
-        // Second attempt with maxDistance set to 300000
-        const response = await api.post("beta/best-crag/", {
-          goal_grade: goalGrade,
-          location: { lat: location.lat, lng: location.lng },
-          maxDistance: 300000,
-        });
-
-        if (response.status === 200) {
-          setShow(false); // Close the modal
-        }
-      } catch (secondError) {
-        console.error("Second attempt failed:", secondError);
-        alert("No crags found even with expanded search area");
-      } finally {
-        setIsLoadingData(false);
-      }
+      console.error("Error updating user profile:", error);
+      // Handle the error as needed
     } finally {
       setIsLoadingData(false);
     }
   };
-  const handleTypeToggle = (type) => {
-    setClimbingType(type)
-  }
 
   return (
     <>
@@ -86,7 +73,7 @@ const BestForm = ({ location, setLocation }) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            {/* climbing type toggle button */}
+            {/* Climbing type toggle buttons */}
             <ButtonGroup toggle>
               <ToggleButton
                 type="radio"
@@ -109,7 +96,8 @@ const BestForm = ({ location, setLocation }) => {
                 Sport Climbing
               </ToggleButton>
             </ButtonGroup>
-            {/* dropdown for sport */}
+
+            {/* Dropdown for sport climbing grade */}
             {climbingType === "sportClimbing" && (
               <Form.Group className="mb-3" controlId="sportClimbingGrade">
                 <Form.Label>Goal Sport Climbing Grade</Form.Label>
@@ -129,7 +117,7 @@ const BestForm = ({ location, setLocation }) => {
                   <option value="5.11d">5.11d</option>
                   <option value="5.12a">5.12a</option>
                   <option value="5.12b">5.12b</option>
-                  <option value="5.12c">5.12c</option>
+                  <option value="5.12c">5.12c</option>10000
                   <option value="5.12d">5.12d</option>
                   <option value="5.13a">5.13a</option>
                   <option value="5.13b">5.13b</option>
@@ -146,40 +134,33 @@ const BestForm = ({ location, setLocation }) => {
                 </Form.Select>
               </Form.Group>
             )}
+
+            {/* Dropdown for bouldering grade */}
             {climbingType === "bouldering" && (
               <Form.Group className="mb-3" controlId="BoulderClimbingGrade">
                 <Form.Label>Goal Bouldering Grade</Form.Label>
                 <Form.Select
                   onChange={(e) => setGoalGrade(parseInt(e.target.value, 10))}
                 >
-                  <option value={1}>V1</option>
-                  <option value={2}>V2</option>
-                  <option value={3}>V3</option>
-                  <option value={4}>V4</option>
-                  <option value={5}>V5</option>
-                  <option value={6}>V6</option>
-                  <option value={7}>V7</option>
-                  <option value={8}>V8</option>
-                  <option value={9}>V9</option>
-                  <option value={10}>V10</option>
-                  <option value={11}>V11</option>
-                  <option value={12}>V12</option>
-                  <option value={13}>V13</option>
-                  <option value={14}>V14</option>
-                  <option value={15}>V15</option>
-                  <option value={16}>V16</option>
-                  <option value={17}>V17</option>
+                  {/* Add options dynamically based on bouldering grades */}
+                  {Array.from({ length: 17 }, (_, i) => i + 1).map((grade) => (
+                    <option key={grade} value={grade}>
+                      V{grade}
+                    </option>
+                  ))}
                 </Form.Select>
               </Form.Group>
             )}
+
             {/* Search Box Component */}
             <div className="d-flex flex-column mb-3">
               <p>Location</p>
               <div>
-                <SearchBox setPlace={setLocation} address={""} />
+                <SearchBox setPlace={setLocation} address="" />
               </div>
             </div>
 
+            {/* Input for travel distance */}
             <Form.Group className="mb-3" controlId="travelDistance">
               <Form.Label>Search area size</Form.Label>
               <Form.Control
@@ -188,6 +169,7 @@ const BestForm = ({ location, setLocation }) => {
                 autoFocus
                 min="1"
                 max="125"
+                defaultValue={30}
                 value={travelDistance}
                 onChange={(e) => setTravelDistance(e.target.value)}
               />
@@ -200,7 +182,7 @@ const BestForm = ({ location, setLocation }) => {
           </Button>
           <Button
             variant="primary"
-            onClick={handleCreate}
+            onClick={handleUpdateUser} // Use onClick instead of onSubmit
             disabled={loadingData}
           >
             {loadingData ? <LoadingSpin /> : "Find Best Crags"}
