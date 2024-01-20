@@ -40,9 +40,10 @@ class User(AbstractUser):
 
     # Add any other required fields
     
-    current_level = models.IntegerField(null=True)
-    goal = models.IntegerField(null=True)
-    location = models.FloatField(null=True)
+    current_level= models.IntegerField(null=True)
+    goal = models.CharField(null=True)
+    lat = models.FloatField(null=True)
+    long = models.FloatField(null=True)
     distance_willing_to_travel = models.IntegerField(null=True)
 
     # Add related_name to avoid clashes with auth.User

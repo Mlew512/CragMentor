@@ -6,4 +6,5 @@ urlpatterns = [
     path("login", Log_in.as_view(), name="login"),
     path("info", Info.as_view(), name="info"),
     path("logout", Log_out.as_view(), name="logout"),
+    path('info/<int:user_id>/', Info.as_view(), name='user_info'),
 ]

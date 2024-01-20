@@ -1,15 +1,12 @@
 import Table from "react-bootstrap/Table";
 import { Row, Col, Button } from "react-bootstrap";
-// import { api } from '../badutilities';
 import { api } from "../utilities/api";
-import { useOutletContext, useSearchParams } from "react-router-dom";
+import { useOutletContext} from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-function PyramidTable({ userId, setPyramid, pyramid}) {
+function PyramidTable({setPyramid}) {
   const [allPyramid, setAllPyramid] = useState([]);
-  const [pyramidId, setPyramidId]= useState(null);
   const {lastPyramidId, setLastPyramidId}= useOutletContext();
 
   const handleAPyramid = async (id) => {
@@ -59,7 +56,7 @@ function PyramidTable({ userId, setPyramid, pyramid}) {
         handleAPyramid(lastPyramidId)
       }else{
         handleAPyramid(reversedPyramids[0].id)
-        console.log("reversed")
+        // console.log("reversed")
       }
     }
   }, [reversedPyramids[0]]);  

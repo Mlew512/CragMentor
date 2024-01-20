@@ -65,4 +65,17 @@ class Info(APIView):
             return Response(user_serialized.data, HTTP_200_OK)
         return Response("User not found", HTTP_404_NOT_FOUND)
 
+    def post(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response("User not found", status=status.HTTP_404_NOT_FOUND)
+
+        user_serialized = UserSerializer(user, data=request.data, partial=True)
+
+        if user_serialized.is_valid():
+            user_serialized.save()
+            return Response(user_serialized.data, status=HTTP_200_OK)
+        return Response(user_serialized.errors, status=HTTP_400_BAD_REQUEST)
+
     
