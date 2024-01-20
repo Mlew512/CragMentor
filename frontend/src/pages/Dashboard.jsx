@@ -20,14 +20,13 @@ import "./Dashboard.css";
 
 const Dashboard = () => {
   const {
-    user,
     userProfile,
-    setUserProfile,
     location,
     setLocation,
     userId,
     favoriteRoutes,
-    setFavoriteRoutes,
+    lastPyramidID,
+    setLastPyramidId
   } = useOutletContext();
   const navigate = useNavigate();
   const [savedPyramid, setSavedPyramid] = useState([]);
@@ -50,6 +49,11 @@ const Dashboard = () => {
   useEffect(() => {
     getUserPyramids();
   }, [userId]);
+
+  const handleAPyramid=(id)=>{
+    setLastPyramidId(id);
+    navigate("../mypyramids/")
+  }
 
   return (
     <>
@@ -80,13 +84,8 @@ const Dashboard = () => {
                         .map((pyramid, index) => (
                           <tr key={index} className="text-center">
                             <td>{pyramid.goal_grade}</td>
-                            {/* <td onClick={() => handleAPyramid(pyramid.id)}>
-                              * lets fix this button and change the link to location not id */}
-                              {/* <Button variant="outline-info">
-                                {pyramid.id}
-                              </Button>
-                            </td> */}
-                            <td>{pyramid.location}</td>
+                            <td onClick={() => handleAPyramid(pyramid.id)}>
+                              <Button>{pyramid.location}</Button></td>
                             <td>
                               {new Date(
                                 pyramid.date_generated
