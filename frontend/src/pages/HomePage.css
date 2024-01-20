@@ -11,7 +11,7 @@
 
 #home-background-img {
   position: absolute;
-  background-image: url('../imagesnew/FrontPage/background1.jpg');
+  /* background-image: url('../imagesnew/FrontPage/background1.jpg'); */
 
   top: 0;
   width: 100vw;
@@ -44,7 +44,7 @@
 /* Responsive styles for smaller screens */
 @media (max-width: 1000px) {
   #home-background-img {
-    background-image: url('../imagesnew/FrontPage/vert.jpg');
+    /* background-image: url('../imagesnew/FrontPage/vert.jpg'); */
     width: 100vw;
     height: 100vh;
     background-position: center;
