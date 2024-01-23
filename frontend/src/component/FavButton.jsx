@@ -18,8 +18,6 @@ const FavButton = ({data, topRight=false}) => {
     const [isFav, setIsFav] = useState(false);
     useEffect(()=>{
         if(data){
-            console.log(favoriteRoutes)
-            console.log(data)
             let isTrue = false
             for(let x = 0; x < favoriteRoutes.length; x ++){
                 if(favoriteRoutes[x]['uuid'] == data['uuid']){

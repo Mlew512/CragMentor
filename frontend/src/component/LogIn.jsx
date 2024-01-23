@@ -1,10 +1,6 @@
-
 import {Button, Form, CardBody, Container, Card} from "react-bootstrap";
 import { useState, useEffect } from "react";
-// import { api } from "../utilities";
-import {api} from '../utilities/api'
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import photo3 from "../imagesnew/FrontPage/background1.jpg";
 import {setAuth, postAPI, endpoints} from '../utilities/api'
 
 const LogIn = ({setExistingUser, existingUser}) => {
@@ -22,16 +18,14 @@ const LogIn = ({setExistingUser, existingUser}) => {
         email: email,
         password: password,
       });
-      console.log(response)
       setUser(response.data.user);
       setUserId(response.data.id);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user_id", response.data.id);
+      localStorage.setItem("user", response.data.user)
       setAuth(response.data.token)
-      // setAuth(response.data.token)
-      // api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
       navigate("/pyramid/");
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       setError("Invalid email or password. Please try again.");
     }
@@ -43,7 +37,7 @@ const LogIn = ({setExistingUser, existingUser}) => {
   return (
     <>
       <img id="home-background-img"/>
-      <Container>
+      <Container className="p-0">
         <Card 
         style={{background:"rgb(255, 255, 255, .5)"}}
         

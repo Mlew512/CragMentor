@@ -25,14 +25,13 @@
 h3.cragmentor-title {
   display: block;
 }
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
   h3.cragmentor-title {
     display: none; /* Hide the title on small screens */
   }
 }
 /* Responsive styles for screens up to 1000px */
 @media (max-width: 1000px) {
-
   .links, .links-header {
     display: none;
     flex-direction: column;
@@ -74,8 +73,18 @@ h3.cragmentor-title {
 
 /* Larger screens (min-width: 769px) */
 @media (min-width: 1001px) {
-.dropitems {  
+#dropitems{  
   display: none;
 }
 }
+@media (max-width: 1000px) {
+  #dropitems{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
 
+#logged-out{
+  display:flex;
+}

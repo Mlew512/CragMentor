@@ -3,7 +3,6 @@ import {Button, Form, CardBody, Container, Card} from "react-bootstrap";
 import { useState } from "react";
 import { api } from "../utilities/api";
 import { useNavigate } from "react-router-dom";
-import photo3 from  "../imagesnew/FrontPage/background8.jpg";
 
 const SignUp = ({setUser, setExistingUser, existingUser }) => {
   const [email, setEmail] = useState("");
@@ -20,8 +19,10 @@ const SignUp = ({setUser, setExistingUser, existingUser }) => {
       if (response.status === 201) {
         setUser(response.data.user);
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", response.data.user);
+        localStorage.setItem("user_id", response.data.id);
         api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`;
-        navigate("/dashboard/");
+        navigate("/pyramid/");
       } else {
         alert("Something Went wrong");
       }
@@ -34,7 +35,7 @@ const SignUp = ({setUser, setExistingUser, existingUser }) => {
   return (
     <>
       <img id="home-background-img" className="home-background-image"/>
-      <Container>
+      <Container className="p-0">
         <Card style={{background:"rgb(255, 255, 255, .5)"}}>
         <CardBody id="sign-forms">
         <Form onSubmit={(e) => signUp(e)}>

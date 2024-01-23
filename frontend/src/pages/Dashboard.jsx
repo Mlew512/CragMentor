@@ -7,7 +7,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Form,
   Button,
 } from "react-bootstrap";
 import { useOutletContext } from "react-router-dom";
@@ -20,26 +19,20 @@ import "./Dashboard.css";
 
 const Dashboard = () => {
   const {
-    user,
-    userProfile,
-    setUserProfile,
-    location,
-    setLocation,
     userId,
     favoriteRoutes,
-    setFavoriteRoutes,
+    setLastPyramidId
   } = useOutletContext();
   const navigate = useNavigate();
   const [savedPyramid, setSavedPyramid] = useState([]);
-  const [searchPyramidId, setSearchPyramidId] = useState(null);
 
-  // To get all Pyramids for user
+
   const getUserPyramids = async () => {
     const user_id = localStorage.getItem("user_id");
     try {
       const response = await api.get(`/pyramid/user/${user_id}`);
       if (response.status === 200) {
-        console.log(response.data);
+        // console.log(response.data);
         setSavedPyramid(response.data);
       }
     } catch (error) {
@@ -51,12 +44,17 @@ const Dashboard = () => {
     getUserPyramids();
   }, [userId]);
 
+  const handleAPyramid=(id)=>{
+    setLastPyramidId(id);
+    navigate("../mypyramids/")
+  }
+
   return (
     <>
       <Container className="d-flex flex-column">
         <Row>
           {/* Most Recent Pyramid (3)*/}
-          <Col lg={6}>
+          <Col lg={6} sm={10}>
             <Card>
               <CardHeader id="progress" className="text-center">
                 <h4>Most Recent Pyramid</h4>
@@ -66,7 +64,7 @@ const Dashboard = () => {
                   <thead>
                     <tr className="text-center">
                       <th>Goal Grade</th>
-                      <th>Id</th>
+                      {/* <th>Id</th> */}
                       <th>Location</th>
                       <th>Date Created</th>
                     </tr>
@@ -79,13 +77,9 @@ const Dashboard = () => {
                         .slice(0, 3)
                         .map((pyramid, index) => (
                           <tr key={index} className="text-center">
-                            <td>V{pyramid.goal_grade}</td>
+                            <td>{pyramid.goal_grade}</td>
                             <td onClick={() => handleAPyramid(pyramid.id)}>
-                              <Button variant="outline-info">
-                                {pyramid.id}
-                              </Button>
-                            </td>
-                            <td>{pyramid.location}</td>
+                              <Button>{pyramid.location}</Button></td>
                             <td>
                               {new Date(
                                 pyramid.date_generated
@@ -104,7 +98,7 @@ const Dashboard = () => {
             </Card>
           </Col>
           {/* Favorites */}
-          <Col lg={6}>
+          <Col lg={6} sm={10}>
             <Card>
               <CardHeader id="favorites-card" className="text-center"><h4>Favorites</h4></CardHeader>
               <CardBody>
@@ -151,18 +145,15 @@ const Dashboard = () => {
   
         </Row>
         <Row>
-          {/* Reccomended Crags */}
-          <Col lg={6}>
+          <Col lg={6} sm={10}>
             <Card>
               <CardHeader id="best-crags" className="text-center">
                 <h4>Best Recommended Crags</h4>
               </CardHeader>
               <CardBody id="card-best-crags">
-                <BestCrags
-                  userProfile={userProfile}
-                  location={location}
-                  setLocation={setLocation}
-                />
+                {/* change it to only show area name and overall score on small screens */}
+                {/* update the user table to reflect the new pref need api call to user model */}
+                <BestCrags/>
               </CardBody>
             </Card>
           </Col>

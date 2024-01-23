@@ -2,9 +2,8 @@ import { useEffect, useState, useRef } from 'react'
 import './App.css'
 import Header from './component/Header'
 import { Outlet, useNavigate, useLocation as useRouterLocation } from 'react-router-dom';
-import Container from "react-bootstrap/Container";
 import Footer from './component/Footer';
-import {endpoints, getAPI, postAPI, setAuth} from './utilities/api'
+import {endpoints, getAPI, setAuth} from './utilities/api'
 
 
 function App() {
@@ -17,6 +16,7 @@ function App() {
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
   const lastVisited = useRef();
+  const [lastPyramidId, setLastPyramidId]= useState();
 
   useEffect(() => {
     let token = localStorage.getItem("token");
@@ -28,7 +28,7 @@ function App() {
 
     if (user) {
       getFavRoutes();
-      setUserProfile({ "current_level": 3, "goal": 4, "dwtt": 10000 });
+      // setUserProfile({ "current_level": 3, "goal": 5, "dwtt": 10000 });
 
     }
   }, [user]);
@@ -82,7 +82,8 @@ function App() {
           userProfile, setUserProfile,
           location, setLocation,
           favoriteRoutes, setFavoriteRoutes,
-          userId, setUserId
+          userId, setUserId,
+          lastPyramidId, setLastPyramidId
         }}
       />
       <Footer/>

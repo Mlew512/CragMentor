@@ -5,7 +5,21 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import axios from 'axios'
 import './AreaSearch.css'
 import { IoSearch } from "react-icons/io5";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import styled, { keyframes } from 'styled-components';
 
+
+const spinAnimation = keyframes`
+from {
+  transform: rotate(0deg);
+}
+to {
+  transform: rotate(360deg);
+}
+`;
+const SpinningAiOutlineLoading3Quarters = styled(AiOutlineLoading3Quarters)`
+animation: ${spinAnimation} 1s linear infinite;
+`;
 
 const AreaSearch = ({}) => {
   const [searchTerm, setSearchTerm] = useState("")
@@ -13,6 +27,7 @@ const AreaSearch = ({}) => {
   // const [searchIDs, setSearchIDs] = useState([])
   const [data, setData] = useState([])
   const [requests, setRequests] = useState([])
+  const [isLoading, setIsLoading]= useState(false)
 
 
   useEffect(()=>{
@@ -28,29 +43,31 @@ const AreaSearch = ({}) => {
         for(let i = 0; i < requests.length; i++){
           requests[i].abort()
         }
+        setIsLoading(true)
         let controller = new AbortController();
         setRequests([...requests,controller])
         const response = await postAPI(endpoints.search_areas,null,{"search":searchTerm},{
           signal:controller.signal
         })
-        // console.log(response)
-        // console.log(lastSearch)
-        // console.log(searchIDs)
-        // if(searchIDs[searchIDs.length-1] == lastSearch){
           if(response.status && response.data){
             setData(response['data']['areas'].splice(0,5))
+            setIsLoading(false)
           }
-        // }
       }
     }
+
   return (
     <>
     <div className='area-search-input'>
-      <IoSearch className='search-icon' size={25}/>
+      { isLoading ?(
+      <SpinningAiOutlineLoading3Quarters className='search-icon' size={15}/>)
+      :
+      (<IoSearch className='search-icon' size={25}/>)
+      }
       <input
         className='input-bar'
         type="text"
-        placeholder="Address, city, state..."
+        placeholder="search by climbing area"
         value={searchTerm} 
         onChange={(e) => { setSearchTerm(e.target.value) }} // update the state when you type something
 

@@ -2,45 +2,45 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import Logo from "../images/logo.png";
-import background1 from "../imagesnew/FrontPage/background1.jpg";
 import CarouselComponent from "../component/CarouselComponent";
+import { PyramidMentor } from "../component/PyramidMentor";
+
 
 import "./HomePage.css";
+
 
 const HomePage = () => {
   const navigate = useNavigate();
 
   return (
     <>
-    {/* <img id="home-background-img" /> */}
-    
- 
-
-    <>
-      <Container fluid>
-        <CarouselComponent/>
-        <Row>
-          <Col>
-            <div className="pyramid-container">
-              <div className="pyramid"></div>
-              <div className="overlay-content">
-                <img
+    <div className="mentor-box">
+                {/* <img
                   src={Logo}
                   style={{
                     borderRadius: "50%"
                   }}
                   alt="Logo"
                   className="responsive-logo"
-                /> 
-                <h1 className="white-text">Explore CragMentor</h1>
+                />  */}
+    <PyramidMentor id="pyramid-mentor"/>
+    </div>
+ 
+
+    <>
+      <Container fluid>
+        {/* <CarouselComponent/> */}
+        <Row>
+          <Col>
+            <div className="pyramid-container">
+              <div className="pyramid"></div>
+              <div className="overlay-content">
+                <h1 className="white-text">CragMentor</h1>
                 <p className="white-text">
-                  Discover prime climbing spots with our advanced algorithms,
-                  tailored to your location, preferences, and climbing goals.
+                  Create a Climbing Training Pyramid with our algorithm which selects the best climbs for you!
                 </p>
                 <p className="white-text">
-                  Unlock Tailored Training Plans: Personalized training plans
-                  featuring actual routes to enhance and elevate your climbing
-                  experience.
+                  Find the Best Crags near you tailored you your skill level and climbing goals! 
                 </p>
                 <p
                   className="white-text"

@@ -5,23 +5,16 @@ import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import UserForm from "../component/UserForm";
 import {api} from '../utilities/api'
 import { GiSaveArrow } from "react-icons/gi";
-import PyramidTable from "../component/PyramidTable";
 import { PyramidMentor } from "../component/PyramidMentor";
 
 const PyramidPage = () => {
   const navigate = useNavigate();
-  const { user, myPyramid, setLocation, userId, location, userProfile} = useOutletContext();
+  const { user, myPyramid, setLocation, userId, location, userProfile, lastPyramidId, setLastPyramidId} = useOutletContext();
   const { location: userLocation } = useOutletContext();
   const [pyramidId, setPyramidId] = useState(null);
   const [localUserId, setLocalUserId] = useState("")
   const [complimentMSG, setComplimentMSG] = useState(null)
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/register/");
-    }
-    setComplimentMSG(RandomCompliment)
-  }, [user, myPyramid]);
+  const {noUserMessage, setNoUserMessage} = useState("login to save pyramid")
 
   const handleSavePyramid = async () => {
     const user_id = localStorage.getItem("user_id")
@@ -37,18 +30,17 @@ const PyramidPage = () => {
         location: location.name,
         latitude: location.lat,
         longitude: location.lng,
-        goal_grade: userProfile.goal
+        goal_grade: myPyramid?.goal_climb.grade
       });
 
       if (response.status === 201) {
-        // alert(`Pyramid with id: ${response.data.pyramid_id} saved successfully`);
-        // console.log(typeof(myPyramid.goal_climb.uuid), myPyramid.goal_climb.name)
         setPyramidId(response.data.pyramid_id);
+        setLastPyramidId(response.data.pyramid_id);
         }
       
     } catch (error) {
       console.error("Error saving pyramid:", error);
-      alert("no crags found in that. change location and try again.")
+      // alert("no crags found in that. change location and try again.")
     }
     };
 
@@ -80,11 +72,11 @@ const PyramidPage = () => {
   // Random Compliment when Pyramid is generated
 const RandomCompliment =() =>{
     const numberArray = [
-      "Awesome work!",
-      "Fantastic job!",
-      "Impressive!",
-      "Well done!",
-      "Outstanding!",
+      "Send it!",
+      "You got it crusher!",
+      "Venga!",
+      "Allez!",
+      "A la muerte!",
       "Terrific!",
       "Excellent!",
       "Brilliant!",
@@ -96,13 +88,17 @@ const RandomCompliment =() =>{
   }
 
   useEffect(()=>{
-   addRoutesToPyramid(); 
+    if (pyramidId !== null) {
+      addRoutesToPyramid();
+    }; 
   }, [pyramidId]);
 
   const the_pyramid = (
     <>
+    
       <Row>
         <Card id="pyramid-container" style={{minHeight:"400px"}}>
+        {!user&& <Link className="p-1" to="../register/">Login to save Pyramid</Link>}
           <CardBody  className="d-flex flex-column">
           <div style={{position:"absolute", left:"15%"}}>
             <p className="text-start px-5 m-0">{complimentMSG}</p>
@@ -171,10 +167,9 @@ const RandomCompliment =() =>{
       <Container className="d-flex flex-column pt-3">
         <Row className="justify-content-center text-center">
           <Col lg={2} className="d-flex">
-            {/* <Card className="d-flex flex-row justify-content-around"> */}
               <UserForm location={userLocation} setLocation={setLocation} />
-              <Button variant= "transparent" onClick={handleSavePyramid}><GiSaveArrow size={25}/></Button>
-            {/* </Card> */}
+              {user &&
+                <Button variant= "transparent" onClick={handleSavePyramid}><GiSaveArrow size={25}/></Button> }
           </Col>
         </Row>
         {myPyramid ? (
@@ -187,14 +182,13 @@ const RandomCompliment =() =>{
           <Row>
             <Card id="pyramid-container" style={{minHeight:"400px"}}>
                 <CardBody className="d-flex justify-content-center align-items-center">
-                <PyramidMentor/>
-                <p>Hi I'm Pyramid-Mentor,  Please proceed to create your Pyramid here..</p>
+                <PyramidMentor id="pyramid-mentor" />
+                <p className="pyramid-text">Yo I'm Pyramid-Mentor, create your pyramid here...</p>
                 </CardBody>
             </Card>
           </Row>
           </>
         )}
-        
       </Container>
     </>
   );

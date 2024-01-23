@@ -1,5 +1,5 @@
-
 /* Styling for Pyramid Animation */
+
 .animated-pyramid {
   position: relative;
   width: 300px;
@@ -48,6 +48,9 @@
   transform: translateY(73px) rotateX(90deg);
   border: 0;
   background: blue;
+}
+.one, .two, .three, .four {
+  background: url('../images/logo.png') center/contain no-repeat;
 }
 
 @keyframes rotate {

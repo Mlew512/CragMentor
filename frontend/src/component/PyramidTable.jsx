@@ -1,20 +1,20 @@
 import Table from "react-bootstrap/Table";
 import { Row, Col, Button } from "react-bootstrap";
-// import { api } from '../badutilities';
 import { api } from "../utilities/api";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext} from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-function PyramidTable({ userId, setPyramid }) {
+function PyramidTable({setPyramid}) {
   const [allPyramid, setAllPyramid] = useState([]);
+  const {lastPyramidId, setLastPyramidId}= useOutletContext();
 
   const handleAPyramid = async (id) => {
     try {
       const response = await api.get(`pyramid/${id}/`);
       if (response.status === 200) {
         setPyramid(response.data.routes);
+        setLastPyramidId(response.data.id)
       }
     } catch (error) {
       console.log("pyramid not found", error);
@@ -44,26 +44,37 @@ function PyramidTable({ userId, setPyramid }) {
       console.log("pyramid not found", error);
     }
   };
+  const reversedPyramids = [...allPyramid].reverse();
   
   useEffect(() => {
     getAllPyramid();
   }, []);
 
+  useEffect(() => {
+    if(reversedPyramids[0]){
+      if(lastPyramidId){
+        handleAPyramid(lastPyramidId)
+      }else{
+        handleAPyramid(reversedPyramids[0].id)
+        // console.log("reversed")
+      }
+    }
+  }, [reversedPyramids[0]]);  
+
+
   // Reverse the allPyramid array to get the Most Recent
-  const reversedPyramids = [...allPyramid].reverse();
+
 
   return (
     <>
       <Row className="justify-content-center mt-5">
-        <Col lg={10}>
+        <Col className="p-0"lg={10}>
           <Table striped bordered hover size="sm" className="text-center">
             <thead>
               <tr>
-                <th>Pyramid</th>
                 <th>Goal Grade</th>
                 <th>Location</th>
                 <th colSpan={2}>Date Created</th>
-                
               </tr>
             </thead>
             <tbody>
@@ -72,9 +83,9 @@ function PyramidTable({ userId, setPyramid }) {
                 reversedPyramids.map((pyramid, idx) => (
                   <tr key={idx}>
                     <td onClick={() => handleAPyramid(pyramid.id)}>
-                      <Button variant="outline-info">View</Button>
+                      <Button variant="outline-info">{pyramid.goal_grade}</Button>
                     </td>
-                    <td>V{pyramid.goal_grade}</td>
+                    {/* <td>{pyramid.goal_grade}</td> */}
                     <td>{pyramid.location}</td>
                     <td>
                       {new Date(pyramid.date_generated).toLocaleDateString()}

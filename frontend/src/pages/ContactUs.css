@@ -1,8 +1,11 @@
 #contact-card{
-  width: 900px;
+  width: 80vw;
+  max-width: 1000px;
   border-radius: 5px;
   box-shadow: 0px 0px 8px gray;
   display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #BBDEFB;
   min-height: 350px;
 }
@@ -15,4 +18,12 @@
 }
 #contact-img{
   border-radius: 50px;
+}
+.min-img-container {
+  min-height: 100px; /* Adjust as needed */
+}
+
+.min-img {
+  min-width: 100px; /* Adjust as needed */
+  min-height: 100px; /* Adjust as needed */
 }

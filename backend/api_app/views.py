@@ -7,6 +7,7 @@ import requests
 from api_app.cragAlgorithm import ClimbingArea
 from .utilities.cragservice import CragService
 import random
+from .utilities.queries import *
 
 class OpenBetaView(APIView):
     def post(self, request, *args, **kwargs):
@@ -23,35 +24,35 @@ class OpenBetaView(APIView):
         if not crag_data:
             return Response({"error": "Failed to fetch crags data"}, status=500)
 
-        # Use the ClimbingArea class to calculate and normalize crag scores
         climbing_area = ClimbingArea(crag_data, goal_grade)
 
-        # calculate crag score
+        # calculate crag scorecation["lng"], goal_grade)
+
+        #normalize crag score and location
         crag_scores = climbing_area.calculate_crag_scores(location["lat"], location["lng"], goal_grade)
 
         #normalize crag score and location
         normalized_scores = climbing_area.normalize_scores(crag_scores)
 
-        # Get top 3 crags
-        top_5_crag_uuids = [crag["uuid"] for crag in normalized_scores[:5]]
+        # Get top crags, could only return  crags with score > 0 *** to make faster***
+        top_crag_uuids = [crag["uuid"] for crag in normalized_scores]
 
         # Initialize an empty list to compile climb data from the top 5 crags
         compiled_crag_data = []
 
-        # Populate compiled_crag_data with climb data from the top 5 crags
-        for crag_uuid in top_5_crag_uuids:
-            climb_data = CragService.get_climbs_from_crag(crag_uuid)
-            climbs = climb_data["area"]["climbs"]
-            # Shuffle the order of climbs for each crag
-            random.shuffle(climbs)
-            # Append climb data to the list
-            compiled_crag_data.extend(climbs)
-
-        # Randomize the order of climbs across all crags
-        # random.shuffle(compiled_crag_data)
+        # 1 api call method
+        
+        compiled_crag_data = CragService.get_climbs_from_crag(top_crag_uuids)
+        compiled_climbs = []
+        # Iterate through each area in the data
+        for area_key, area_value in compiled_crag_data.items():
+            # Extract climbs from the current area and add to the compiled list
+            area_climbs = area_value.get('climbs', [])
+            random.shuffle(area_climbs)
+            compiled_climbs.extend(area_climbs)
 
         # Build one triangle using climbs from all crags
-        combined_pyramid_scheme = CragService.build_the_triangle(compiled_crag_data, goal_grade)
+        combined_pyramid_scheme = CragService.build_the_triangle(compiled_climbs, goal_grade)
 
         return Response({"my_pyramid": combined_pyramid_scheme})    
 
@@ -61,67 +62,6 @@ class GetArea(APIView):
         # get uuid of area from request
         uuid = request.data.get("uuid", None)
 
-        # GraphQL query to get children of requested area
-        query = """
-            query GetArea($uuid: ID!) {
-            area(uuid: $uuid) {
-                areaName
-                uuid
-                ancestors
-                id
-                totalClimbs
-                content {
-                description
-                }
-                children {
-                    areaName
-                    uuid
-                    totalClimbs
-                    media {
-                        mediaUrl
-                    }
-                    metadata {
-                        lng
-                        lat
-                        areaId
-                    }
-                    climbs {
-                        name
-                        uuid
-                        media {
-                        mediaUrl
-                        }
-                        grades {
-                        vscale
-                        yds
-                        }
-                        metadata {
-                        lat
-                        lng
-                        climbId
-                        }
-                    }
-                }
-                climbs {
-                        name
-                        uuid
-                        media {
-                            mediaUrl
-                        }
-                        grades {
-                        vscale
-                        yds
-                        }
-                        metadata {
-                        lat
-                        lng
-                        climbId
-                        }
-                    }
-            }
-            }
-            """
-
         variables = {
             "uuid": uuid,
         }
@@ -129,7 +69,7 @@ class GetArea(APIView):
         try:
             response = requests.post(
                 "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
+                json={"query": get_area_children, "variables": variables},
                 timeout=10,
             )
             response.raise_for_status()
@@ -137,7 +77,7 @@ class GetArea(APIView):
             data = response.json()
             return Response(data.get("data"), status=HTTP_200_OK)
         except requests.exceptions.RequestException as e:
-            print(e)
+            # print(e)
             # Handle request-related exceptions
             return Response({"error": "Request error"}, status=500)
         except ValueError as ve:
@@ -231,9 +171,11 @@ class BestCragView(APIView):
 
         #normalize crag score and location
         normalized_scores = climbing_area.normalize_scores(crag_scores)
-        print(normalized_scores)
+        top_five= normalized_scores[:5]
+        # print(top_five)
+        
     
-        return Response({"normalized_scores": normalized_scores})
+        return Response({"normalized_scores": top_five})
 
 
 
@@ -249,34 +191,13 @@ class Countries(APIView):
         return Response({"crags": crag_data})
 
     def get_crag_data(self):
-        query = """
-query GetCountries {
-  countries {
-    areaName
-    metadata {
-      lat
-      lng
-    }
-    media {
-        mediaUrl
-    }
-    totalClimbs
-    uuid
-    id
-  }
-}
-
-"""
-        print(query)
-
         variables = {
-    
         }
 
         try:
             response = requests.post(
                 "https://api.openbeta.io/",
-                json={"query": query, "variables": variables},
+                json={"query": get_countries_query, "variables": variables},
                 timeout=10,
             )
 
