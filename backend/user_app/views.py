@@ -58,8 +58,8 @@ class Info(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        user = User.objects.get(email=request.user.email)
+    def get(self, request, user_id):
+        user = User.objects.get(id=user_id)
         user_serialized = UserSerializer(user)
         if user_serialized:
             return Response(user_serialized.data, HTTP_200_OK)

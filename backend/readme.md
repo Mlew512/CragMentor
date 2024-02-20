@@ -93,7 +93,8 @@ example data to pass
   "name": "Super duper Mario",
   "lat": 35.249734999999994,
   "lng": -85.21837,
-  "area": "58994c28-e56a-5a34-a931-ba2324ea4a91",
+  "areaid": "58994c28-e56a-5a34-a931-ba2324ea4a91",
+  "area": "stone fort",
   "grade": 4,
   "media": "u/4d748baa-b0f9-4308-88a9-d574232654c8"
 }

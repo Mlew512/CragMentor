@@ -31,8 +31,8 @@ const MyPyramidsPage =()=>{
             <Row className="justify-content-center">
               <Col lg={3}>
                 <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${pyramid[0].route_id}`)}>
-                  <p><i>{pyramid[0].name}</i></p>
-                  <h4>{pyramid[0].grade}</h4>
+                  <p><i>{pyramid[0].area}</i></p>
+                  <h4>{pyramid[0].name} ({pyramid[0].grade})</h4>
                 </Card>
               </Col>
             </Row>
@@ -40,14 +40,14 @@ const MyPyramidsPage =()=>{
             <Row className="justify-content-center">
               <Col lg={3}>
                 <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${pyramid[1].route_id}`)}>
-                  <p><i>{pyramid[1].name}</i></p>
-                  <h4>{pyramid[1].grade}</h4>
+                <p><i>{pyramid[1].area}</i></p>
+                  <h4>{pyramid[1].name} ({pyramid[1].grade})</h4>
                 </Card>
               </Col>
               <Col lg={3}>
                 <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${pyramid[2].route_id}`)}>
-                  <p><i>{pyramid[2].name}</i></p>
-                  <h4>{pyramid[2].grade}</h4>
+                <p><i>{pyramid[2].area}</i></p>
+                  <h4>{pyramid[2].name} ({pyramid[2].grade})</h4>
                 </Card>
               </Col>
             </Row>
@@ -55,26 +55,26 @@ const MyPyramidsPage =()=>{
             <Row className=" justify-content-center">
               <Col lg={3}>
                 <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${pyramid[3].route_id}`)}>
-                  <p><i>{pyramid[3].name}</i></p>
-                  <h4>{pyramid[3].grade}</h4>
+                <p><i>{pyramid[3].area}</i></p>
+                  <h4>{pyramid[3].name} ({pyramid[3].grade})</h4>
                 </Card>
               </Col>
               <Col lg={3}>
                 <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${pyramid[4].route_id}`)}>
-                  <p><i>{pyramid[4].name}</i></p>
-                  <h4>{pyramid[4].grade}</h4>
+                <p><i>{pyramid[4].area}</i></p>
+                  <h4>{pyramid[4].name} ({pyramid[4].grade})</h4>
                 </Card>
               </Col>
               <Col lg={3}>
                 <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${pyramid[5].route_id}`)}>
-                  <p><i>{pyramid[5].name}</i></p>
-                  <h4>{pyramid[5].grade}</h4>
+                <p><i>{pyramid[5].area}</i></p>
+                  <h4>{pyramid[5].name} ({pyramid[5].grade})</h4>
                 </Card>
               </Col>
               <Col lg={3}>
                 <Card className="pyramid-card text-center" onClick={()=>navigate(`/route/${pyramid[6].route_id}`)}>
-                  <p><i>{pyramid[6].name}</i></p>
-                  <h4>{pyramid[6].grade}</h4>
+                <p><i>{pyramid[6].area}</i></p>
+                  <h4>{pyramid[6].name} ({pyramid[6].grade})</h4>
                 </Card>
               </Col>
             </Row>
