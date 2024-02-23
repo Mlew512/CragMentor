@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import BestCrags from "../component/BestCrags";
 import { Table } from "react-bootstrap";
 import FavButton from "../component/FavButton";
+import TickButton from "../component/TickButton";
 import { Link } from "react-router-dom";
 import "./Dashboard.css";
 
@@ -21,6 +22,7 @@ const Dashboard = () => {
   const {
     userId,
     favoriteRoutes,
+    tickedRoutes,
     setLastPyramidId
   } = useOutletContext();
   const navigate = useNavigate();
@@ -157,7 +159,61 @@ const Dashboard = () => {
               </CardBody>
             </Card>
           </Col>
+          {/* Ticked Routes */}
+          <Col lg={6} sm={10}>
+            <Card>
+              <CardHeader id="ticks-card" className="text-center"><h4>Ticks</h4></CardHeader>
+              <CardBody>
+                <Table striped>
+                  <thead>
+                    <tr className="text-center">
+                      <th>Route</th>
+                      <th></th>
+                      <th>date</th>
+                      <th>delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.isArray(tickedRoutes) &&
+                    tickedRoutes.length > 0 ? (
+                      tickedRoutes.reverse().map((tick, index) => (
+                        <tr key={index} className="text-center">
+                          <td> 
+                            <Link
+                              to={`/${
+                               "route"
+                              }/${tick.uuid}`}
+                            >
+                             {tick.name}
+                            </Link>
+                            ({tick.grade})
+                          </td>
+                              <td>
+                                {tick.style}
+                              </td>
+                          <td>{new Date(
+                                tick.date_ticked
+                              ).toLocaleDateString()}</td>
+                          <td>
+                            <TickButton data={tick} />
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="4">No data available</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
+          
+  
         </Row>
+
+        
       </Container>
     </>
   );

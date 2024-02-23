@@ -19,7 +19,7 @@ export const endpoints = {
     "add_favorite":"beta/favorite/",
     "remove_favorite":"beta/favorite/",
     "ticks":"ticks/",
-    "tick":"tick/tick",
+    "tick":"ticks/tick",
     "add_tick":"beta/tick/",
     "remove_tick":"beta/tick/",
     "route":"beta/climb/",

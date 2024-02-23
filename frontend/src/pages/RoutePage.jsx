@@ -9,6 +9,8 @@ import {Row, Container,Button} from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './RoutePage.css'; 
+import { FaRegCheckCircle, FaRegEye } from 'react-icons/fa';
+import TickButton from '../component/TickButton';
 
 function RoutePage() {
   const navigate = useNavigate();
@@ -63,6 +65,7 @@ function RoutePage() {
                 <h2 className='text-center mb-4'>{data.name}</h2>
                 <div className='d-flex justify-content-between'>
                   <div className="right-column">
+                    <p><strong>Description</strong></p>
                     <p>{data.content.description}</p>
                     <p><strong>Location:</strong> {data.content.location}</p>
                     <div className='mb-4'> 
@@ -74,6 +77,11 @@ function RoutePage() {
                           data.grades && data.grades.yds && data.grades.vscale == null &&
                           <><Button variant="outline-info">{data['grades']['yds']}</Button></>
                         }
+      
+                    </div>
+                    <div>
+                      Ticks
+                      <TickButton data={data}>
                     </div>
                     <div>
                       {/* <Link to={`/area/${data.parent.uuid}`}>

@@ -7,11 +7,15 @@ class Ticked_Route(models.Model):
     mountain_id=models.CharField(blank=True,null=True)
 
     name = models.CharField(max_length=255, null=True)
+    grade = models.CharField(max_length=255, null=True)
     areaName = models.CharField(max_length=255, null=True)
     date_ticked = models.DateTimeField(auto_now_add=True, blank=False, null=False)
-    style=models.CharField()
+    style=models.CharField(null=True, blank=True)
+    notes=models.CharField(null=True,blank=True)
+    rating=models.IntegerField(blank=True, null=True)
+    type=models.CharField(null=True, blank=True)
     
 
     
     def __str__(self):
-        return f"{self.name} was {self.style} by {self.user} on {self.date_ticked}"
+        return f"{self.name} was {self.style} on {self.date_ticked}"

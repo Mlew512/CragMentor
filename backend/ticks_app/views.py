@@ -31,11 +31,11 @@ class A_Tick(APIView):
         tick = Ticked_Route.objects.filter(user = request.user).order_by('date_ticked')
         serialized_tick = TickSerializer(tick, many=True).data
 
-        return Response(serialized_favorites.data)
+        return Response(serialized_tick.data)
 
     def delete(self, request, id):
         print(id)
-        tick = Ticked_Route.objects.get(uuid = id, user=request.user)
+        tick = Ticked_Route.objects.get(id = id, user=request.user)
 
         if tick:
             tick.delete()
@@ -49,11 +49,23 @@ class Create_Tick(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request):
+        if request.data['grades']['yds']:
+            what_grade = request.data['grades']['yds']
+        else:
+            what_grade = request.data['grades']['vscale']
+      
         print(request.data)
-
-        ser_tick = TickSerializer(data=request.data)
+        
+        scrub_data={
+            "name":request.data['name'],
+            "uuid":request.data['uuid'],
+            "grade":what_grade,
+            "style":"redpoint",
+        }
+        
+        ser_tick = TickSerializer(data=scrub_data)
         if ser_tick.is_valid():
             ser_tick.save(user=request.user)
-            return Response(f"{ser_tick.data['user']} Favorited {ser_tick.data['id']}", status=HTTP_201_CREATED)
+            return Response(f"Ticked {ser_tick.data['uuid']}{ser_tick.data['grade']}", status=HTTP_201_CREATED)
         return Response(ser_tick.errors, status=HTTP_400_BAD_REQUEST)
 

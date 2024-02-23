@@ -59,7 +59,6 @@ class Info(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        # if user_id user=user.objects.get id=user_id else request=email one. was getting this to get ticks but maybe could use another app to track ticks
         user = User.objects.get(email=request.user.email)
         user_serialized = UserSerializer(user)
         if user_serialized:

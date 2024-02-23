@@ -13,5 +13,4 @@ class UserSerializer(serializers.ModelSerializer):
             "lat",
             "long",
             "distance_willing_to_travel",
-            # "ticks",
         ]
