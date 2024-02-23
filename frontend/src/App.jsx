@@ -11,6 +11,7 @@ function App() {
   const [user, setUser] = useState("");
   const [myPyramid, setMyPyramid] = useState(null);
   const [favoriteRoutes, setFavoriteRoutes] = useState([]);
+  const [tickedRoutes, setTickedRoutes] = useState([]);
   const [userProfile, setUserProfile] = useState({});
   const [location, setLocation] = useState({ "lat": null, "lng": null });
   const navigate = useNavigate();
@@ -28,8 +29,7 @@ function App() {
 
     if (user) {
       getFavRoutes();
-      // setUserProfile({ "current_level": 3, "goal": 5, "dwtt": 10000 });
-
+      getTickedRoutes();
     }
   }, [user]);
 
@@ -40,7 +40,18 @@ function App() {
         setFavoriteRoutes(response.data);
       }
     } catch (error) {
-      console.log("Couldn't get routes");
+      console.log("Couldn't get favorites");
+      console.error(error);
+    }
+  }
+  const getTickedRoutes = async () => {
+    try {
+      const response = await getAPI(endpoints.ticks);
+      if (response.status) {
+        setTickedRoutes(response.data);
+      }
+    } catch (error) {
+      console.log("Couldn't get ticks");
       console.error(error);
     }
   }
@@ -82,6 +93,7 @@ function App() {
           userProfile, setUserProfile,
           location, setLocation,
           favoriteRoutes, setFavoriteRoutes,
+          tickedRoutes, setTickedRoutes,
           userId, setUserId,
           lastPyramidId, setLastPyramidId
         }}

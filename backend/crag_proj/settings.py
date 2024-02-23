@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "favorites_app",
     "routes_app",
     "user_app",
+    "ticks_app",
 ]
 
 MIDDLEWARE = [
