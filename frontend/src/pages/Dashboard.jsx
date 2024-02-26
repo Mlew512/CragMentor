@@ -150,7 +150,7 @@ const Dashboard = () => {
           <Col lg={6} sm={10}>
             <Card>
               <CardHeader id="best-crags" className="text-center">
-                <h4>Best Recommended Crags</h4>
+                <h4>Recommended Crags</h4>
               </CardHeader>
               <CardBody id="card-best-crags">
                 {/* change it to only show area name and overall score on small screens */}

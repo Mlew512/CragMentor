@@ -69,7 +69,7 @@ const BestForm = () => {
 
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Find best crags</Modal.Title>
+          <Modal.Title>Preferences</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -117,7 +117,7 @@ const BestForm = () => {
                   <option value="5.11d">5.11d</option>
                   <option value="5.12a">5.12a</option>
                   <option value="5.12b">5.12b</option>
-                  <option value="5.12c">5.12c</option>10000
+                  <option value="5.12c">5.12c</option>
                   <option value="5.12d">5.12d</option>
                   <option value="5.13a">5.13a</option>
                   <option value="5.13b">5.13b</option>
@@ -165,7 +165,7 @@ const BestForm = () => {
               <Form.Label>Search area size</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Max in miles: 125"
+                placeholder="miles"
                 autoFocus
                 min="1"
                 max="125"
@@ -182,7 +182,7 @@ const BestForm = () => {
           </Button>
           <Button
             variant="primary"
-            onClick={handleUpdateUser} // Use onClick instead of onSubmit
+            onClick={handleUpdateUser} 
             disabled={loadingData}
           >
             {loadingData ? <LoadingSpin /> : "Find Best Crags"}

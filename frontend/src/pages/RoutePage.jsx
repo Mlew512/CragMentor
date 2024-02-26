@@ -81,7 +81,7 @@ function RoutePage() {
                     </div>
                     <div>
                       Ticks
-                      <TickButton data={data}>
+                      <TickButton data={data}/>
                     </div>
                     <div>
                       {/* <Link to={`/area/${data.parent.uuid}`}>
