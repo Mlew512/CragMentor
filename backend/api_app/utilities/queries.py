@@ -233,6 +233,7 @@ get_area_children = """
                         climbId
                         }
                     }
+                    
             }
             }
             """

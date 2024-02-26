@@ -68,26 +68,21 @@ function RoutePage() {
                 <div className='d-flex justify-content-between'>
                   <div>
                     <div className='mb-4'> 
-                      Grade: {
-                        data.grades && data.grades.vscale &&
-                        <><Button variant="outline-info">{data['grades']['vscale']}</Button></>
-                        }
-                        {
-                          data.grades && data.grades.yds && data.grades.vscale == null &&
-                          <><Button variant="outline-info">{data['grades']['yds']}</Button></>
-                        }
+                      
+
                     <div>
                       type: {climbType.join(", ")}
                     </div>
                     <div>
-                      Ticks
+                      View Ticks
                       <TickButton data={data}/>
+                      
                     </div>
                     <div>
                       {/* <Link to={`/area/${data.parent.uuid}`}>
                         <button className="btn btn-outline-success me-1">Go to {data.parent.area_name}</button>
                       </Link> */}
-                      <Button className="me-1" variant="outline-success" onClick={()=>navigate(`/area/${data.parent.uuid}`)}>Go to {data.parent.area_name} </Button>
+                      <Button className="me-1" variant="info" onClick={()=>navigate(`/area/${data.parent.uuid}`)}>Go to {data.parent.area_name} </Button>
                       <FavButton data={data} />
                     </div>
                     <p><strong>Description</strong></p>

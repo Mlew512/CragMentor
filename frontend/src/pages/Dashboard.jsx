@@ -177,7 +177,7 @@ const Dashboard = () => {
                   <tbody>
                     {Array.isArray(tickedRoutes) &&
                     tickedRoutes.length > 0 ? (
-                      tickedRoutes.reverse().slice(0,6).map((tick, index) => (
+                      tickedRoutes.slice().reverse().slice(0,3).map((tick, index) => (
                         <tr key={index} className="text-center">
                           <td> 
                             <Link
