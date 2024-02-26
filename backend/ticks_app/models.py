@@ -9,11 +9,13 @@ class Ticked_Route(models.Model):
     name = models.CharField(max_length=255, null=True)
     grade = models.CharField(max_length=255, null=True)
     areaName = models.CharField(max_length=255, null=True)
-    date_ticked = models.DateTimeField(auto_now_add=True, blank=False, null=False)
+    date_ticked = models.DateTimeField(blank=False, null=False)
     style=models.CharField(null=True, blank=True)
     notes=models.CharField(null=True,blank=True)
     rating=models.IntegerField(blank=True, null=True)
     type=models.CharField(null=True, blank=True)
+    lat=models.CharField(null=True, blank=True)
+    long=models.CharField(null=True, blank=False)
     
 
     

@@ -168,15 +168,16 @@ const Dashboard = () => {
                   <thead>
                     <tr className="text-center">
                       <th>Route</th>
-                      <th></th>
+                      <th>area</th>
+                      <th>style</th>
                       <th>date</th>
-                      <th>delete</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {Array.isArray(tickedRoutes) &&
                     tickedRoutes.length > 0 ? (
-                      tickedRoutes.reverse().map((tick, index) => (
+                      tickedRoutes.reverse().slice(0,6).map((tick, index) => (
                         <tr key={index} className="text-center">
                           <td> 
                             <Link
@@ -188,8 +189,12 @@ const Dashboard = () => {
                             </Link>
                             ({tick.grade})
                           </td>
+                          <td>{tick.areaName}</td>
                               <td>
                                 {tick.style}
+                              </td>
+                              <td>
+                                {tick.type}
                               </td>
                           <td>{new Date(
                                 tick.date_ticked

@@ -31,7 +31,9 @@ function App() {
       getFavRoutes();
       getTickedRoutes();
     }
-  }, [user]);
+  }, [user, tickedRoutes.length]);
+
+  
 
   const getFavRoutes = async () => {
     try {

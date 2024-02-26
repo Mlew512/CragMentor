@@ -49,21 +49,29 @@ class Create_Tick(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request):
-        if request.data['grades']['yds']:
-            what_grade = request.data['grades']['yds']
-        else:
-            what_grade = request.data['grades']['vscale']
-      
-        print(request.data)
+        # if request.data['grades']['yds']:
+        #     what_grade = request.data['grades']['yds']
+        # else:
+        #     what_grade = request.data['grades']['vscale']
+        # if request.data["type"]['sport']:
+        #     what_type = "sport"
+        # elif request.data["type"]['bouldering']:
+        #     what_type = "bouldering"
+        # print(request.data)
         
-        scrub_data={
-            "name":request.data['name'],
-            "uuid":request.data['uuid'],
-            "grade":what_grade,
-            "style":"redpoint",
-        }
+        # scrub_data={
+        #     "name":request.data['name'],
+        #     "uuid":request.data['uuid'],
+        #     "grade":request.data["grade"],
+        #     "style":request.data["style"],
+        #     "areaName":request.data["parent"]["area_name"],
+        #     "lat":request.data["metadata"]['lat'],
+        #     "long":request.data["metadata"]['lng'],
+        #     "mountain_id":request.data["metadata"]['mp_id'],
+        #     "type": what_type
+        # }
         
-        ser_tick = TickSerializer(data=scrub_data)
+        ser_tick = TickSerializer(data=request.data)
         if ser_tick.is_valid():
             ser_tick.save(user=request.user)
             return Response(f"Ticked {ser_tick.data['uuid']}{ser_tick.data['grade']}", status=HTTP_201_CREATED)
