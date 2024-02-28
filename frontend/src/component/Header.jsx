@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 
 const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
-  const [userEmail, setUserEmail] = useState(user)
+  const [userEmail, setUserEmail] = useState("")
 
   const handleLogout = async () => {
     try {
@@ -41,7 +41,7 @@ const Header = ({ user, setUser }) => {
   };
   useEffect(() => {
     if(user!=null){
-      setUserEmail(user.email)
+      setUserEmail(localStorage.getItem("user"))
     }
     // console.log(user)
   }, [user]);
