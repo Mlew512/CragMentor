@@ -93,7 +93,7 @@ const TickButton = ({ data, topRight = false }) => {
     }
   };
 
-  const postTick = async (style, date) => {
+  const postTick = async () => {
     try {
       const cleanData = {
         name: data["name"],
@@ -210,6 +210,7 @@ const TickButton = ({ data, topRight = false }) => {
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Close
           </Button>
+          {data.grades ?
           <Button
             variant="primary"
             onClick={() => {
@@ -218,7 +219,8 @@ const TickButton = ({ data, topRight = false }) => {
             }}
           >
             Add New Tick
-          </Button>
+          </Button> : null
+          }
         </Modal.Footer>
       </Modal>
       <Modal show={newTickModal} onHide={() => setNewTickModal(false)}>
