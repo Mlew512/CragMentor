@@ -102,3 +102,25 @@ export const getAPI = async (url, encodedParams = null) => {
     }
 }
 
+export const putAPI = async (url, encodedParams = null, data = null, config = null) => {
+    try {
+        let urlString = url;
+        if (encodedParams != null) {
+            urlString += `?${encodedParams}`;
+        }
+        let json = "";
+        if (data != null) {
+            json = data;
+        }
+
+        const response = await api.put(urlString, json, config);
+        if (response.status === 200 || response.status === 204) {
+            return { status: true, data: response.data };
+        } else {
+            throw new Error("Something went wrong");
+        }
+    } catch (error) {
+        return { status: false, error: error };
+    }
+};
+

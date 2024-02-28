@@ -19,15 +19,11 @@ import { Link } from "react-router-dom";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const {
-    userId,
-    favoriteRoutes,
-    tickedRoutes,
-    setLastPyramidId
-  } = useOutletContext();
+  const { userId, favoriteRoutes, tickedRoutes, setLastPyramidId } =
+    useOutletContext();
   const navigate = useNavigate();
   const [savedPyramid, setSavedPyramid] = useState([]);
-
+  const [uniqueRoutes, setUniqueRoutes] = useState([]);
 
   const getUserPyramids = async () => {
     const user_id = localStorage.getItem("user_id");
@@ -41,15 +37,29 @@ const Dashboard = () => {
       console.error("Couldn't get pyramids:", error);
     }
   };
-  
+
   useEffect(() => {
     getUserPyramids();
   }, [userId]);
 
-  const handleAPyramid=(id)=>{
+  useEffect(() => {
+    if (tickedRoutes.length > 0) {
+      const uniqueRoutesMap = {};
+
+      tickedRoutes.forEach((route) => {
+        if (!(route.uuid in uniqueRoutesMap)) {
+          uniqueRoutesMap[route.uuid] = route;
+        }
+      });
+
+      setUniqueRoutes(uniqueRoutesMap);
+    }
+  }, [tickedRoutes]);
+
+  const handleAPyramid = (id) => {
     setLastPyramidId(id);
-    navigate("../mypyramids/")
-  }
+    navigate("../mypyramids/");
+  };
 
   return (
     <>
@@ -81,7 +91,8 @@ const Dashboard = () => {
                           <tr key={index} className="text-center">
                             <td>{pyramid.goal_grade}</td>
                             <td onClick={() => handleAPyramid(pyramid.id)}>
-                              <Button>{pyramid.location}</Button></td>
+                              <Button>{pyramid.location}</Button>
+                            </td>
                             <td>
                               {new Date(
                                 pyramid.date_generated
@@ -91,7 +102,7 @@ const Dashboard = () => {
                         ))}
                     <tr className="text-center">
                       <td colSpan={4}>
-                        <Link to="../mypyramids/" >View More</Link>
+                        <Link to="../mypyramids/">View More</Link>
                       </td>
                     </tr>
                   </tbody>
@@ -102,7 +113,9 @@ const Dashboard = () => {
           {/* Favorites */}
           <Col lg={6} sm={10}>
             <Card>
-              <CardHeader id="favorites-card" className="text-center"><h4>Favorites</h4></CardHeader>
+              <CardHeader id="favorites-card" className="text-center">
+                <h4>Favorites</h4>
+              </CardHeader>
               <CardBody>
                 <Table striped>
                   <thead>
@@ -143,8 +156,6 @@ const Dashboard = () => {
               </CardBody>
             </Card>
           </Col>
-          
-  
         </Row>
         <Row>
           <Col lg={6} sm={10}>
@@ -155,55 +166,50 @@ const Dashboard = () => {
               <CardBody id="card-best-crags">
                 {/* change it to only show area name and overall score on small screens */}
                 {/* update the user table to reflect the new pref need api call to user model */}
-                <BestCrags/>
+                <BestCrags />
               </CardBody>
             </Card>
           </Col>
           {/* Ticked Routes */}
           <Col lg={6} sm={10}>
             <Card>
-              <CardHeader id="ticks-card" className="text-center"><h4>Ticks</h4></CardHeader>
+              <CardHeader id="ticks-card" className="text-center">
+                <h4>Ticks</h4>
+              </CardHeader>
               <CardBody>
                 <Table striped>
                   <thead>
                     <tr className="text-center">
                       <th>Route</th>
                       <th>area</th>
-                      <th>style</th>
                       <th>date</th>
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {Array.isArray(tickedRoutes) &&
-                    tickedRoutes.length > 0 ? (
-                      tickedRoutes.slice().reverse().slice(0,3).map((tick, index) => (
-                        <tr key={index} className="text-center">
-                          <td> 
-                            <Link
-                              to={`/${
-                               "route"
-                              }/${tick.uuid}`}
-                            >
-                             {tick.name}
-                            </Link>
-                            ({tick.grade})
-                          </td>
-                          <td>{tick.areaName}</td>
-                              <td>
-                                {tick.style}
-                              </td>
-                              <td>
-                                {tick.type}
-                              </td>
-                          <td>{new Date(
-                                tick.date_ticked
-                              ).toLocaleDateString()}</td>
-                          <td>
-                            <TickButton data={tick} />
-                          </td>
-                        </tr>
-                      ))
+                    {Object.values(uniqueRoutes).length > 0 ? (
+                      Object.values(uniqueRoutes)
+                        .slice()
+                        .reverse()
+                        .slice(0, 3)
+                        .map((tick, index) => (
+                          <tr key={index} className="text-center">
+                            <td>
+                              <Link to={`/${"route"}/${tick.uuid}`}>
+                                {tick.name} ({tick.grade})
+                              </Link>
+                            </td>
+                            <td>{tick.areaName}</td>
+                            <td>{tick.style}</td>
+                            <td>{tick.type}</td>
+                            <td>
+                              {new Date(tick.date_ticked).toLocaleDateString()}
+                            </td>
+                            <td>
+                              <TickButton data={tick} />
+                            </td>
+                          </tr>
+                        ))
                     ) : (
                       <tr>
                         <td colSpan="4">No data available</td>
@@ -214,11 +220,7 @@ const Dashboard = () => {
               </CardBody>
             </Card>
           </Col>
-          
-  
         </Row>
-
-        
       </Container>
     </>
   );

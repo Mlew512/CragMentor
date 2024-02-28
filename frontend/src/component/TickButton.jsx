@@ -11,43 +11,73 @@ import {
   CardBody,
 } from "react-bootstrap";
 import { FaRegCheckCircle, FaRegCircle, FaRegHeart } from "react-icons/fa";
-import { postAPI, deleteAPI, endpoints } from "../utilities/api";
-
-
+import { putAPI, postAPI, deleteAPI, endpoints } from "../utilities/api";
 
 const TickButton = ({ data, topRight = false }) => {
   const { tickedRoutes, setTickedRoutes, user } = useOutletContext();
-  
-  const [climbStyle, setClimbStyle]= useState("Redpoint")
+
+  const [climbStyle, setClimbStyle] = useState("Redpoint");
   const [isTick, setIsTick] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [newTickModal, setNewTickModal]= useState(false);
-  const [tickDate, setTickDate]=useState("");
-  const [tickNotes, setTickNotes]= useState("")
+  const [newTickModal, setNewTickModal] = useState(false);
+  const [tickDate, setTickDate] = useState("");
+  const [tickNotes, setTickNotes] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
-
-  // const [selectedTick, setSelectedTick]= useState({})
+  const [selectedTick, setSelectedTick] = useState({});
+  const [tickCounter, setTickCounter] = useState(0)
 
   useEffect(() => {
     if (data) {
-      let isTrue = false;
-      for (let x = 0; x < tickedRoutes.length; x++) {
-        if (tickedRoutes[x]["uuid"] === data["uuid"]) {
-          setIsTick(true);
-          isTrue = true;
-          break;
-        }
-      }
-      if (!isTrue) {
-        setIsTick(false);
-      }
+      const count = tickedRoutes.reduce((acc, tick) => {
+        acc[tick.uuid] = acc[tick.uuid] ? acc[tick.uuid] + 1 : 1;
+        return acc;
+      }, {});
+      setTickCounter(count);
+
+      setIsTick(tickedRoutes.some(tick => tick.uuid === data.uuid));
     }
   }, [tickedRoutes, data]);
 
-  const handleEditClick = (tickId) => {
-    setSelectedTick(tickId);
+  const handleEditClick = (tick) => {
+    setSelectedTick({
+      ...tick,
+      date_ticked: new Date(tick.date_ticked).toISOString().split("T")[0], // Convert date to ISO format
+    });
     setShowEditModal(true);
-};
+  };
+
+  const handleStyleChange = (e) => {
+    setSelectedTick({
+      ...selectedTick,
+      style: e.target.value,
+    });
+  };
+
+  const handleNotesChange = (e) => {
+    setSelectedTick({
+      ...selectedTick,
+      notes: e.target.value,
+    });
+    console.log(selectedTick.notes)
+  };
+
+  const putTick = async () => {
+    try {
+      const response = await putAPI(`${endpoints.tick}/${selectedTick.id}`, null, selectedTick);
+      if (response.status) {
+        const updatedTickedRoutes = tickedRoutes.map(tick =>
+          tick.id === selectedTick.id ? selectedTick : tick
+        );
+        setTickedRoutes(updatedTickedRoutes);
+        setShowEditModal(false);
+        setShowModal(true);
+      } else {
+        console.log("Error editing tick");
+      }
+    } catch (error) {
+      console.error("Error editing tick:", error);
+    }
+  };
 
   const deleteTick = async (tickId) => {
     try {
@@ -65,10 +95,12 @@ const TickButton = ({ data, topRight = false }) => {
 
   const postTick = async (style, date) => {
     try {
-       const cleanData={
+      const cleanData = {
         name: data["name"],
         uuid: data["uuid"],
-        grade: data["grades"]["yds"] ? data["grades"]["yds"] : data["grades"]["vscale"],
+        grade: data["grades"]["yds"]
+          ? data["grades"]["yds"]
+          : data["grades"]["vscale"],
         style: climbStyle,
         date_ticked: tickDate,
         areaName: data["parent"]["area_name"],
@@ -77,13 +109,13 @@ const TickButton = ({ data, topRight = false }) => {
         mountain_id: data["metadata"]["mp_id"],
         type: data["type"]["sport"] ? "sport" : "bouldering",
         notes: tickNotes,
-      }  
+      };
       // Make API call to add a new tick
       const response = await postAPI(endpoints.tick, null, cleanData);
       if (response.status) {
-        setTickedRoutes([...tickedRoutes , cleanData])
+        setTickedRoutes([...tickedRoutes, cleanData]);
         setNewTickModal(false); // Close the modal after adding the tick
-        
+        setShowModal(true); //reopen ticks
       } else {
         console.log("Error adding tick");
       }
@@ -91,7 +123,6 @@ const TickButton = ({ data, topRight = false }) => {
       console.error("Error adding tick:", error);
     }
   };
-  
 
   function handleClick(e) {
     e.preventDefault();
@@ -100,9 +131,9 @@ const TickButton = ({ data, topRight = false }) => {
     if (user == null) {
       // Handle scenario where user is not logged in
     } else {
-        setShowModal(true);
-      }
+      setShowModal(true);
     }
+  }
 
   return (
     <>
@@ -111,7 +142,11 @@ const TickButton = ({ data, topRight = false }) => {
         className={"tick-button " + (topRight ? "top-right" : "")}
         onClick={(e) => handleClick(e)}
       >
-        {isTick ? <FaRegCheckCircle size={27} /> : <FaRegCircle size={27} />}
+        {isTick ?
+        <span>
+      <FaRegCheckCircle size={27} />
+      <span className="tick-counter">{tickCounter[data.uuid]}</span>
+    </span>: <FaRegCircle size={27} />}
       </Button>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -129,8 +164,11 @@ const TickButton = ({ data, topRight = false }) => {
                   <tr className="text-center">
                     <th>Style</th>
                     <th>Date</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Notes</th>
+                    <th>
+                      Edit <br />
+                      Delete
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -142,6 +180,7 @@ const TickButton = ({ data, topRight = false }) => {
                           <td>
                             {new Date(tick.date_ticked).toLocaleDateString()}
                           </td>
+                          <td>{tick.notes?.slice(0, 25)}</td>
                           <td>
                             <Button
                               variant="primary"
@@ -149,8 +188,6 @@ const TickButton = ({ data, topRight = false }) => {
                             >
                               Edit
                             </Button>
-                          </td>
-                          <td>
                             <Button
                               variant="danger"
                               onClick={() => deleteTick(tick.id)}
@@ -173,22 +210,28 @@ const TickButton = ({ data, topRight = false }) => {
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => setNewTickModal(true)}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setShowModal(false);
+              setNewTickModal(true);
+            }}
+          >
             Add New Tick
           </Button>
         </Modal.Footer>
       </Modal>
       <Modal show={newTickModal} onHide={() => setNewTickModal(false)}>
-      <Modal.Header closeButton>
+        <Modal.Header closeButton>
           <Modal.Title>Add Tick</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group controlId="styleSelect">
               <Form.Label>Style:</Form.Label>
-              <Form.Control 
-                as="select" 
-                value={climbStyle} 
+              <Form.Control
+                as="select"
+                value={climbStyle}
                 onChange={(e) => setClimbStyle(e.target.value)}
               >
                 <option value="Redpoint">Redpoint</option>
@@ -200,22 +243,22 @@ const TickButton = ({ data, topRight = false }) => {
             </Form.Group>
             <Form.Group controlId="datePicker">
               <Form.Label>Date:</Form.Label>
-              <Form.Control 
-                type="date" 
-                value={tickDate} 
-                onChange={(e) => setTickDate(e.target.value)} 
+              <Form.Control
+                type="date"
+                value={tickDate}
+                onChange={(e) => setTickDate(e.target.value)}
               />
             </Form.Group>
 
-          <Form.Group controlId="textfield">
-            <Form.Label>Notes</Form.Label>
-            <Form.Control
-            type="textarea"
-            value={tickNotes}
-            onChange={(e) => setTickNotes(e.target.value)}>
-
-            </Form.Control>
-          </Form.Group>
+            <Form.Group controlId="textfield">
+              <Form.Label>Notes</Form.Label>
+              <Form.Control
+                type="textarea"
+                maxLength={100}
+                value={tickNotes}
+                onChange={(e) => setTickNotes(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -223,6 +266,46 @@ const TickButton = ({ data, topRight = false }) => {
             Close
           </Button>
           <Button variant="primary" onClick={postTick}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Tick</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="styleSelect">
+              <Form.Label>Style:</Form.Label>
+              <Form.Control
+                as="select"
+                value={selectedTick.style}
+                onChange={(e) => handleStyleChange(e)}
+              >
+                <option value="Redpoint">Redpoint</option>
+                <option value="Pinkpoint">Pinkpoint</option>
+                <option value="Fell/Hung">Fell/Hung</option>
+                <option value="Onsight">Onsight</option>
+                <option value="Flash">Flash</option>
+              </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="textfield">
+              <Form.Label>Notes</Form.Label>
+              <Form.Control
+                as="textarea"
+                maxLength={100}
+                value={selectedTick.notes}
+                onChange={(e) => handleNotesChange(e)}
+              ></Form.Control>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={putTick}>
             Save
           </Button>
         </Modal.Footer>

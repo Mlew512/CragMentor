@@ -19,4 +19,4 @@ class Ticked_Route(models.Model):
 
     
     def __str__(self):
-        return f"{self.name} was {self.style} on {self.date_ticked}"
+        return f"{self.name} was {self.style}ed on {self.date_ticked}"
