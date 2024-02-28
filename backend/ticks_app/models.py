@@ -12,7 +12,6 @@ class Ticked_Route(models.Model):
     date_ticked = models.DateTimeField(blank=False, null=False)
     style=models.CharField(null=True, blank=True)
     notes=models.CharField(null=True,blank=True)
-    rating=models.IntegerField(blank=True, null=True)
     type=models.CharField(null=True, blank=True)
     lat=models.CharField(null=True, blank=True)
     long=models.CharField(null=True, blank=False)

@@ -23,7 +23,10 @@ const TickButton = ({ data, topRight = false }) => {
   const [showModal, setShowModal] = useState(false);
   const [newTickModal, setNewTickModal]= useState(false);
   const [tickDate, setTickDate]=useState("");
-//   const [selectedTick, setSelectedTick]= useState({})
+  const [tickNotes, setTickNotes]= useState("")
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  // const [selectedTick, setSelectedTick]= useState({})
 
   useEffect(() => {
     if (data) {
@@ -41,9 +44,9 @@ const TickButton = ({ data, topRight = false }) => {
     }
   }, [tickedRoutes, data]);
 
-  const handleEditClick = (tick) => {
-    setSelectedTick(tick);
-    setShowModal(true);
+  const handleEditClick = (tickId) => {
+    setSelectedTick(tickId);
+    setShowEditModal(true);
 };
 
   const deleteTick = async (tickId) => {
@@ -73,13 +76,14 @@ const TickButton = ({ data, topRight = false }) => {
         long: data["metadata"]["lng"],
         mountain_id: data["metadata"]["mp_id"],
         type: data["type"]["sport"] ? "sport" : "bouldering",
+        notes: tickNotes,
       }  
       // Make API call to add a new tick
       const response = await postAPI(endpoints.tick, null, cleanData);
       if (response.status) {
         setTickedRoutes([...tickedRoutes , cleanData])
         setNewTickModal(false); // Close the modal after adding the tick
-        setShowModal(true)
+        
       } else {
         console.log("Error adding tick");
       }
@@ -170,7 +174,7 @@ const TickButton = ({ data, topRight = false }) => {
             Close
           </Button>
           <Button variant="primary" onClick={() => setNewTickModal(true)}>
-            Add Tick
+            Add New Tick
           </Button>
         </Modal.Footer>
       </Modal>
@@ -202,6 +206,16 @@ const TickButton = ({ data, topRight = false }) => {
                 onChange={(e) => setTickDate(e.target.value)} 
               />
             </Form.Group>
+
+          <Form.Group controlId="textfield">
+            <Form.Label>Notes</Form.Label>
+            <Form.Control
+            type="textarea"
+            value={tickNotes}
+            onChange={(e) => setTickNotes(e.target.value)}>
+
+            </Form.Control>
+          </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>

@@ -74,14 +74,11 @@ function RoutePage() {
                       type: {climbType.join(", ")}
                     </div>
                     <div>
-                      View Ticks
+                      Your Ticks
                       <TickButton data={data}/>
                       
                     </div>
                     <div>
-                      {/* <Link to={`/area/${data.parent.uuid}`}>
-                        <button className="btn btn-outline-success me-1">Go to {data.parent.area_name}</button>
-                      </Link> */}
                       <Button className="me-1" variant="info" onClick={()=>navigate(`/area/${data.parent.uuid}`)}>Go to {data.parent.area_name} </Button>
                       <FavButton data={data} />
                     </div>

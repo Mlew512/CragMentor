@@ -33,6 +33,18 @@ class A_Tick(APIView):
 
         return Response(serialized_tick.data)
 
+    def put(self, request, id):
+        tick = Ticked_Route.objects.filter(user=request.user, id=id).first()
+        if not tick:
+            return Response("Tick not found", status=status.HTTP_404_NOT_FOUND)
+
+        serializer = TickSerializer(tick, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def delete(self, request, id):
         print(id)
         tick = Ticked_Route.objects.get(id = id, user=request.user)
@@ -48,32 +60,10 @@ class A_Tick(APIView):
 class Create_Tick(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    def post(self, request):
-        # if request.data['grades']['yds']:
-        #     what_grade = request.data['grades']['yds']
-        # else:
-        #     what_grade = request.data['grades']['vscale']
-        # if request.data["type"]['sport']:
-        #     what_type = "sport"
-        # elif request.data["type"]['bouldering']:
-        #     what_type = "bouldering"
-        # print(request.data)
-        
-        # scrub_data={
-        #     "name":request.data['name'],
-        #     "uuid":request.data['uuid'],
-        #     "grade":request.data["grade"],
-        #     "style":request.data["style"],
-        #     "areaName":request.data["parent"]["area_name"],
-        #     "lat":request.data["metadata"]['lat'],
-        #     "long":request.data["metadata"]['lng'],
-        #     "mountain_id":request.data["metadata"]['mp_id'],
-        #     "type": what_type
-        # }
-        
+    def post(self, request):    
         ser_tick = TickSerializer(data=request.data)
         if ser_tick.is_valid():
             ser_tick.save(user=request.user)
-            return Response(f"Ticked {ser_tick.data['uuid']}{ser_tick.data['grade']}", status=HTTP_201_CREATED)
+            return Response(f"Ticked {ser_tick.data['name']}{ser_tick.data['grade']}", status=HTTP_201_CREATED)
         return Response(ser_tick.errors, status=HTTP_400_BAD_REQUEST)
 
