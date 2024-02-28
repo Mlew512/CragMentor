@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
+from django.contrib.postgres.fields import ArrayField
+
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -38,13 +41,13 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    # Add any other required fields
     
-    current_level= models.IntegerField(null=True)
     goal = models.CharField(null=True)
     lat = models.FloatField(null=True)
     long = models.FloatField(null=True)
     distance_willing_to_travel = models.IntegerField(null=True)
+    # add the ticklist here, should be a list of uuid's that the user has completed
+    ticks = ArrayField(models.CharField(max_length=100), null=True, blank=True)
 
     # Add related_name to avoid clashes with auth.User
     groups = models.ManyToManyField(

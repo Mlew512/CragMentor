@@ -21,8 +21,15 @@ User data, including usernames and names, is securely stored.
 We use coordinates for precise route recommendations.
 Optional Google Maps integration enhances location-based features.
 
+***future plans***
+go to next route option in pyramid
 
-save user preferences
+backend beta endpoint:
+    return list of climbs for each grade
 
-fix map search bar length
+frontend:
+    iterate to next in list for goal grade and set it to use state, when saving pyramid save the one the user selects. 
+
+
+
 

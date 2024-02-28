@@ -133,6 +133,7 @@ class CragService:
                     "name": climb["name"],
                     "grade": climb["grades"]["vscale"],
                     "uuid": climb["uuid"],
+                    "area": climb["areaName"],
                 }
 
         # If no unique climb with the target grade is found, return a default climb
@@ -154,6 +155,7 @@ class CragService:
                     "name": climb["name"],
                     "grade": climb["grades"]["yds"],
                     "uuid": climb["uuid"],
+                    "area": climb["areaName"],
                     "type": "sport",
                 }
 
@@ -334,7 +336,7 @@ class CragService:
 
     @staticmethod
     def generate_query(uuids):
-    # Initialize an empty string to build the query
+    # Initialize an empty string to build the query in order to query multiple areas in one api call
         query_string = "query getClimbsInCrag{\n"
 
         # Loop through the UUIDs and dynamically generate aliases with UUIDs
@@ -352,5 +354,5 @@ class CragService:
 
         # Close the query
         query_string += "}"
-
+        # print(query_string)
         return query_string

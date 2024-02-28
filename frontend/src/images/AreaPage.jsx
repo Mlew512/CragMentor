@@ -84,7 +84,7 @@ function AreaPage() {
                     <FavButton data={data} />
                     <h1>{data.areaName}</h1>
                     <p>{data.content?.description}</p>
-                    <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to parent</a>
+                    <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to {data.parent}</a>
 
         
     
@@ -97,7 +97,7 @@ function AreaPage() {
                                 </Row>
                                 <Row >
                                     {data.children.map((area, index) => {
-                                        console.log(index)
+                                        // console.log(index)
                                         if (index < (loadMoreAreasNum * 10)){
                                             return (
                                                 <Col sm={4} lg={3} key={index}>

@@ -1,0 +1,35 @@
+                         List of relations
+ Schema |                 Name                  |   Type   | Owner 
+--------+---------------------------------------+----------+-------
+ public | auth_group                            | table    | mlew
+ public | auth_group_id_seq                     | sequence | mlew
+ public | auth_group_permissions                | table    | mlew
+ public | auth_group_permissions_id_seq         | sequence | mlew
+ public | auth_permission                       | table    | mlew
+ public | auth_permission_id_seq                | sequence | mlew
+ public | authtoken_token                       | table    | mlew
+ public | django_admin_log                      | table    | mlew
+ public | django_admin_log_id_seq               | sequence | mlew
+ public | django_content_type                   | table    | mlew
+ public | django_content_type_id_seq            | sequence | mlew
+ public | django_migrations                     | table    | mlew
+ public | django_migrations_id_seq              | sequence | mlew
+ public | django_session                        | table    | mlew
+ public | favorites_app_favorite_route          | table    | mlew
+ public | favorites_app_favorite_route_id_seq   | sequence | mlew
+ public | pyramid_app_pyramid                   | table    | mlew
+ public | pyramid_app_pyramid_id_seq            | sequence | mlew
+ public | pyramid_app_pyramid_routes            | table    | mlew
+ public | pyramid_app_pyramid_routes_id_seq     | sequence | mlew
+ public | routes_app_route                      | table    | mlew
+ public | routes_app_route_id_seq               | sequence | mlew
+ public | ticks_app_ticked_route                | table    | mlew
+ public | ticks_app_ticked_route_id_seq         | sequence | mlew
+ public | user_app_user                         | table    | mlew
+ public | user_app_user_groups                  | table    | mlew
+ public | user_app_user_groups_id_seq           | sequence | mlew
+ public | user_app_user_id_seq                  | sequence | mlew
+ public | user_app_user_user_permissions        | table    | mlew
+ public | user_app_user_user_permissions_id_seq | sequence | mlew
+(30 rows)
+

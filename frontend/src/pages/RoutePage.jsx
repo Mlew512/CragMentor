@@ -9,6 +9,8 @@ import {Row, Container,Button} from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './RoutePage.css'; 
+import { FaRegCheckCircle, FaRegEye } from 'react-icons/fa';
+import TickButton from '../component/TickButton';
 
 function RoutePage() {
   const navigate = useNavigate();
@@ -17,6 +19,7 @@ function RoutePage() {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const params = useParams();
+  const [climbType, setClimbType]=useState([])
 
   useEffect(() => {
     let id = null;
@@ -42,6 +45,7 @@ function RoutePage() {
     // console.log(response);
     if (response.status && response.data.climb_data.climb != null) {
       setData(response.data.climb_data.climb);
+      setClimbType(Object.keys(response.data.climb_data.climb.type).filter(key => response.data.climb_data.climb.type[key]));
       setIsLoading(false);
       setMessage('');
     } else {
@@ -60,27 +64,27 @@ function RoutePage() {
           <Container>
             <Row className='justify-content-center'>
               <div className="route-details-container">
-                <h2 className='text-center mb-4'>{data.name}</h2>
+                <h2 className='text mb-4'>{data.name} ({data['type']["bouldering"]?(data.grades.vscale): (data.grades.yds)})</h2>
                 <div className='d-flex justify-content-between'>
-                  <div className="right-column">
-                    <p>{data.content.description}</p>
-                    <p><strong>Location:</strong> {data.content.location}</p>
+                  <div>
                     <div className='mb-4'> 
-                      Grade: {
-                        data.grades && data.grades.vscale &&
-                        <><Button variant="outline-info">{data['grades']['vscale']}</Button></>
-                        }
-                        {
-                          data.grades && data.grades.yds && data.grades.vscale == null &&
-                          <><Button variant="outline-info">{data['grades']['yds']}</Button></>
-                        }
+                      
+
+                    <div>
+                      type: {climbType.join(", ")}
                     </div>
                     <div>
-                      {/* <Link to={`/area/${data.parent.uuid}`}>
-                        <button className="btn btn-outline-success me-1">Go to {data.parent.area_name}</button>
-                      </Link> */}
-                      <Button className="me-1" variant="outline-success" onClick={()=>navigate(`/area/${data.parent.uuid}`)}>Go to {data.parent.area_name} </Button>
+                      Your Ticks
+                      <TickButton data={data}/>
+                      
+                    </div>
+                    <div>
+                      <Button className="me-1" variant="info" onClick={()=>navigate(`/area/${data.parent.uuid}`)}>Go to {data.parent.area_name} </Button>
                       <FavButton data={data} />
+                    </div>
+                    <p><strong>Description</strong></p>
+                    <p>{data.content.description}</p>
+                    <p><strong>Location:</strong> {data.content.location}</p>
                     </div>
                     
                   </div>

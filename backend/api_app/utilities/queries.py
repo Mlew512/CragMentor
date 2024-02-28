@@ -20,6 +20,18 @@ get_climb_by_id_query = """
                 media {
                     mediaUrl
                 }
+                 type {
+                    sport
+                    trad
+                    deepwatersolo
+                    aid
+                    bouldering
+                    alpine
+                    ice
+                    mixed
+                    snow
+                    tr
+                    }
                 parent {
                     uuid
                     area_name
@@ -221,6 +233,7 @@ get_area_children = """
                         climbId
                         }
                     }
+                    
             }
             }
             """

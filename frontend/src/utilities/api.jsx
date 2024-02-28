@@ -18,6 +18,10 @@ export const endpoints = {
     "favorite":"favorites/favorite",
     "add_favorite":"beta/favorite/",
     "remove_favorite":"beta/favorite/",
+    "ticks":"ticks/",
+    "tick":"ticks/tick",
+    "add_tick":"beta/tick/",
+    "remove_tick":"beta/tick/",
     "route":"beta/climb/",
     "area":"beta/area/",
     "climb_bounds":"beta/climb-bounds/",
@@ -97,4 +101,26 @@ export const getAPI = async (url, encodedParams = null) => {
         
     }
 }
+
+export const putAPI = async (url, encodedParams = null, data = null, config = null) => {
+    try {
+        let urlString = url;
+        if (encodedParams != null) {
+            urlString += `?${encodedParams}`;
+        }
+        let json = "";
+        if (data != null) {
+            json = data;
+        }
+
+        const response = await api.put(urlString, json, config);
+        if (response.status === 200 || response.status === 204) {
+            return { status: true, data: response.data };
+        } else {
+            throw new Error("Something went wrong");
+        }
+    } catch (error) {
+        return { status: false, error: error };
+    }
+};
 

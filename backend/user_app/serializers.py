@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import User
+from routes_app.serializers import RouteSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,7 +9,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "email",
-            "current_level",
             "goal",
             "lat",
             "long",
