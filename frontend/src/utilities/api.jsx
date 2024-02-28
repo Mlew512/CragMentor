@@ -23,6 +23,7 @@ export const endpoints = {
     "add_tick":"beta/tick/",
     "remove_tick":"beta/tick/",
     "route":"beta/climb/",
+    "pyramidroute":"/route",
     "area":"beta/area/",
     "climb_bounds":"beta/climb-bounds/",
     "countries":"beta/countries/",
