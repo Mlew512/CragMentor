@@ -9,6 +9,7 @@ class Route(models.Model):
     lng = models.FloatField(null=True)
     # areaid is the uuid of the area that the route is in
     areaid = models.CharField(null=True)
+    mp_id= models.CharField(null=True)
     # area is the name of the parent area
     area= models.CharField(null=True)
     completed = models.BooleanField(default=False)

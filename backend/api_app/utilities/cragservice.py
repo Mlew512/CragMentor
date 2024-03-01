@@ -136,6 +136,8 @@ class CragService:
                     "area": climb["areaName"],
                     "lat": climb["metadata"]["lat"],
                     "lng": climb["metadata"]["lng"],
+                    "mp_id": climb["metadata"]["mp_id"],
+
                     # "media": climb["media"],
                 }
 
@@ -161,6 +163,7 @@ class CragService:
                     "area": climb["areaName"],
                     "lat": climb["metadata"]["lat"],
                     "lng": climb["metadata"]["lng"],
+                    "mp_id": climb["metadata"]["mp_id"],
                     "type": "sport",
                     # "media": climb.media["mediaUrl"],
                 }
@@ -366,6 +369,7 @@ class CragService:
             query_string += "      metadata {\n"
             query_string += "        lat\n"
             query_string += "        lng\n"
+            query_string += "        mp_id\n"
             query_string += "      }\n"
             query_string += "    }\n"
             query_string += "    totalClimbs\n"

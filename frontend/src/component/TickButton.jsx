@@ -104,7 +104,7 @@ const TickButton = ({ data, topRight = false }) => {
         grade: data.grades? (data.grades.yds ? data.grades.yds : data.grades.vscale) : data.grade,
         style: climbStyle,
         date_ticked: tickDate,
-        areaName: data.area ? data.area : data.parent.area_name, 
+        areaName: data.parent ? data.parent.areaName : data.area , 
         lat: data.metadata ? data.metadata.lat : data.lat,
         long: data.metadata ? data.metadata.lng : data.lng ,
         mountain_id: data.metadata ? data.metadata.mp_id : data. mountain_id,

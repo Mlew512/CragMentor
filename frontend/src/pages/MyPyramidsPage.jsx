@@ -11,11 +11,6 @@ const MyPyramidsPage = () => {
   const navigate = useNavigate();
   const [pyramid, setPyramid] = useState(null);
   const {tickedRoutes} = useOutletContext();
-  const [newTickModal, setNewTickModal] = useState(false);
-  const [climbStyle, setClimbStyle]= useState("");
-  const [tickNotes, setTickNotes] = useState("");
-  const [tickDate, setTickDate] = useState("");
-  const [currentTick, setCurrentTick] = useState({});
 
 
 
@@ -35,7 +30,6 @@ const MyPyramidsPage = () => {
     }
     // Map over the pyramid array, checking if each route's UUID is in tickedRoutes and if its style is ticked
     const updatedPyramid = pyramid.map(route => {
-      // console.log(route)
       // Check if the route's UUID is included in tickedRoutes and if its style is ticked
       const isTicked = tickedRoutes.some(tickedRoute => tickedRoute.uuid === route.route_id && tickedStyles.has(tickedRoute.style));
       console.log(tickedRoutes)
@@ -67,55 +61,6 @@ const MyPyramidsPage = () => {
       console.error("Error editing route:", error);
     }
   };
-
-
-  // const handleCheckboxChange = (index) => {
-  //   // need to update the individual route to be completed, add in the backend when this route is ticked to add it to the users ticklist
-  //   //* change this to open the add tick and edit tick modals before updating the status, update it afterwards
-  //   const updatedPyramid = [...pyramid];
-  //   updatedPyramid[index].completed = !updatedPyramid[index].completed;
-  //   setPyramid(updatedPyramid);
-  //   putComplete(updatedPyramid[index]);
-  //   if(updatedPyramid[index].completed != false){
-  //     setCurrentTick[pyramid[index]]
-  //     console.log(currentTick)
-  //     // console.log(pyramid[index])
-  //     setNewTickModal(true);
-  //   }else{
-  //     console.log("untick it ")
-  //   }
-
-  // };
-
-  // const postTick = async () => {
-  //   console.log("this is the current tick: ",currentTick.name)
-  //   try {
-  //     const cleanData = {
-  //       name: currentTick["name"],
-  //       uuid: currentTick["route_id"],
-  //       grade: currentTick["grade"],
-  //       style: climbStyle,
-  //       date_ticked: tickDate,
-  //       areaName: currentTick["area"],
-  //       lat: currentTick["lat"],
-  //       long: currentTick["lng"],
-  //       mountain_id: currentTick["mp_id"],
-  //       type: currentTick["type"],
-  //       notes: tickNotes,
-  //     };
-  //     // Make API call to add a new tick
-  //     const response = await postAPI(endpoints.tick, null, cleanData);
-  //     if (response.status) {
-  //       setTickedRoutes([...tickedRoutes, cleanData]);
-  //       setNewTickModal(false); // Close the modal after adding the tick
-
-  //     } else {
-  //       console.log("Error adding tick");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error adding tick:", error);
-  //   }
-  // };
 
   const the_pyramid = (
     <>
