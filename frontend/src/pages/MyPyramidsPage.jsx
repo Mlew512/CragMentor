@@ -31,13 +31,16 @@ const MyPyramidsPage = () => {
     // Map over the pyramid array, checking if each route's UUID is in tickedRoutes and if its style is ticked
     const updatedPyramid = pyramid.map(route => {
       // Check if the route's UUID is included in tickedRoutes and if its style is ticked
-      const isTicked = tickedRoutes.some(tickedRoute => tickedRoute.uuid === route.route_id && tickedStyles.has(tickedRoute.style));
+      const isTicked = tickedRoutes.some(tickedRoute => tickedRoute.uuid === route.uuid && tickedStyles.has(tickedRoute.style));
       console.log(tickedRoutes)
       // If the route is ticked, mark it as completed
       if (isTicked && !route.completed) {
         putComplete(route)
         return { ...route, completed: true };
         
+      }else if(!isTicked && route.completed){
+        putComplete(route)
+        return{...route, completed: false };
       }
       // Otherwise, return the route unchanged
       
@@ -47,7 +50,7 @@ const MyPyramidsPage = () => {
     // Update the pyramid state
     setPyramid(updatedPyramid);
   
-  }, [Array.isArray(pyramid)]);
+  }, [Array.isArray(pyramid), tickedRoutes.length]);
   
   const putComplete = async (route) => {
     try {
@@ -75,7 +78,7 @@ const MyPyramidsPage = () => {
                 </div>
                 <Row className="justify-content-center">
                   <Col lg={3}>
-                    <Card className="pyramid-card text-center">
+                    <Card className="pyramid-card text-center" style={{backgroundColor: pyramid[0].completed ? "rgba(0, 255, 0, 0.5)" : ""}}>
                       <p>
                         <i>{pyramid[0].area}</i>
                       </p>
@@ -94,7 +97,7 @@ const MyPyramidsPage = () => {
 
                 <Row className="justify-content-center">
                   <Col lg={3}>
-                    <Card className="pyramid-card text-center">
+                    <Card className="pyramid-card text-center" style={{backgroundColor: pyramid[1].completed ? "rgba(0, 255, 0, 0.5)" : ""}}>
                       <p>
                         <i>{pyramid[1].area}</i>
                       </p>
@@ -109,7 +112,7 @@ const MyPyramidsPage = () => {
                     </Card>
                   </Col>
                   <Col lg={3}>
-                    <Card className="pyramid-card text-center">
+                    <Card className="pyramid-card text-center" style={{backgroundColor: pyramid[2].completed ? "rgba(0, 255, 0, 0.5)" : ""}}>
                       <p>
                         <i>{pyramid[2].area}</i>
                       </p>
@@ -128,7 +131,7 @@ const MyPyramidsPage = () => {
 
                 <Row className=" justify-content-center">
                   <Col lg={3}>
-                    <Card className="pyramid-card text-center">
+                    <Card className="pyramid-card text-center" style={{backgroundColor: pyramid[3].completed ? "rgba(0, 255, 0, 0.5)" : ""}}>
                       <p>
                         <i>{pyramid[3].area}</i>
                       </p>
@@ -144,7 +147,7 @@ const MyPyramidsPage = () => {
                     </Card>
                   </Col>
                   <Col lg={3}>
-                    <Card className="pyramid-card text-center">
+                    <Card className="pyramid-card text-center" style={{backgroundColor: pyramid[4].completed ? "rgba(0, 255, 0, 0.5)" : ""}}>
                       <p>
                         <i>{pyramid[4].area}</i>
                       </p>
@@ -159,7 +162,7 @@ const MyPyramidsPage = () => {
                     </Card>
                   </Col>
                   <Col lg={3}>
-                    <Card className="pyramid-card text-center">
+                    <Card className="pyramid-card text-center" style={{backgroundColor: pyramid[5].completed ? "rgba(0, 255, 0, 0.5)" : ""}}>
                       <>
                         <p>
                           <i>{pyramid[5].area} </i>
@@ -176,7 +179,7 @@ const MyPyramidsPage = () => {
                     </Card>
                   </Col>
                   <Col lg={3}>
-                    <Card className="pyramid-card text-center">
+                    <Card className="pyramid-card text-center" style={{backgroundColor: pyramid[6].completed ? "rgba(0, 255, 0, 0.5)" : ""}}>
                       <p>
                         <i>{pyramid[6].area}</i>
                       </p>
