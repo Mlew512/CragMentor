@@ -189,9 +189,9 @@ const Dashboard = () => {
                   <tbody>
                     {Object.values(uniqueRoutes).length > 0 ? (
                       Object.values(uniqueRoutes)
-                        .slice()
-                        .reverse()
-                        .slice(0, 3)
+                      .slice()
+                      .sort((b, a) => new Date(b.date_ticked) - new Date(a.date_ticked)).reverse()
+                      // .slice(0, 3)
                         .map((tick, index) => (
                           <tr key={index} className="text-center">
                             <td>
