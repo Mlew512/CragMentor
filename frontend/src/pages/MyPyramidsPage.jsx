@@ -4,6 +4,7 @@ import {Button, Form, Modal, Row, Col, Card, CardBody, Container } from "react-b
 import { useEffect, useState } from "react";
 import { PyramidMentor } from "../component/PyramidMentor";
 import { putAPI, postAPI, endpoints } from "../utilities/api";
+import TickButton from "../component/TickButton";
 
 const MyPyramidsPage = () => {
   const { user, userId, setTickedRoutes } = useOutletContext();
@@ -40,9 +41,12 @@ const MyPyramidsPage = () => {
       console.log(tickedRoutes)
       // If the route is ticked, mark it as completed
       if (isTicked && !route.completed) {
+        putComplete(route)
         return { ...route, completed: true };
+        
       }
       // Otherwise, return the route unchanged
+      
       return route;
     });
   
@@ -65,50 +69,53 @@ const MyPyramidsPage = () => {
   };
 
 
-  const handleCheckboxChange = (index) => {
-    // need to update the individual route to be completed, add in the backend when this route is ticked to add it to the users ticklist
-    const updatedPyramid = [...pyramid];
-    updatedPyramid[index].completed = !updatedPyramid[index].completed;
-    setPyramid(updatedPyramid);
-    putComplete(updatedPyramid[index]);
-    if(updatedPyramid[index].completed != false){
-      setCurrentTick[pyramid[index]]
-      console.log(currentTick)
-      // console.log(pyramid[index])
-      setNewTickModal(true);
-    }
+  // const handleCheckboxChange = (index) => {
+  //   // need to update the individual route to be completed, add in the backend when this route is ticked to add it to the users ticklist
+  //   //* change this to open the add tick and edit tick modals before updating the status, update it afterwards
+  //   const updatedPyramid = [...pyramid];
+  //   updatedPyramid[index].completed = !updatedPyramid[index].completed;
+  //   setPyramid(updatedPyramid);
+  //   putComplete(updatedPyramid[index]);
+  //   if(updatedPyramid[index].completed != false){
+  //     setCurrentTick[pyramid[index]]
+  //     console.log(currentTick)
+  //     // console.log(pyramid[index])
+  //     setNewTickModal(true);
+  //   }else{
+  //     console.log("untick it ")
+  //   }
 
-  };
+  // };
 
-  const postTick = async () => {
-    console.log(currentTick)
-    try {
-      const cleanData = {
-        name: currentTick["name"],
-        uuid: currentTick["route_id"],
-        grade: currentTick["grade"],
-        style: climbStyle,
-        date_ticked: tickDate,
-        areaName: currentTick["area"],
-        lat: currentTick["lat"],
-        long: currentTick["lng"],
-        mountain_id: currentTick["mp_id"],
-        type: currentTick["type"],
-        notes: tickNotes,
-      };
-      // Make API call to add a new tick
-      const response = await postAPI(endpoints.tick, null, cleanData);
-      if (response.status) {
-        setTickedRoutes([...tickedRoutes, cleanData]);
-        setNewTickModal(false); // Close the modal after adding the tick
+  // const postTick = async () => {
+  //   console.log("this is the current tick: ",currentTick.name)
+  //   try {
+  //     const cleanData = {
+  //       name: currentTick["name"],
+  //       uuid: currentTick["route_id"],
+  //       grade: currentTick["grade"],
+  //       style: climbStyle,
+  //       date_ticked: tickDate,
+  //       areaName: currentTick["area"],
+  //       lat: currentTick["lat"],
+  //       long: currentTick["lng"],
+  //       mountain_id: currentTick["mp_id"],
+  //       type: currentTick["type"],
+  //       notes: tickNotes,
+  //     };
+  //     // Make API call to add a new tick
+  //     const response = await postAPI(endpoints.tick, null, cleanData);
+  //     if (response.status) {
+  //       setTickedRoutes([...tickedRoutes, cleanData]);
+  //       setNewTickModal(false); // Close the modal after adding the tick
 
-      } else {
-        console.log("Error adding tick");
-      }
-    } catch (error) {
-      console.error("Error adding tick:", error);
-    }
-  };
+  //     } else {
+  //       console.log("Error adding tick");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error adding tick:", error);
+  //   }
+  // };
 
   const the_pyramid = (
     <>
@@ -129,16 +136,13 @@ const MyPyramidsPage = () => {
                       </p>
                       <h4
                         onClick={() =>
-                          navigate(`/route/${pyramid[0].route_id}`)
+                          navigate(`/route/${pyramid[0].uuid}`)
                         }
                       >
                         {pyramid[0].name} ({pyramid[0].grade})
                       </h4>
-                      <input
-                        type="checkbox"
-                        checked={pyramid[0].completed || false}
-                        onChange={() => handleCheckboxChange(0)}
-                      />
+                      
+                      <TickButton data={pyramid[0]}/>
                     </Card>
                   </Col>
                 </Row>
@@ -151,16 +155,12 @@ const MyPyramidsPage = () => {
                       </p>
                       <h4
                         onClick={() =>
-                          navigate(`/route/${pyramid[1].route_id}`)
+                          navigate(`/route/${pyramid[1].uuid}`)
                         }
                       >
                         {pyramid[1].name} ({pyramid[1].grade})
                       </h4>
-                      <input
-                        type="checkbox"
-                        checked={pyramid[1].completed || false}
-                        onChange={() => handleCheckboxChange(1)}
-                      />
+                      <TickButton data={pyramid[1]}/>
                     </Card>
                   </Col>
                   <Col lg={3}>
@@ -170,16 +170,13 @@ const MyPyramidsPage = () => {
                       </p>
                       <h4
                         onClick={() =>
-                          navigate(`/route/${pyramid[2].route_id}`)
+                          navigate(`/route/${pyramid[2].uuid}`)
                         }
                       >
                         {pyramid[2].name} ({pyramid[2].grade})
                       </h4>
-                      <input
-                        type="checkbox"
-                        checked={pyramid[2].completed || false}
-                        onChange={() => handleCheckboxChange(2)}
-                      />
+                      <TickButton data={pyramid[2]}/>
+
                     </Card>
                   </Col>
                 </Row>
@@ -192,16 +189,13 @@ const MyPyramidsPage = () => {
                       </p>
                       <h4
                         onClick={() =>
-                          navigate(`/route/${pyramid[3].route_id}`)
+                          navigate(`/route/${pyramid[3].uuid}`)
                         }
                       >
                         {pyramid[3].name} ({pyramid[3].grade})
                       </h4>
-                      <input
-                        type="checkbox"
-                        checked={pyramid[3].completed || false}
-                        onChange={() => handleCheckboxChange(3)}
-                      />
+                      <TickButton data={pyramid[3]}/>
+
                     </Card>
                   </Col>
                   <Col lg={3}>
@@ -211,16 +205,12 @@ const MyPyramidsPage = () => {
                       </p>
                       <h4
                         onClick={() =>
-                          navigate(`/route/${pyramid[4].route_id}`)
+                          navigate(`/route/${pyramid[4].uuid}`)
                         }
                       >
                         {pyramid[4].name} ({pyramid[4].grade})
                       </h4>
-                      <input
-                        type="checkbox"
-                        checked={pyramid[4].completed || false}
-                        onChange={() => handleCheckboxChange(4)}
-                      />
+                      <TickButton data={pyramid[4]}/>
                     </Card>
                   </Col>
                   <Col lg={3}>
@@ -231,16 +221,12 @@ const MyPyramidsPage = () => {
                         </p>
                         <h4
                           onClick={() =>
-                            navigate(`/route/${pyramid[5].route_id}`)
+                            navigate(`/route/${pyramid[5].uuid}`)
                           }
                         >
                           {pyramid[5].name} ({pyramid[5].grade})
                         </h4>
-                        <input
-                          type="checkbox"
-                          checked={pyramid[5].completed || false}
-                          onChange={() => handleCheckboxChange(5)}
-                        />
+                        <TickButton data={pyramid[5]}/>
                       </>
                     </Card>
                   </Col>
@@ -251,16 +237,12 @@ const MyPyramidsPage = () => {
                       </p>
                       <h4
                         onClick={() =>
-                          navigate(`/route/${pyramid[6].route_id}`)
+                          navigate(`/route/${pyramid[6].uuid}`)
                         }
                       >
                         {pyramid[6].name} ({pyramid[6].grade})
                       </h4>
-                      <input
-                        type="checkbox"
-                        checked={pyramid[6].completed || false}
-                        onChange={() => handleCheckboxChange(6)}
-                      />
+                      <TickButton data={pyramid[6]}/>
                     </Card>
                   </Col>
                 </Row>
@@ -276,7 +258,7 @@ const MyPyramidsPage = () => {
     <>
       <Container className="d-flex flex-column width-100%">
         <Row>
-        <Modal show={newTickModal} onHide={() => setNewTickModal(false)}>
+        {/* <Modal show={newTickModal} onHide={() => setNewTickModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Add Tick</Modal.Title>
         </Modal.Header>
@@ -324,7 +306,7 @@ const MyPyramidsPage = () => {
             Save
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
           {pyramid ? (
             the_pyramid
           ) : (

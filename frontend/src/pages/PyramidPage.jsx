@@ -49,13 +49,16 @@ const PyramidPage = () => {
     for (const routeKey in myPyramid){
       const route = myPyramid[routeKey];
       try{
+        console.log(route)
         const response = await api.post("/route/",{
         pyramid_id: pyramidId,
-        route_id: route?.uuid ,
+        uuid: route?.uuid ,
         name: route?.name,
         grade: route?.grade,
         area: route?.area,
-        
+        lat: route?.lat,
+        lng:route?.lng,
+        media:route?.media
       })
       if (response.status ===201){
         console.log("route created")
@@ -184,7 +187,7 @@ const RandomCompliment =() =>{
             <Card id="pyramid-container" style={{minHeight:"400px"}}>
                 <CardBody className="d-flex justify-content-center align-items-center">
                 <PyramidMentor id="pyramid-mentor" />
-                <p className="pyramid-text">Yo I'm Pyramid-Mentor, create your pyramid here...</p>
+                <p className="pyramid-text">I'm Pyramid-Mentor, create your pyramid here...</p>
                 </CardBody>
             </Card>
           </Row>

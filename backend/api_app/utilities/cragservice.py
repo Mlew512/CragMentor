@@ -128,12 +128,15 @@ class CragService:
                 climb["grades"]["vscale"] == f"V{target_grade}"
                 and climb["uuid"] not in used_climbs
             ):
-                # print(climb)
+                print(climb)
                 return {
                     "name": climb["name"],
                     "grade": climb["grades"]["vscale"],
                     "uuid": climb["uuid"],
                     "area": climb["areaName"],
+                    "lat": climb["metadata"]["lat"],
+                    "lng": climb["metadata"]["lng"],
+                    # "media": climb["media"],
                 }
 
         # If no unique climb with the target grade is found, return a default climb
@@ -156,7 +159,10 @@ class CragService:
                     "grade": climb["grades"]["yds"],
                     "uuid": climb["uuid"],
                     "area": climb["areaName"],
+                    "lat": climb["metadata"]["lat"],
+                    "lng": climb["metadata"]["lng"],
                     "type": "sport",
+                    # "media": climb.media["mediaUrl"],
                 }
 
         # If no unique climb with the target grade is found, return a default climb
@@ -336,23 +342,35 @@ class CragService:
 
     @staticmethod
     def generate_query(uuids):
-    # Initialize an empty string to build the query in order to query multiple areas in one api call
-        query_string = "query getClimbsInCrag{\n"
+        query_string = "query MyQuery {\n"
 
-        # Loop through the UUIDs and dynamically generate aliases with UUIDs
         for index, uuid in enumerate(uuids, start=1):
             alias = f"a{index}"
-            query_string += f"  {alias}: area(uuid: \"{uuid}\") {{\n"  # Insert the UUID into the query
-            query_string += "    uuid\n    areaName\n"
+            query_string += f"  {alias}: area(uuid: \"{uuid}\") {{\n"
+            query_string += "    uuid\n"
             query_string += "    climbs {\n"
-            query_string += "      name\n      uuid\n"
-            query_string += "      media {\n        mediaUrl\n      }\n"
-            query_string += "      grades {\n        vscale\n        yds\n      }\n"
-            query_string += "      type {\n        sport\n        trad\n        bouldering\n      }\n"
+            query_string += "      name\n"
+            query_string += "      uuid\n"
+            query_string += "      media {\n"
+            query_string += "        mediaUrl\n"
+            query_string += "      }\n"
+            query_string += "      grades {\n"
+            query_string += "        vscale\n"
+            query_string += "        yds\n"
+            query_string += "      }\n"
+            query_string += "      type {\n"
+            query_string += "        sport\n"
+            query_string += "        trad\n"
+            query_string += "        bouldering\n"
+            query_string += "      }\n"
+            query_string += "      metadata {\n"
+            query_string += "        lat\n"
+            query_string += "        lng\n"
+            query_string += "      }\n"
             query_string += "    }\n"
-            query_string += "    totalClimbs\n  }\n"
+            query_string += "    totalClimbs\n"
+            query_string += "    areaName\n"  
+            query_string += "  }\n"
 
-        # Close the query
         query_string += "}"
-        # print(query_string)
         return query_string

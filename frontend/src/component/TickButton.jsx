@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -28,13 +29,14 @@ const TickButton = ({ data, topRight = false }) => {
 
   useEffect(() => {
     if (data) {
+      const tickedStyles = new Set(['Redpoint', 'Onsight', 'Flash', 'Pinkpoint']);
       const count = tickedRoutes.reduce((acc, tick) => {
         acc[tick.uuid] = acc[tick.uuid] ? acc[tick.uuid] + 1 : 1;
         return acc;
       }, {});
       setTickCounter(count);
 
-      setIsTick(tickedRoutes.some(tick => tick.uuid === data.uuid));
+      setIsTick(tickedRoutes.some(tick => tick.uuid === data.uuid && tickedStyles.has(tick.style)));
     }
   }, [tickedRoutes, data]);
 
@@ -95,19 +97,18 @@ const TickButton = ({ data, topRight = false }) => {
 
   const postTick = async () => {
     try {
+      console.log(data.lng)
       const cleanData = {
-        name: data["name"],
-        uuid: data["uuid"],
-        grade: data["grades"]["yds"]
-          ? data["grades"]["yds"]
-          : data["grades"]["vscale"],
+        name: data.name,
+        uuid: data.uuid,
+        grade: data.grades? (data.grades.yds ? data.grades.yds : data.grades.vscale) : data.grade,
         style: climbStyle,
         date_ticked: tickDate,
-        areaName: data["parent"]["area_name"],
-        lat: data["metadata"]["lat"],
-        long: data["metadata"]["lng"],
-        mountain_id: data["metadata"]["mp_id"],
-        type: data["type"]["sport"] ? "sport" : "bouldering",
+        areaName: data.area ? data.area : data.parent.area_name, 
+        lat: data.metadata ? data.metadata.lat : data.lat,
+        long: data.metadata ? data.metadata.lng : data.lng ,
+        mountain_id: data.metadata ? data.metadata.mp_id : data. mountain_id,
+        type: data.type? (data.type.sport ? "Sport" : "Bouldering") : (data.grade[0]=="V" ? "Bouldering" : "Sport"),
         notes: tickNotes,
       };
       // Make API call to add a new tick
@@ -146,12 +147,15 @@ const TickButton = ({ data, topRight = false }) => {
         <span>
       <FaRegCheckCircle size={27} />
       <span className="tick-counter">{tickCounter[data.uuid]}</span>
-    </span>: <FaRegCircle size={27} />}
+    </span>: 
+    <span>
+      <FaRegCircle size={27} /><span className="tick-counter">{tickCounter[data.uuid]}</span>
+      </span>}
       </Button>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>My Ticks</Modal.Title>
+          <Modal.Title>{data.name}({data.grades? (data.grades.yds ? data.grades.yds : data.grades.vscale) : data.grade})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Card>
@@ -172,7 +176,9 @@ const TickButton = ({ data, topRight = false }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tickedRoutes.map((tick, index) => {
+                  {tickedRoutes
+                  .sort((b,a)=> new Date(a.date_ticked)-new Date(b.date_ticked))
+                  .map((tick, index) => {
                     if (tick.uuid === data.uuid) {
                       return (
                         <tr key={index} className="text-center">
@@ -210,7 +216,6 @@ const TickButton = ({ data, topRight = false }) => {
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Close
           </Button>
-          {data.grades ?
           <Button
             variant="primary"
             onClick={() => {
@@ -219,13 +224,12 @@ const TickButton = ({ data, topRight = false }) => {
             }}
           >
             Add New Tick
-          </Button> : null
-          }
+          </Button> 
         </Modal.Footer>
       </Modal>
       <Modal show={newTickModal} onHide={() => setNewTickModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Tick</Modal.Title>
+          <Modal.Title>Tick {data.name}({data.grades? (data.grades.yds ? data.grades.yds : data.grades.vscale) : data.grade})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -248,6 +252,7 @@ const TickButton = ({ data, topRight = false }) => {
               <Form.Control
                 type="date"
                 value={tickDate}
+                max={new Date().toISOString().split('T')[0]} 
                 onChange={(e) => setTickDate(e.target.value)}
               />
             </Form.Group>
