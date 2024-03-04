@@ -46,8 +46,7 @@ class User(AbstractUser):
     lat = models.FloatField(null=True)
     long = models.FloatField(null=True)
     distance_willing_to_travel = models.IntegerField(null=True)
-    # add the ticklist here, should be a list of uuid's that the user has completed
-    ticks = ArrayField(models.CharField(max_length=100), null=True, blank=True)
+    location = models.CharField(null=True)
 
     # Add related_name to avoid clashes with auth.User
     groups = models.ManyToManyField(

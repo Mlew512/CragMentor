@@ -8,7 +8,7 @@ import BestForm from "./BestCragForm";
 
 const BestCrags = () => {
   const [areaList, setAreaList] = useState([]);
-  const { user } = useOutletContext();
+  const { user, userLocation } = useOutletContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const getBestCrags = async () => {
@@ -37,10 +37,16 @@ const BestCrags = () => {
     if (user.goal != null) {
       getBestCrags();
     }
+    console.log(user?.location)
 
   }, [user.goal, user.lat, user.long, user.distance_willing_to_travel]);
 
   return (
+    <>
+    <p>
+    {user.goal?.length < 3 ? "V" + user.goal : user.goal} | <span/>
+    {user.location} | <span/>
+    {Math.round(user.distance_willing_to_travel*0.00062)} mi </p>
     <Table striped>
       <thead>
         <tr>
@@ -76,6 +82,7 @@ const BestCrags = () => {
         )}
       </tbody>
     </Table>
+    </>
   );
 };
 
