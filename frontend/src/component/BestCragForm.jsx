@@ -12,7 +12,7 @@ import SearchBox from "./SearchBox";
 import LoadingSpin from "../component/Spinner";
 
 const BestForm = () => {
-  const { setUser, user } = useOutletContext();
+  const { setUser, user} = useOutletContext();
   const [location, setLocation] = useState({});
   const [show, setShow] = useState(false);
   const [goalGrade, setGoalGrade] = useState("");
@@ -45,6 +45,7 @@ const BestForm = () => {
         goal: goalGrade,
         lat: location.lat,
         long: location.lng,
+        location: location.name,
         distance_willing_to_travel: travelDistanceMeters,
       });
 
@@ -156,7 +157,7 @@ const BestForm = () => {
             <div className="d-flex flex-column mb-3">
               <p>Location</p>
               <div>
-                <SearchBox setPlace={setLocation} address="" />
+                <SearchBox setPlace={setLocation} address=""/>
               </div>
             </div>
 

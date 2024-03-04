@@ -240,11 +240,12 @@ const TickButton = ({ data, topRight = false }) => {
                 value={climbStyle}
                 onChange={(e) => setClimbStyle(e.target.value)}
               >
-                <option value="Redpoint">Redpoint</option>
-                <option value="Pinkpoint">Pinkpoint</option>
-                <option value="Fell/Hung">Fell/Hung</option>
                 <option value="Onsight">Onsight</option>
                 <option value="Flash">Flash</option>
+                <option value="Redpoint">Redpoint</option>
+                <option value="Pinkpoint">Pinkpoint</option>
+                <option value="Lead Fell/Hung">Fell/Hung</option>
+                <option value="Attempt">Attempt</option>
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="datePicker">

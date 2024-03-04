@@ -24,6 +24,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [savedPyramid, setSavedPyramid] = useState([]);
   const [uniqueRoutes, setUniqueRoutes] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
 
   const getUserPyramids = async () => {
     const user_id = localStorage.getItem("user_id");
@@ -55,6 +56,14 @@ const Dashboard = () => {
       setUniqueRoutes(uniqueRoutesMap);
     }
   }, [tickedRoutes]);
+
+  const handleNextTicks = () => {
+    setStartIndex(startIndex + 5);
+  };
+
+  const handlePrevTicks = () => {
+    setStartIndex(Math.max(startIndex - 5, 0));
+  };
 
   const handleAPyramid = (id) => {
     setLastPyramidId(id);
@@ -182,6 +191,8 @@ const Dashboard = () => {
                     <tr className="text-center">
                       <th>Route</th>
                       <th>area</th>
+                      <th>style</th>
+                      <th>type</th>
                       <th>date</th>
                       <th></th>
                     </tr>
@@ -189,9 +200,12 @@ const Dashboard = () => {
                   <tbody>
                     {Object.values(uniqueRoutes).length > 0 ? (
                       Object.values(uniqueRoutes)
-                      .slice()
-                      .sort((b, a) => new Date(b.date_ticked) - new Date(a.date_ticked)).reverse()
-                      // .slice(0, 3)
+                        .slice(startIndex, startIndex + 5)
+                        .sort(
+                          (b, a) =>
+                            new Date(b.date_ticked) - new Date(a.date_ticked)
+                        )
+                        .reverse()
                         .map((tick, index) => (
                           <tr key={index} className="text-center">
                             <td>
@@ -217,6 +231,19 @@ const Dashboard = () => {
                     )}
                   </tbody>
                 </Table>
+                <div className="text-center">
+                  <Button onClick={handlePrevTicks} disabled={startIndex === 0}>
+                    Previous 5 Ticks
+                  </Button>
+                  <Button
+                    onClick={handleNextTicks}
+                    disabled={
+                      startIndex + 5 >= Object.values(uniqueRoutes).length
+                    }
+                  >
+                    Next 5 Ticks
+                  </Button>
+                </div>
               </CardBody>
             </Card>
           </Col>
