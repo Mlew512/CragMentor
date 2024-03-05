@@ -234,6 +234,9 @@ get_area_children = """
                         leftRightIndex
                         }
                     }
+                    media {
+      mediaUrl
+    }
                     
             }
             }
