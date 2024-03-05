@@ -37,51 +37,54 @@ const BestCrags = () => {
     if (user.goal != null) {
       getBestCrags();
     }
-    console.log(user?.location)
-
+    console.log(user?.location);
   }, [user.goal, user.lat, user.long, user.distance_willing_to_travel]);
 
   return (
     <>
-    <p>
-    {user.goal?.length < 3 ? "V" + user.goal : user.goal} | <span/>
-    {user.location} | <span/>
-    {Math.round(user.distance_willing_to_travel*0.00062)} mi </p>
-    <Table striped>
-      <thead>
-        <tr>
-          <BestForm />
-        </tr>
-        <tr className="text-center">
-          <th>Area</th>
-          {/* <th>ClimbScore</th> */}
-          <th>Distance</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody>
-        {!isLoading && Array.isArray(areaList) && areaList.length > 0 ? (
-          areaList.map((area, index) => (
-            <tr key={index} className="text-center">
-              <td>
-                <Link to={`../area/${area.uuid}/`}>{area.areaName}</Link>
-              </td>
-              {/* <td>{Math.round(area.normalized_score)}</td> */}
-              <td>{Math.round(area.distance * 0.62)}mi</td>
-              <td>{Math.round(area.overall_score)}</td>
-            </tr>
-          ))
-        ) : (
+      <p>
+        {user?.goal?.length < 3 ? "V" + user.goal : user.goal}  <span />
+        {user?.location} <span />
+        {user.distance_willing_to_travel
+          ? `${Math.round(user.distance_willing_to_travel * 0.00062)} mi`
+          : "Update preferences"}
+      </p>
+
+      <Table striped>
+        <thead>
           <tr>
-            <td colSpan={4} className="text-center">
-              {isLoading
-                ? "Loading..."
-                : "Update preferences to load best crags for you"}
-            </td>
+            <BestForm />
           </tr>
-        )}
-      </tbody>
-    </Table>
+          <tr className="text-center">
+            <th>Area</th>
+            {/* <th>ClimbScore</th> */}
+            <th>Distance</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {!isLoading && Array.isArray(areaList) && areaList.length > 0 ? (
+            areaList.map((area, index) => (
+              <tr key={index} className="text-center">
+                <td>
+                  <Link to={`../area/${area.uuid}/`}>{area.areaName}</Link>
+                </td>
+                {/* <td>{Math.round(area.normalized_score)}</td> */}
+                <td>{Math.round(area.distance * 0.62)}mi</td>
+                <td>{Math.round(area.overall_score)}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} className="text-center">
+                {isLoading
+                  ? "Loading..."
+                  : "Update preferences to load best crags for you"}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
     </>
   );
 };

@@ -14,6 +14,7 @@ import LoadingSpin from "../component/Spinner";
 const BestForm = () => {
   const { setUser, user} = useOutletContext();
   const [location, setLocation] = useState({});
+  const [userId, setUserId]= useState(localStorage.getItem("user_id"))
   const [show, setShow] = useState(false);
   const [goalGrade, setGoalGrade] = useState("");
   const [travelDistance, setTravelDistance] = useState("");
@@ -41,7 +42,7 @@ const BestForm = () => {
           travelDistanceMeters = 200000;
         }
 
-      const response = await api.post(`users/info/${user.id}/`, {
+      const response = await api.post(`users/info/${userId}/`, {
         goal: goalGrade,
         lat: location.lat,
         long: location.lng,
@@ -65,7 +66,7 @@ const BestForm = () => {
   return (
     <>
       <Button variant="secondary" onClick={handleShow}>
-        Change preferences
+        Preferences
       </Button>
 
       <Modal show={show} onHide={() => setShow(false)}>
