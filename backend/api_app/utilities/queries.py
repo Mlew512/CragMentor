@@ -235,9 +235,8 @@ get_area_children = """
                         }
                     }
                     media {
-      mediaUrl
-    }
-                    
+                        mediaUrl
+                    }         
             }
             }
             """
