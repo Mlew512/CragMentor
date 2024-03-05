@@ -231,6 +231,7 @@ get_area_children = """
                         lat
                         lng
                         climbId
+                        leftRightIndex
                         }
                     }
                     
