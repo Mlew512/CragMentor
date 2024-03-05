@@ -73,7 +73,7 @@ const MyPyramidsPage = () => {
             <Card id="pyramid-container" style={{ minHeight: "400px" }}>
               <CardBody className="d-flex flex-column">
                 <div style={{ position: "absolute", right: "10%" }}>
-                  <p className="text-end m-0 px-5">Way To Go!</p>
+                  <p className="text-end m-0 px-5">You Got This!</p>
                   <PyramidMentor />
                 </div>
                 <Row className="justify-content-center">
@@ -205,56 +205,8 @@ const MyPyramidsPage = () => {
   return (
     <>
       <Container className="d-flex flex-column width-100%">
-        <Row>
-        {/* <Modal show={newTickModal} onHide={() => setNewTickModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Tick</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="styleSelect">
-              <Form.Label>Style:</Form.Label>
-              <Form.Control
-                as="select"
-                value={climbStyle}
-                onChange={(e) => setClimbStyle(e.target.value)}
-              >
-                <option value="Redpoint">Redpoint</option>
-                <option value="Pinkpoint">Pinkpoint</option>
-                <option value="Fell/Hung">Fell/Hung</option>
-                <option value="Onsight">Onsight</option>
-                <option value="Flash">Flash</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="datePicker">
-              <Form.Label>Date:</Form.Label>
-              <Form.Control
-                type="date"
-                value={tickDate}
-                onChange={(e) => setTickDate(e.target.value)}
-              />
-            </Form.Group>
+        <Row className="justify-content-center">
 
-            <Form.Group controlId="textfield">
-              <Form.Label>Notes</Form.Label>
-              <Form.Control
-                type="textarea"
-                maxLength={100}
-                value={tickNotes}
-                onChange={(e) => setTickNotes(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setNewTickModal(false)}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={postTick}>
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
           {pyramid ? (
             the_pyramid
           ) : (

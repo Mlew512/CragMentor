@@ -1,5 +1,5 @@
 import Table from "react-bootstrap/Table";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Card } from "react-bootstrap";
 import { api } from "../utilities/api";
 import { useOutletContext} from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -67,14 +67,17 @@ function PyramidTable({setPyramid}) {
 
   return (
     <>
-      <Row className="justify-content-center mt-5">
-        <Col className="p-0"lg={10}>
+
+      <Row className="justify-content-center mt-5 m-1">
+        <Col className="p-0" lg={10}>
+          <Card>
           <Table striped bordered hover size="sm" className="text-center">
             <thead>
               <tr>
                 <th>Goal Grade</th>
                 <th>Location</th>
-                <th colSpan={2}>Date Created</th>
+                <th>Date Created</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -82,7 +85,7 @@ function PyramidTable({setPyramid}) {
               reversedPyramids.length > 0 ? (
                 reversedPyramids.map((pyramid, idx) => (
                   <tr key={idx}>
-                    <td onClick={() => handleAPyramid(pyramid.id)}>
+                    <td  onClick={() => handleAPyramid(pyramid.id)}>
                       <Button variant="outline-info">{pyramid.goal_grade}</Button>
                     </td>
                     {/* <td>{pyramid.goal_grade}</td> */}
@@ -105,6 +108,7 @@ function PyramidTable({setPyramid}) {
               )}
             </tbody>
           </Table>
+          </Card>
         </Col>
       </Row>
     </>

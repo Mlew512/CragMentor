@@ -100,7 +100,7 @@ const RandomCompliment =() =>{
   const the_pyramid = (
     <>
     
-      <Row>
+      <Row className="p-1">
         <Card id="pyramid-container" style={{minHeight:"400px"}}>
         {!user&& <Link className="p-1" to="../register/">Login to save Pyramid</Link>}
           <CardBody  className="d-flex flex-column">
@@ -183,7 +183,7 @@ const RandomCompliment =() =>{
         ) : (
           <>
           
-          <Row>
+          <Row className="p-1">
             <Card id="pyramid-container" style={{minHeight:"400px"}}>
                 <CardBody className="d-flex justify-content-center align-items-center">
                 <PyramidMentor id="pyramid-mentor" />

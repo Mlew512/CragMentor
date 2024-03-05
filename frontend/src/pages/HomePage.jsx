@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import Logo from "../images/logo.png";
 import CarouselComponent from "../component/CarouselComponent";
@@ -11,6 +11,14 @@ import "./HomePage.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const {user} = useOutletContext();
+  const handleClick = () => {
+    if (user) {
+        navigate('/pyramid/');
+    } else {
+        navigate('/register/');
+    }
+};
 
   return (
     <>
@@ -45,7 +53,7 @@ const HomePage = () => {
                 <p
                   className="white-text"
                   style={{ textDecoration: "underline", cursor: "pointer" }}
-                  onClick={() => navigate("/register/")}
+                  onClick={handleClick}
                 >
                   Start Your Journey!
                 </p>
