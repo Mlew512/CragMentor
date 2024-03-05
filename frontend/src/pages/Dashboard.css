@@ -19,6 +19,7 @@
   background-color: rgb(238, 255, 0);
 }
 
+
 .route-ids{
   text-align: center;
   margin-top: 20px;
@@ -30,3 +31,179 @@
   color: #000;
   background-color: rgb(16, 244, 4);
 }
+
+
+.Redpoint { 
+  background-color: red;
+  border-radius: 10px;
+	position: relative;
+}
+.Redpoint::before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 2;
+	display: block;
+	content: '';
+	width: 0;
+	height: 0;
+	background: rgba(255, 0, 0, 0.5);
+	border-radius: 100%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	opacity: 0;
+}
+.Redpoint:hover::before {
+	-webkit-animation: circle .5s;
+	animation: circle .5s;
+}
+@-webkit-keyframes circle {
+	0% {
+		opacity: 1;
+	}
+	40% {
+		opacity: 1;
+	}
+	100% {
+		width: 200%;
+		height: 200%;
+		opacity: 0;
+	}
+}
+@keyframes circle {
+	0% {
+		opacity: 1;
+	}
+	40% {
+		opacity: 1;
+	}
+	100% {
+		width: 200%;
+		height: 200%;
+		opacity: 0;
+	}
+}
+
+.Pinkpoint {
+  background-color: #ff0080;
+  border-radius: 10px;
+  position: relative;
+}
+.Pinkpoint::before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 2;
+	display: block;
+	content: '';
+	width: 0;
+	height: 0;
+	background: rgba(255, 192, 203, 0.5);
+	border-radius: 100%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	opacity: 0;
+}
+.Pinkpoint:hover::before {
+	-webkit-animation: circle .5s;
+	animation: circle .5s;
+}
+@-webkit-keyframes circle {
+	0% {
+		opacity: 1;
+	}
+	40% {
+		opacity: 1;
+	}
+	100% {
+		width: 200%;
+		height: 200%;
+		opacity: 0;
+	}
+}
+@keyframes circle {
+	0% {
+		opacity: 1;
+	}
+	40% {
+		opacity: 1;
+	}
+	100% {
+		width: 200%;
+		height: 200%;
+		opacity: 0;
+	}
+}
+
+
+.Flash {
+  background-color: yellow;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 5px rgba(255, 255, 0, 0.76);
+  z-index: 1;
+}
+/* Flashing */
+.Flash:hover{
+	opacity: 1;
+	-webkit-animation: flash 1.5s;
+	animation: flash 1.5s;
+  background-color:yellow;
+  color:black;
+}
+@-webkit-keyframes flash {
+	0% {
+		opacity: .2;
+    color:white;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes flash {
+	0% {
+		opacity: .2;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.Onsight {
+  background-color: rgb(2, 202, 202);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 5px #0ff;
+}
+
+/* Shine */
+.Onsight{
+	position: relative;
+}
+.Onsight::before {
+	position: absolute;
+	top: 0;
+	left: -75%;
+	z-index: 2;
+	display: block;
+	content: '';
+	width: 50%;
+	height: 100%;
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	-webkit-transform: skewX(-25deg);
+	transform: skewX(-25deg);
+}
+.Onsight:hover::before {
+	-webkit-animation: shine 1s;
+	animation: shine 1s;
+}
+@-webkit-keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+@keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+

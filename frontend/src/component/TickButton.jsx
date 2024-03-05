@@ -13,6 +13,8 @@ import {
 } from "react-bootstrap";
 import { FaRegCheckCircle, FaRegCircle, FaRegHeart } from "react-icons/fa";
 import { putAPI, postAPI, deleteAPI, endpoints } from "../utilities/api";
+import { DateTime } from 'luxon';
+
 
 const TickButton = ({ data, topRight = false }) => {
   const { tickedRoutes, setTickedRoutes, user } = useOutletContext();
@@ -21,11 +23,13 @@ const TickButton = ({ data, topRight = false }) => {
   const [isTick, setIsTick] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [newTickModal, setNewTickModal] = useState(false);
-  const [tickDate, setTickDate] = useState("");
+  // const [tickDate, setTickDate] = useState("");
   const [tickNotes, setTickNotes] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedTick, setSelectedTick] = useState({});
   const [tickCounter, setTickCounter] = useState(0)
+  const [tickDate, setTickDate] = useState(DateTime.local());
+
 
   useEffect(() => {
     if (data) {
@@ -40,6 +44,18 @@ const TickButton = ({ data, topRight = false }) => {
     }
   }, [tickedRoutes, data]);
 
+
+// Define a function to set the tick date
+  const handleTickDateChange = (e) => {
+      // Get the selected date from the event
+      const selectedDate = e.target.value;
+
+      // Convert the selected date to the local time zone
+      const selectedDateInLocalTime = DateTime.fromISO(selectedDate).setZone(localTimeZone);
+
+      // Set the tick date to the converted date
+      setTickDate(selectedDateInLocalTime);
+  }
   const handleEditClick = (tick) => {
     setSelectedTick({
       ...tick,
@@ -182,7 +198,7 @@ const TickButton = ({ data, topRight = false }) => {
                     if (tick.uuid === data.uuid) {
                       return (
                         <tr key={index} className="text-center">
-                          <td>{tick.style}</td>
+                          <td><p className={tick.style}>{tick.style}</p></td>
                           <td>
                             {new Date(tick.date_ticked).toLocaleDateString()}
                           </td>
@@ -251,18 +267,17 @@ const TickButton = ({ data, topRight = false }) => {
             <Form.Group controlId="datePicker">
               <Form.Label>Date:</Form.Label>
               <Form.Control
-                type="date"
-                value={tickDate}
-                max={new Date().toISOString().split('T')[0]} 
-                onChange={(e) => setTickDate(e.target.value)}
+                  type="date"
+                  value={tickDate.toISODate()} // Convert the Luxon DateTime object to an ISO date string
+                  max={DateTime.local().toISODate()} // Get the current date in local time and convert to an ISO date string
+                  onChange={handleTickDateChange} // Call the handleTickDateChange function when the date changes
               />
-            </Form.Group>
-
+          </Form.Group>
             <Form.Group controlId="textfield">
               <Form.Label>Notes</Form.Label>
               <Form.Control
                 type="textarea"
-                maxLength={100}
+                maxLength={100}   
                 value={tickNotes}
                 onChange={(e) => setTickNotes(e.target.value)}
               ></Form.Control>

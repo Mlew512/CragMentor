@@ -25,6 +25,7 @@ const Dashboard = () => {
   const [savedPyramid, setSavedPyramid] = useState([]);
   const [uniqueRoutes, setUniqueRoutes] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
+  const [startFavIndex, setStartFavIndex] = useState(0);
 
   const getUserPyramids = async () => {
     const user_id = localStorage.getItem("user_id");
@@ -65,6 +66,14 @@ const Dashboard = () => {
     setStartIndex(Math.max(startIndex - 5, 0));
   };
 
+  const handleNextFavs = () => {
+    setStartFavIndex(startFavIndex + 5);
+  };
+
+  const handlePrevFavs = () => {
+    setStartFavIndex(Math.max(startFavIndex - 5, 0));
+  };
+
   const handleAPyramid = (id) => {
     setLastPyramidId(id);
     navigate("../mypyramids/");
@@ -84,10 +93,10 @@ const Dashboard = () => {
                 <Table striped>
                   <thead>
                     <tr className="text-center">
-                      <th>Goal Grade</th>
+                      <th>Goal</th>
                       {/* <th>Id</th> */}
                       <th>Location</th>
-                      <th>Date Created</th>
+                      <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -95,17 +104,17 @@ const Dashboard = () => {
                       savedPyramid
                         .slice()
                         .reverse()
-                        .slice(0, 3)
+                        .slice(0, 5)
                         .map((pyramid, index) => (
                           <tr key={index} className="text-center">
                             <td>{pyramid.goal_grade}</td>
                             <td onClick={() => handleAPyramid(pyramid.id)}>
-                              <Button>{pyramid.location}</Button>
+                              {pyramid.location.split(",",1)}
                             </td>
                             <td>
                               {new Date(
                                 pyramid.date_generated
-                              ).toLocaleDateString()}
+                              ).toLocaleDateString().slice(0,-5)}
                             </td>
                           </tr>
                         ))}
@@ -128,16 +137,16 @@ const Dashboard = () => {
               <CardBody>
                 <Table striped>
                   <thead>
-                    <tr className="text-center">
-                      <th>Name</th>
-                      <th>View</th>
-                      <th>Delete</th>
+                    <tr className="text-left">
+                      
                     </tr>
                   </thead>
                   <tbody>
                     {Array.isArray(favoriteRoutes) &&
                     favoriteRoutes.length > 0 ? (
-                      favoriteRoutes.map((fav, index) => (
+                      favoriteRoutes
+                      .slice(startFavIndex, startFavIndex + 5)
+                      .map((fav, index) => (
                         <tr key={index} className="text-center">
                           <td>
                             <Link
@@ -147,13 +156,14 @@ const Dashboard = () => {
                             >
                               {fav.areaName != null ? fav.areaName : fav.name}
                             </Link>
-                          </td>
-
-                          <td>View</td>
-                          <td>
+                            </td>
+                            <td>
                             <FavButton data={fav} />
+                            
                           </td>
+                          
                         </tr>
+                        
                       ))
                     ) : (
                       <tr>
@@ -162,6 +172,21 @@ const Dashboard = () => {
                     )}
                   </tbody>
                 </Table>
+                {favoriteRoutes.length > 5 &&
+                <div style={{ display: 'flex', justifyContent: 'space-around' , margin: "0 1rem 0 1rem"}}>
+                  <Button onClick={handlePrevFavs} disabled={startFavIndex === 0}>
+                    Prev 
+                  </Button>
+                  <Button
+                    onClick={handleNextFavs}
+                    disabled={
+                      startFavIndex + 5 >= Object.values(favoriteRoutes).length
+                    }
+                  >
+                    Next 
+                  </Button>
+                </div>
+                }
               </CardBody>
             </Card>
           </Col>
@@ -181,20 +206,15 @@ const Dashboard = () => {
           </Col>
           {/* Ticked Routes */}
           <Col lg={6} sm={10}>
-            <Card>
+            <Card id="tickcard">
               <CardHeader id="ticks-card" className="text-center">
                 <h4>Ticks</h4>
               </CardHeader>
               <CardBody>
-                <Table striped>
+                <Table striped id="tickTable">
                   <thead>
                     <tr className="text-center">
-                      <th>Route</th>
-                      <th>area</th>
-                      <th>style</th>
-                      <th>type</th>
-                      <th>date</th>
-                      <th></th>
+                     
                     </tr>
                   </thead>
                   <tbody>
@@ -213,11 +233,14 @@ const Dashboard = () => {
                                 {tick.name} ({tick.grade})
                               </Link>
                             </td>
-                            <td>{tick.areaName}</td>
-                            <td>{tick.style}</td>
-                            <td>{tick.type}</td>
+                          
+                            <td><p className={tick.style}>
+                              {tick.style}
+                              </p>
+                              </td>
+                          
                             <td>
-                              {new Date(tick.date_ticked).toLocaleDateString()}
+                              {new Date(tick.date_ticked).toLocaleDateString().slice(0,-5)}
                             </td>
                             <td>
                               <TickButton data={tick} />
@@ -231,9 +254,9 @@ const Dashboard = () => {
                     )}
                   </tbody>
                 </Table>
-                <div className="text-center">
+                <div className="text-center" style={{ display: 'flex', justifyContent: 'space-around' , margin: "0 1rem 0 1rem"}}>
                   <Button onClick={handlePrevTicks} disabled={startIndex === 0}>
-                    Previous 5 Ticks
+                    Prev
                   </Button>
                   <Button
                     onClick={handleNextTicks}
@@ -241,7 +264,7 @@ const Dashboard = () => {
                       startIndex + 5 >= Object.values(uniqueRoutes).length
                     }
                   >
-                    Next 5 Ticks
+                    Next
                   </Button>
                 </div>
               </CardBody>
