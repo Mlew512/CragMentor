@@ -210,7 +210,7 @@ const Dashboard = () => {
               <CardHeader id="ticks-card" className="text-center">
                 <h4>Ticks</h4>
               </CardHeader>
-              <CardBody className="p-3">
+              <CardBody className="p-0">
                 <Table striped id="tickTable">
                   <thead>
                     <tr className="text-center">
