@@ -1,57 +1,47 @@
-import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import FavButton from './FavButton';
-import "./RouteBoxView.css"
-const RouteBoxView = ({data}) => {
+import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import { Table } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
+import FavButton from "./FavButton";
+import "./RouteBoxView.css";
+const RouteBoxView = ({ data }) => {
   const navigate = useNavigate();
   function handleClick(path) {
     navigate(path);
   }
-  
+
   return (
     <>
-       
-      <Card>
-        {
-          data['media'].length > 0 ?
-          (<Card.Img variant="top" src={"https://media.openbeta.io/" + data['media'][0]['mediaUrl']} />):
-          (<Card.Img variant="top" src={"/landscape-placeholder.svg"} />)
-        }
-        
-        
-        <Card.Body>
-          {
-            data.name != null ?
-            (<Card.Title>{data['name']}</Card.Title>):
-            (<Card.Title>{data['areaName']}</Card.Title>)
+      <>
+        <a
+          href={
+            data.name != null
+              ? `/route/${data["uuid"]}`
+              : `/area/${data["uuid"]}`
           }
-          <Card.Text>
-          
-          {
-            data['totalClimbs'] &&
-            <>Total Climbs - {data['totalClimbs']}</>
-          }
-          {
-            data.grades && data.grades.vscale &&
-            <><Button variant="outline-info">{data['grades']['vscale']}</Button></>
-          }
-          {
-            data.grades && data.grades.yds && data.grades.vscale == null &&
-            <><Button variant="outline-info">{data['grades']['yds']}</Button></>
-          }
-          </Card.Text>
-
-          {
-            data.name != null ?
-            (<Button onClick={() => handleClick(`/route/${data['uuid']}`)} variant="outline-primary">View Route</Button>):
-            (<Button onClick={() => handleClick(`/area/${data['uuid']}`)} variant="outline-primary">View Area</Button>)
-          }
-          <FavButton data={data} />
-          
-        </Card.Body>
-      </Card>
+          onClick={(e) => {
+            e.preventDefault(); // Prevents the default behavior of link click
+            data.name != null
+              ? handleClick(`/route/${data["uuid"]}`)
+              : handleClick(`/area/${data["uuid"]}`);
+          }}
+        >
+          {data.name != null ? (
+            <>
+              {data["name"]} (
+              {data.grades.vscale == null
+                ? data["grades"]["yds"]
+                : data["grades"]["vscale"]}
+              )
+            </>
+          ) : (
+            <>
+              {data["areaName"]}({data["totalClimbs"]})
+            </>
+          )}
+        </a>
+      </>
     </>
   );
-}
-export default RouteBoxView
+};
+export default RouteBoxView;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {useParams } from 'react-router-dom'
 import {endpoints, postAPI } from '../utilities/api';
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Table, Card } from "react-bootstrap";
 import MapView from '../component/MapView';
 import DisplayMessage from '../component/DisplayMessage'
 import LoadingSpinner from '../component/LoadingSpinner'
@@ -75,16 +75,18 @@ function AreaPage() {
                 <>
                 <Container> 
                     <Row>
+                        <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to parent</a>
 
                     
                     {
                         data.media &&
                         <img style={{width:'100px'}} src={"https://media.openbeta.io/" + data.media[0]['mediaUrl']}/>
                     }
-                    <FavButton data={data} />
+                    <div>
                     <h1>{data.areaName}</h1>
+                    <FavButton data={data} />
+                    </div>
                     <p>{data.content?.description}</p>
-                    <a href={"/area/"+data.ancestors[data.ancestors.length-2]}>Go to parent</a>
 
         
     
@@ -97,8 +99,8 @@ function AreaPage() {
                                 </Row>
                                 <Row >
                                     {data.children.map((area, index) => {
-                                        console.log(index)
-                                        if (index < (loadMoreAreasNum * 10)){
+                                    
+                                        if (index < (loadMoreAreasNum * 20)){
                                             return (
                                                 <Col sm={4} lg={3} key={index}>
                                                     <RouteBoxView data={area} />
@@ -107,7 +109,7 @@ function AreaPage() {
                                         }
                                     })}
                                     {
-                                        loadMoreAreasNum * 10 < data.children.length && 
+                                        loadMoreAreasNum * 20 < data.children.length && 
                                         <button onClick={loadMoreAreas}>Load More</button>    
                                     }
                                 </Row>
@@ -116,21 +118,27 @@ function AreaPage() {
                         {data.climbs && data.climbs.length > 0 &&
                         <Container className="d-flex flex-column">
                             <Row className="text-center">
-                                <h3>Routes({data.totalClimbs})</h3>
-                            </Row>
-                            <Row >
-                                {data.climbs.map((climb, index) => {
-                                    if (index < (loadMoreClimbsNum * 10)){
+                                <h4>Routes({data.totalClimbs}) </h4>
+                                  <>  
+                                {data.climbs
+                                .sort((a, b) => a.metadata.leftRightIndex - b.metadata.leftRightIndex)
+                                .map((climb, index) => {
+                                    if (index < (loadMoreClimbsNum * 20)){
                                         return (
                                             <Col sm={4} lg={3} key={index}>
                                                 <RouteBoxView data={climb} />
-                                            </Col>                                        
-                                            );
-                                        }
-                                    })}
+                                            </Col>
+                                     
+                                                );
+                                            }
+                                        })}
+
+                                    </>
+                                
+                                        
 
                                 {
-                                    loadMoreClimbsNum * 10 < data.climbs.length && 
+                                    loadMoreClimbsNum * 20 < data.climbs.length && 
                                     <button onClick={loadMoreClimbs}>Load More</button>    
                                 }
                             </Row>
