@@ -47,7 +47,7 @@ const Header = ({ user, setUser }) => {
   }, [user]);
 
   return (
-    <Navbar data-bs-theme="light">
+    <Navbar data-bs-theme="dark">
       <Container>
         {user ? (
           <>

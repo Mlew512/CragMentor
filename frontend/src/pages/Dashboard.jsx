@@ -90,7 +90,7 @@ const Dashboard = () => {
                 <h4>Most Recent Pyramid</h4>
               </CardHeader>
               <CardBody id="card-progress">
-                <Table striped>
+                <Table className="table-dark">
                   <thead>
                     <tr className="text-center">
                       <th>Goal</th>
@@ -193,7 +193,7 @@ const Dashboard = () => {
         </Row>
         <Row>
           <Col lg={6} sm={10}>
-            <Card>
+            <Card className="crags">
               <CardHeader id="best-crags" className="text-center">
                 <h4>Recommended Crags</h4>
               </CardHeader>
@@ -211,7 +211,7 @@ const Dashboard = () => {
                 <h4>Ticks</h4>
               </CardHeader>
               <CardBody className="p-0">
-                <Table striped id="tickTable">
+                <Table className="table-dark" id="tickable">
                   <thead>
                     <tr className="text-center">
                      

@@ -1,72 +1,64 @@
 import React from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import Logo from "../images/logo.png";
 import CarouselComponent from "../component/CarouselComponent";
 import { PyramidMentor } from "../component/PyramidMentor";
 
-
 import "./HomePage.css";
-
+import { FaSearch } from "react-icons/fa";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const {user} = useOutletContext();
+  const { user } = useOutletContext();
   const handleClick = () => {
     if (user) {
-        navigate('/pyramid/');
+      navigate("/pyramid/");
     } else {
-        navigate('/register/');
+      navigate("/register/");
     }
-};
+  };
 
   return (
     <>
-    <div className="mentor-box">
-                {/* <img
-                  src={Logo}
-                  style={{
-                    borderRadius: "50%"
-                  }}
-                  alt="Logo"
-                  className="responsive-logo"
-                />  */}
-    <PyramidMentor id="pyramid-mentor"/>
-    </div>
- 
-
-    <>
-      <Container fluid>
-        {/* <CarouselComponent/> */}
-        <Row>
+    <div>
+      <Container className="d-flex flex-column">
+        <Row id="row-one">
           <Col>
-            <div className="pyramid-container">
-              <div className="pyramid"></div>
-              <div className="overlay-content">
-                <h1 className="white-text">CragMentor</h1>
-                <p className="white-text">
-                  Create a Climbing Training Pyramid with our algorithm which selects the best climbs for you!
-                </p>
-                <p className="white-text">
-                  Find the Best Crags near you tailored you your skill level and climbing goals! 
-                </p>
-                <p
-                  className="white-text"
-                  style={{ textDecoration: "underline", cursor: "pointer" }}
-                  onClick={handleClick}
-                >
-                  Start Your Journey!
-                </p>
-              </div>
-            </div>
+            <Card id="searchcard">
+              <Card.Body>Search 
+                <br/>
+                <FaSearch />
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col>
+            <Card id="mapcard">
+              <Card.Body>
+              Map
+              </Card.Body>
+              </Card>
           </Col>
         </Row>
-        
-       
+        <Row id="row-two">
+          <Col>
+            <Card id="genpyramid">
+              <Card.Body>Generate Pyramid</Card.Body>
+            </Card>
+          </Col>
+          <Col>
+            <Card id="tickcard">
+              <Card.Body>
+              Ticks
+              </Card.Body>
+              </Card>
+          </Col>
+        </Row>
       </Container>
-    </>
-    </>
-    );
-  };
 
-  export default HomePage;
+    </div>
+    </>
+  );
+};
+
+export default HomePage;

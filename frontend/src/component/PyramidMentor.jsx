@@ -1,9 +1,9 @@
+import "./PyramidMentor.css";
 
-import "./PyramidMentor.css"
-
-export const PyramidMentor =()=>{
-  return(
+export const PyramidMentor = () => {
+  return (
     <>
+    <div id="egypt-pyramid">
       <div className="animated-pyramid">
         <div className="base"></div>
         <div className="side one"></div>
@@ -11,7 +11,7 @@ export const PyramidMentor =()=>{
         <div className="side three"></div>
         <div className="side four"></div>
       </div>
+    </div>
     </>
   );
-}
-
+};
